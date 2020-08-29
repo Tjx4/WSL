@@ -2,6 +2,7 @@ package co.za.rain.myapplication.features.locationTracker
 
 import android.location.Location
 import android.os.Bundle
+import android.widget.Toast
 import androidx.fragment.app.FragmentManager
 import co.za.rain.myapplication.R
 import co.za.rain.myapplication.extensions.DEFAULT_STATUS_BAR_ALPHA
@@ -10,14 +11,19 @@ import co.za.rain.myapplication.features.base.activity.BaseMapActivity
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
-import kotlinx.android.synthetic.main.activity_location_tracker.*
 
 class LocationTrackerActivity : BaseMapActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_location_tracker)
-        checkLocationPermissionAndContinue()
         setTranslucentStatusBar(DEFAULT_STATUS_BAR_ALPHA)
+
+        if(isGooglePlayServicesAvailable()){
+            checkLocationPermissionAndContinue()
+        }
+        else{
+            Toast.makeText(this, "We dont have google play", Toast.LENGTH_LONG).show()
+        }
     }
 
     override fun onGpsOff() {

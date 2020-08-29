@@ -14,6 +14,7 @@ import android.view.WindowManager
 import android.view.animation.Interpolator
 import android.view.animation.LinearInterpolator
 import android.widget.RelativeLayout
+import android.widget.Toast
 import androidx.annotation.DrawableRes
 import androidx.core.app.ActivityCompat
 import androidx.core.content.res.ResourcesCompat
@@ -286,5 +287,11 @@ abstract class BaseMapActivity : BaseParentActivity(), OnMapReadyCallback,
        // val markerIcon = BitmapDescriptorFactory.fromResource(R.drawable.client_marker)
         //userMarker.setIcon(markerIcon)
         this.userMarker = userMarker
+    }
+
+    open fun isGooglePlayServicesAvailable(): Boolean {
+        val googleApiAvailability = GoogleApiAvailability.getInstance()
+        val resultCode = googleApiAvailability.isGooglePlayServicesAvailable(this)
+        return resultCode == ConnectionResult.SUCCESS
     }
 }
