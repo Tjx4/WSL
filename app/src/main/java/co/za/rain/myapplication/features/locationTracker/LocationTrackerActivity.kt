@@ -85,17 +85,13 @@ class LocationTrackerActivity : BaseMapActivity(), LocationsAdapter.LocationClic
     }
 
     fun onSaveLocationButtonClicked(view: View) {
-        var v = view.parent as View
-
-        v.blinkView(0.6f, 1.0f, 100, 2, Animation.ABSOLUTE, 0, {
+        view.blinkView(0.6f, 1.0f, 100, 2, Animation.ABSOLUTE, 0, {
             Toast.makeText(this, "onSaveLocationButtonClicked", Toast.LENGTH_LONG).show()
         }, {})
     }
 
     fun onShowLocationsButtonClicked(view: View) {
-        var v = view.parent as View
-
-        v.blinkView(0.6f, 1.0f, 100, 2, Animation.ABSOLUTE, 0, {
+        view.blinkView(0.6f, 1.0f, 100, 2, Animation.ABSOLUTE, 0, {
             llLocationsContainer.visibility = View.VISIBLE
             lldefContainer.visibility = View.GONE
         }, {})

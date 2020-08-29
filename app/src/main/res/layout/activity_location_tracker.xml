@@ -40,8 +40,8 @@ xmlns:app="http://schemas.android.com/apk/res-auto">
                 style="@style/SmallTextView"
                 android:textColor="@color/greyDarkText"
                 android:text="Hi there"
-                app:layout_constraintLeft_toRightOf="@+id/imgBSaveLocation"
-                app:layout_constraintStart_toEndOf="@+id/imgBSaveLocation"
+                app:layout_constraintLeft_toRightOf="@+id/imgSaveLocation"
+                app:layout_constraintStart_toEndOf="@+id/imgSaveLocation"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"/>
@@ -50,8 +50,8 @@ xmlns:app="http://schemas.android.com/apk/res-auto">
             <TextView
                 style="@style/LargeDarkTextView"
                 android:text="How can we help you?"
-                app:layout_constraintLeft_toRightOf="@+id/imgBSaveLocation"
-                app:layout_constraintStart_toEndOf="@+id/imgBSaveLocation"
+                app:layout_constraintLeft_toRightOf="@+id/imgSaveLocation"
+                app:layout_constraintStart_toEndOf="@+id/imgSaveLocation"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -62,16 +62,16 @@ xmlns:app="http://schemas.android.com/apk/res-auto">
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/divider_background"
-                android:paddingVertical="@dimen/small_view_padding">
+                android:paddingVertical="@dimen/small_view_padding"
+                android:onClick="onSaveLocationButtonClicked">
 
-                <ImageButton
-                    android:id="@+id/imgBSaveLocation"
+                <ImageView
+                    android:id="@+id/imgSaveLocation"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:src="@drawable/ic_locations_save_dark"
                     android:background="@color/lightBackground"
                     android:scaleType="fitCenter"
-                    android:onClick="onSaveLocationButtonClicked"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintTop_toBottomOf="parent"/>
@@ -82,8 +82,8 @@ xmlns:app="http://schemas.android.com/apk/res-auto">
                     android:id="@+id/tvCurrentLocation"
                     tools:text="Save your current location"
                     android:text="@{locationTrackerViewModel.currentLocationMessage}"
-                    app:layout_constraintLeft_toRightOf="@+id/imgBSaveLocation"
-                    app:layout_constraintStart_toEndOf="@+id/imgBSaveLocation"
+                    app:layout_constraintLeft_toRightOf="@+id/imgSaveLocation"
+                    app:layout_constraintStart_toEndOf="@+id/imgSaveLocation"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -95,16 +95,16 @@ xmlns:app="http://schemas.android.com/apk/res-auto">
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingVertical="@dimen/small_view_padding"
-                android:layout_marginBottom="@dimen/medium_view_margin">
+                android:layout_marginBottom="@dimen/medium_view_margin"
+                android:onClick="onShowLocationsButtonClicked">
 
-                <ImageButton
-                    android:id="@+id/imgBLocations"
+                <ImageView
+                    android:id="@+id/imgViewLocations"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:src="@drawable/ic_locations_list_dark"
                     android:background="@color/lightBackground"
                     android:scaleType="fitCenter"
-                    android:onClick="onShowLocationsButtonClicked"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintTop_toBottomOf="parent"/>
@@ -116,8 +116,8 @@ xmlns:app="http://schemas.android.com/apk/res-auto">
                     android:layout_marginHorizontal="@dimen/medium_view_margin"
                     android:text="View your previous locations"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintLeft_toRightOf="@+id/imgBLocations"
-                    app:layout_constraintStart_toEndOf="@+id/imgBLocations"
+                    app:layout_constraintLeft_toRightOf="@+id/imgViewLocations"
+                    app:layout_constraintStart_toEndOf="@+id/imgViewLocations"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -140,9 +140,8 @@ xmlns:app="http://schemas.android.com/apk/res-auto">
                 android:layout_height="wrap_content"
                 app:layout_constraintBottom_toBottomOf="parent">
 
-
                 <ImageView
-                    android:id="@+id/imgLocations"
+                    android:id="@+id/imgLocationIcon"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_margin="5dp"
