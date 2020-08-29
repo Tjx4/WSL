@@ -151,6 +151,7 @@ xmlns:app="http://schemas.android.com/apk/res-auto">
         android:onClick="onShowLocationButtonClicked"/>
 
     <FrameLayout
+        android:visibility="gone"
         android:id="@+id/flStatusBar"
         android:layout_width="match_parent"
         android:layout_gravity="top"
