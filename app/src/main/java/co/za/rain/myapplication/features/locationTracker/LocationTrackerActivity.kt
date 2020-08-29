@@ -2,6 +2,7 @@ package co.za.rain.myapplication.features.locationTracker
 
 import android.location.Location
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import co.za.rain.myapplication.R
 import co.za.rain.myapplication.extensions.DEFAULT_STATUS_BAR_ALPHA
@@ -25,7 +26,11 @@ class LocationTrackerActivity : BaseMapActivity() {
         }
     }
 
-     fun onSoftBackButtons() {
+    fun onCloseLocationsButtonClicked(view: View) {
+         Toast.makeText(this, "onCloseLocationsButtonClicked", Toast.LENGTH_LONG).show()
+    }
+
+    fun onSoftBackButtons() {
         var hasMenuKey = hasImmersive(this)
         if(hasMenuKey){
             //frmBottomMenuContainer.setPadding(0,0,0, pixelToDp(45f, this).toInt())

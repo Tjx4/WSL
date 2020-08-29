@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:padding="@dimen/medium_view_padding">
+    android:paddingHorizontal="@dimen/medium_view_padding">
 
     <TextView
         android:id="@+id/tvLocationName"
@@ -16,7 +16,7 @@
     <TextView
         android:id="@+id/tvLocationDescription"
         style="@style/MediumGreyTextView"
-        android:text="Location description"
+        android:text="Location description ation description on des crription ation description on des cr"
         app:layout_constraintTop_toBottomOf="@+id/tvLocationName"
         app:layout_constraintLeft_toLeftOf="parent"/>
 
