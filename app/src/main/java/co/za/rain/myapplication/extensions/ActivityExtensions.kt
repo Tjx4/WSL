@@ -17,13 +17,15 @@ import co.za.rain.myapplication.constants.ACTIVITY_TRANSITION
 import co.za.rain.myapplication.constants.PAYLOAD_KEY
 import co.za.rain.myapplication.models.Transition
 
-
 val SLIDE_IN_ACTIVITY = getTransitionAnimation(R.anim.slide_right, R.anim.no_transition)
 val SLIDE_OUT_ACTIVITY =  getTransitionAnimation(R.anim.no_transition, R.anim.slide_left)
 val FADE_IN_ACTIVITY = getTransitionAnimation(R.anim.fade_in, R.anim.no_transition)
 val FADE_OUT_ACTIVITY = getTransitionAnimation(R.anim.no_transition, R.anim.fade_out)
 val TRAIL_TO = getTransitionAnimation(R.anim.trail_out, R.anim.trail_in)
 val TRAIL_FROM = getTransitionAnimation(R.anim.trail_in2, R.anim.trail_out2)
+
+val DEFAULT_STATUS_BAR_ALPHA = 112
+val FAKE_TRANSLUCENT_VIEW_ID = R.id.statusbarutil_translucent_view
 
 fun AppCompatActivity.navigateToActivity(activity: Class<*>, transitionAnimation: Transition, payload: Bundle? = null) {
     val intent = Intent(this, activity)
@@ -41,9 +43,6 @@ private fun getTransitionAnimation(inAnimation: Int, outAnimation: Int): Transit
     transitionProvider.outAnimation = outAnimation
     return transitionProvider
 }
-
-val DEFAULT_STATUS_BAR_ALPHA = 112
-val FAKE_TRANSLUCENT_VIEW_ID = R.id.statusbarutil_translucent_view
 
 fun Activity.setTranslucentStatusBar(statusBarAlpha: Int, callBack: () -> Unit = {}) {
     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT)

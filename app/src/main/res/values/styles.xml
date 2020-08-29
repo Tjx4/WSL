@@ -16,5 +16,52 @@
         <item name="android:windowEnterAnimation">@anim/fade_in</item>
         <item name="android:windowExitAnimation">@anim/fade_out</item>
     </style>
-
+    <style name="BaseTextView">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+    <style name="SmallTextView" parent="BaseTextView">
+        <item name="android:textSize">@dimen/small_text</item>
+        <item name="android:gravity">left</item>
+    </style>
+    <style name="SmallDarkTextView" parent="SmallTextView">
+        <item name="android:textColor">@color/darkText</item>
+    </style>
+    <style name="SmallGreyTextView" parent="SmallTextView">
+        <item name="android:textColor">@color/greyLightText</item>
+    </style>
+    <style name="MediumTextView" parent="BaseTextView">
+        <item name="android:textSize">@dimen/medium_text</item>
+        <item name="android:gravity">left</item>
+    </style>
+    <style name="MediumDarkTextView" parent="MediumTextView">
+        <item name="android:textColor">@color/darkText</item>
+    </style>
+    <style name="MediumGreyTextView" parent="MediumTextView">
+        <item name="android:textColor">@color/greyDarkText</item>
+    </style>
+    <style name="MediumLightTextView" parent="MediumTextView">
+        <item name="android:textColor">@color/lightText</item>
+    </style>
+    <style name="LargeTextView" parent="BaseTextView">
+        <item name="android:textSize">@dimen/large_text</item>
+        <item name="android:gravity">left</item>
+    </style>
+    <style name="LargeDarkTextView" parent="LargeTextView">
+        <item name="android:textColor">@color/darkText</item>
+    </style>
+    <style name="DarkEditText">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:ems">10</item>
+        <item name="android:textColorHint">@color/greyLightText</item>
+        <item name="android:textColor">@color/darkText</item>
+        <item name="android:background">@drawable/edittext_background</item>
+        <item name="android:padding">@dimen/medium_view_padding</item>
+    </style>
+    <style name="DefButton">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/lightText</item>
+        <item name="android:background">@drawable/rounded_button_background</item>
+    </style>
 </resources>

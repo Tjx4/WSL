@@ -3,7 +3,6 @@ package co.za.rain.myapplication.features.locationTracker
 import android.location.Location
 import android.os.Bundle
 import android.widget.Toast
-import androidx.fragment.app.FragmentManager
 import co.za.rain.myapplication.R
 import co.za.rain.myapplication.extensions.DEFAULT_STATUS_BAR_ALPHA
 import co.za.rain.myapplication.extensions.setTranslucentStatusBar
@@ -16,13 +15,20 @@ class LocationTrackerActivity : BaseMapActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_location_tracker)
-        setTranslucentStatusBar(DEFAULT_STATUS_BAR_ALPHA)
+        setTranslucentStatusBar(DEFAULT_STATUS_BAR_ALPHA, { onSoftBackButtons() })
 
         if(isGooglePlayServicesAvailable()){
             checkLocationPermissionAndContinue()
         }
         else{
-            Toast.makeText(this, "We dont have google play", Toast.LENGTH_LONG).show()
+            Toast.makeText(this, "Google play services unavailable", Toast.LENGTH_LONG).show()
+        }
+    }
+
+     fun onSoftBackButtons() {
+        var hasMenuKey = hasImmersive(this)
+        if(hasMenuKey){
+            //frmBottomMenuContainer.setPadding(0,0,0, pixelToDp(45f, this).toInt())
         }
     }
 
@@ -50,9 +56,7 @@ class LocationTrackerActivity : BaseMapActivity() {
             return
         }
 
-
          var dfdf= isGpsON
-
     }
 
     override fun onRequestListenerSuccess(location: Location?) {

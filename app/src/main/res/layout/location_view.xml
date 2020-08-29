@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="@dimen/medium_view_padding">
+
+    <TextView
+        android:id="@+id/tvLocationName"
+        style="@style/LargeDarkTextView"
+        android:text="Name"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"/>
+
+    <TextView
+        android:id="@+id/tvLocationDescription"
+        style="@style/MediumGreyTextView"
+        android:text="Location description"
+        app:layout_constraintTop_toBottomOf="@+id/tvLocationName"
+        app:layout_constraintLeft_toLeftOf="parent"/>
+
+    <TextView
+        android:id="@+id/tvLocationDateTime"
+        style="@style/SmallGreyTextView"
+        android:gravity="end"
+        android:text="You were at this location on 00/00/00 00:00"
+        app:layout_constraintTop_toBottomOf="@+id/tvLocationDescription"
+        app:layout_constraintLeft_toLeftOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
