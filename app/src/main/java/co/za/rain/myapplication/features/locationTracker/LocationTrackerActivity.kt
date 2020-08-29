@@ -16,8 +16,9 @@ class LocationTrackerActivity : BaseMapActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_location_tracker)
-        setTranslucentStatusBar(DEFAULT_STATUS_BAR_ALPHA, { onSoftBackButtons() })
+        setTranslucentStatusBar(DEFAULT_STATUS_BAR_ALPHA)
 
+        // Todo: fix logic
         if(isGooglePlayServicesAvailable()){
             checkLocationPermissionAndContinue()
         }
@@ -26,15 +27,16 @@ class LocationTrackerActivity : BaseMapActivity() {
         }
     }
 
-    fun onCloseLocationsButtonClicked(view: View) {
-         Toast.makeText(this, "onCloseLocationsButtonClicked", Toast.LENGTH_LONG).show()
+    fun onSaveLocationButtonClicked(view: View) {
+         Toast.makeText(this, "onSaveLocationButtonClicked", Toast.LENGTH_LONG).show()
     }
 
-    fun onSoftBackButtons() {
-        var hasMenuKey = hasImmersive(this)
-        if(hasMenuKey){
-            //frmBottomMenuContainer.setPadding(0,0,0, pixelToDp(45f, this).toInt())
-        }
+    fun onShowLocationButtonClicked(view: View) {
+         Toast.makeText(this, "onShowLocationButtonClicked", Toast.LENGTH_LONG).show()
+    }
+
+    fun onCloseLocationsButtonClicked(view: View) {
+         Toast.makeText(this, "onCloseLocationsButtonClicked", Toast.LENGTH_LONG).show()
     }
 
     override fun onGpsOff() {

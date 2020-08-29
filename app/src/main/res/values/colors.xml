@@ -2,6 +2,7 @@
 <resources>
     <color name="colorPrimary">#151b2f</color>
     <color name="colorPrimaryDark">#010212</color>
+    <color name="colorTransStatusBar">#7E111111</color>
     <color name="colorAccent">#03DAC5</color>
     <color name="statusBarColor">#990F0F0F</color>
     <color name="darkBackground">#000</color>

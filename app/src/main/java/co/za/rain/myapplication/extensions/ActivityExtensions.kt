@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.LinearLayout
+import androidx.annotation.IntRange
 import androidx.appcompat.app.AppCompatActivity
 import co.za.rain.myapplication.R
 import co.za.rain.myapplication.constants.ACTIVITY_TRANSITION
@@ -24,14 +25,23 @@ val FADE_OUT_ACTIVITY = getTransitionAnimation(R.anim.no_transition, R.anim.fade
 val TRAIL_TO = getTransitionAnimation(R.anim.trail_out, R.anim.trail_in)
 val TRAIL_FROM = getTransitionAnimation(R.anim.trail_in2, R.anim.trail_out2)
 
-val DEFAULT_STATUS_BAR_ALPHA = 112
-val FAKE_TRANSLUCENT_VIEW_ID = R.id.statusbarutil_translucent_view
+const val DEFAULT_STATUS_BAR_ALPHA = 112
+private const val FAKE_TRANSLUCENT_VIEW_ID = R.id.statusbarutil_translucent_view
 
-fun AppCompatActivity.navigateToActivity(activity: Class<*>, transitionAnimation: Transition, payload: Bundle? = null) {
+fun AppCompatActivity.navigateToActivity(
+    activity: Class<*>,
+    transitionAnimation: Transition,
+    payload: Bundle? = null
+) {
     val intent = Intent(this, activity)
 
     val fullPayload = payload ?: Bundle()
-    fullPayload.putIntArray(ACTIVITY_TRANSITION, intArrayOf(transitionAnimation.inAnimation, transitionAnimation.outAnimation))
+    fullPayload.putIntArray(
+        ACTIVITY_TRANSITION, intArrayOf(
+            transitionAnimation.inAnimation,
+            transitionAnimation.outAnimation
+        )
+    )
 
     intent.putExtra(PAYLOAD_KEY, fullPayload)
     startActivity(intent)
@@ -44,21 +54,21 @@ private fun getTransitionAnimation(inAnimation: Int, outAnimation: Int): Transit
     return transitionProvider
 }
 
-fun Activity.setTranslucentStatusBar(statusBarAlpha: Int, callBack: () -> Unit = {}) {
-    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT)
-        return
-
-    setTransparentStatusBar(this)
+fun Activity.setTranslucentStatusBar(@IntRange(from = 0, to = 255) statusBarAlpha: Int) {
+    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) return
+    setTransparent(this)
     addTranslucentView(this, statusBarAlpha)
-    callBack()
 }
 
-fun setTransparentStatusBar(activity: Activity) {
+private fun setTransparent(activity: Activity) {
     transparentStatusBar(activity)
     setRootView(activity)
 }
 
-private fun addTranslucentView(activity: Activity, statusBarAlpha: Int) {
+private fun addTranslucentView(
+    activity: Activity,
+    @IntRange(from = 0, to = 255) statusBarAlpha: Int
+) {
     val contentView = activity.findViewById<View>(android.R.id.content) as ViewGroup
     val fakeTranslucentView = contentView.findViewById<View>(FAKE_TRANSLUCENT_VIEW_ID)
     if (fakeTranslucentView != null) {
@@ -105,9 +115,10 @@ private fun setRootView(activity: Activity) {
     }
 }
 
-private fun createTranslucentStatusBarView(activity: Activity, alpha: Int): View {
+private fun createTranslucentStatusBarView(activity: Activity, alpha: Int): View? {
     val statusBarView = View(activity)
-    val params = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, getStatusBarHeight(activity))
+    val params =
+        LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, getStatusBarHeight(activity))
     statusBarView.layoutParams = params
     statusBarView.setBackgroundColor(Color.argb(alpha, 0, 0, 0))
     statusBarView.id = FAKE_TRANSLUCENT_VIEW_ID
@@ -118,3 +129,22 @@ private fun getStatusBarHeight(context: Context): Int {
     val resourceId = context.resources.getIdentifier("status_bar_height", "dimen", "android")
     return context.resources.getDimensionPixelSize(resourceId)
 }
+
+//===================
+
+
+/*
+fun Activity.setTranslucentStatusBar(statusBarAlpha: Int, callBack: () -> Unit = {}) {
+    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT)
+        return
+
+    setTransparentStatusBar(this)
+    addTranslucentView(this, statusBarAlpha)
+    callBack()
+}
+
+fun setTransparentStatusBar(activity: Activity) {
+    transparentStatusBar(activity)
+    setRootView(activity)
+}
+*/

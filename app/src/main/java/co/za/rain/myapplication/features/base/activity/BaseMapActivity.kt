@@ -33,8 +33,7 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 import com.google.android.gms.tasks.OnSuccessListener
 
-abstract class BaseMapActivity : BaseParentActivity(), OnMapReadyCallback,
-    ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
+abstract class BaseMapActivity : BaseParentActivity(), OnMapReadyCallback, ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
     protected var fragmentMap: SupportMapFragment? = null
     protected var googleMap: GoogleMap? = null
     protected var locationRequest: LocationRequest? = null
