@@ -16,7 +16,7 @@ class LocationTrackerActivity : BaseMapActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_location_tracker)
-
+        checkLocationPermissionAndContinue()
         setTranslucentStatusBar(DEFAULT_STATUS_BAR_ALPHA)
     }
 
@@ -32,17 +32,21 @@ class LocationTrackerActivity : BaseMapActivity() {
     }
 
     override fun initMap() {
-        //mapFragment = FragmentManager.findFragmentById(R.id.mapFragment)
-        mapFragment?.getMapAsync(this)
-       // mvMyMap?.getMapAsync(this)
-
+        fragmentMap = supportFragmentManager.findFragmentById(R.id.mapFrag) as SupportMapFragment?
+        fragmentMap?.getMapAsync(this)
     }
 
      override fun mapReady(googleMap: GoogleMap?) {
-        if (!isGPSOn()) {
+         var isGpsON = isGPSOn()
+
+        if (!isGpsON) {
             onGpsOff()
             return
         }
+
+
+         var dfdf= isGpsON
+
     }
 
     override fun onRequestListenerSuccess(location: Location?) {

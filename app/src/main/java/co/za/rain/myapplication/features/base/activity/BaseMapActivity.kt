@@ -34,7 +34,7 @@ import com.google.android.gms.tasks.OnSuccessListener
 
 abstract class BaseMapActivity : BaseParentActivity(), OnMapReadyCallback,
     ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
-    protected var mapFragment: SupportMapFragment? = null
+    protected var fragmentMap: SupportMapFragment? = null
     protected var googleMap: GoogleMap? = null
     protected var locationRequest: LocationRequest? = null
     protected var googleApiClient: GoogleApiClient? = null
@@ -45,7 +45,6 @@ abstract class BaseMapActivity : BaseParentActivity(), OnMapReadyCallback,
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setWakeLock()
-        checkLocationPermissionAndContinue()
     }
 
     protected abstract fun onGpsOff()
@@ -113,7 +112,7 @@ abstract class BaseMapActivity : BaseParentActivity(), OnMapReadyCallback,
     }
 
     protected fun moveLocationButtonToBottomRight() {
-        val mapView = mapFragment!!.view
+        val mapView = fragmentMap?.view
         if (mapView != null) {
             val childView = mapView.findViewById<View>("1".toInt())
             if (childView != null) {
@@ -122,8 +121,8 @@ abstract class BaseMapActivity : BaseParentActivity(), OnMapReadyCallback,
                 layoutParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT)
                 layoutParams.addRule(RelativeLayout.ALIGN_PARENT_TOP, 0)
                 layoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE)
-                val bottomMargin = resources.getDimension(R.dimen.xlarge_view_margin) as Int
-                val rightMargin = resources.getDimension(R.dimen.large_view_margin) as Int
+                val bottomMargin = resources.getDimension(R.dimen.xlarge_view_margin).toInt()
+                val rightMargin = resources.getDimension(R.dimen.large_view_margin).toInt()
                 layoutParams.setMargins(0, 0, rightMargin, bottomMargin)
                 locationButton.layoutParams = layoutParams
             }
