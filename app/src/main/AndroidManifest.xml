@@ -21,7 +21,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".locationTracker.LocationTrackerActivity"
+        <activity android:name="co.za.rain.myapplication.features.locationTracker.LocationTrackerActivity"
             android:theme="@style/NoActionBarTheme" ></activity>
     </application>
 

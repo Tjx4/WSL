@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">My Wheather</string>
     <string name="google_map_apikey">AIzaSyAQj9IEqAljcBzQ_hg4Xf-lDL39lWwqvWo</string>
+    <string name="api_user_error">Google API user error</string>
 </resources>

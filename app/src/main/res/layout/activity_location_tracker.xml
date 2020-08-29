@@ -5,14 +5,14 @@ xmlns:app="http://schemas.android.com/apk/res-auto">
 <data>
     <variable
         name="locationTrackerViewModel"
-        type="co.za.rain.myapplication.locationTracker.LocationTrackerViewModel"/>
+        type="co.za.rain.myapplication.features.locationTracker.LocationTrackerViewModel"/>
 </data>
 
 <androidx.constraintlayout.widget.ConstraintLayout
     android:id="@+id/clCParent"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".locationTracker.LocationTrackerActivity">
+    tools:context=".features.locationTracker.LocationTrackerActivity">
 
     <fragment
         android:id="@+id/mapFragment"
