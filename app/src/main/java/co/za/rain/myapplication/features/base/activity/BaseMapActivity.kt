@@ -6,10 +6,9 @@ import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.location.Location
-import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
-import android.os.SystemClock
+import android.location.LocationManager
+import android.os.*
+import android.provider.Settings
 import android.view.View
 import android.view.WindowManager
 import android.view.animation.Interpolator
@@ -18,14 +17,18 @@ import android.widget.RelativeLayout
 import androidx.annotation.DrawableRes
 import androidx.core.app.ActivityCompat
 import androidx.core.content.res.ResourcesCompat
+import co.za.rain.myapplication.R
+import co.za.rain.myapplication.constants.USER_MARKER_TAG
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
 import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks
 import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener
 import com.google.android.gms.location.*
-import com.google.android.gms.maps.*
-import com.google.android.gms.maps.R
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 import com.google.android.gms.tasks.OnSuccessListener
 
@@ -37,10 +40,12 @@ abstract class BaseMapActivity : BaseParentActivity(), OnMapReadyCallback,
     protected var googleApiClient: GoogleApiClient? = null
     protected var airportMarkers: List<Marker>? = null
     protected var userMarker: Marker? = null
+    protected val USER_ZOOM = 14
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setWakeLock()
+        checkLocationPermissionAndContinue()
     }
 
     protected abstract fun onGpsOff()
@@ -53,7 +58,11 @@ abstract class BaseMapActivity : BaseParentActivity(), OnMapReadyCallback,
         if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             checkGoogleApi()
         } else {
-            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),1)
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                1
+            )
         }
     }
 
@@ -83,13 +92,16 @@ abstract class BaseMapActivity : BaseParentActivity(), OnMapReadyCallback,
         if (isAv == ConnectionResult.SUCCESS) {
             initMap()
         } else if (api.isUserResolvableError(isAv)) {
+            var apiError = ""
             // NotificationHelper.showLongToast(this, resources.getString(R.string.api_user_error))
         } else {
+            var apiError = ""
            // NotificationHelper.showLongToast(this, getResources().getString(R.string.api_error))
         }
     }
 
     protected abstract fun initMap()
+    protected abstract fun mapReady(googleMap: GoogleMap?)
 
     @SuppressLint("MissingPermission")
     override fun onMapReady(googleMap: GoogleMap) {
@@ -97,6 +109,7 @@ abstract class BaseMapActivity : BaseParentActivity(), OnMapReadyCallback,
         this.googleMap = googleMap
         googleMap.isMyLocationEnabled = true
         moveLocationButtonToBottomRight()
+        mapReady(googleMap)
     }
 
     protected fun moveLocationButtonToBottomRight() {
@@ -244,6 +257,19 @@ abstract class BaseMapActivity : BaseParentActivity(), OnMapReadyCallback,
         return airportMarker
     }
 
+    protected open fun isGPSOn(): Boolean {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            val lm = this.getSystemService(LOCATION_SERVICE) as LocationManager
+            lm.isLocationEnabled
+        } else {
+            val mode = Settings.Secure.getInt(
+                this.contentResolver, Settings.Secure.LOCATION_MODE,
+                Settings.Secure.LOCATION_MODE_OFF
+            )
+            mode != Settings.Secure.LOCATION_MODE_OFF
+        }
+    }
+
     protected fun getBitmapDescriptor(@DrawableRes id: Int): BitmapDescriptor {
         val vectorDrawable = ResourcesCompat.getDrawable(getResources(), id, null)
         val bitmap = Bitmap.createBitmap(
@@ -254,5 +280,12 @@ abstract class BaseMapActivity : BaseParentActivity(), OnMapReadyCallback,
         vectorDrawable.setBounds(0, 0, canvas.width, canvas.height)
         vectorDrawable.draw(canvas)
         return BitmapDescriptorFactory.fromBitmap(bitmap)
+    }
+
+    open fun plotUserMarker(latLng: LatLng?, title: String?, snippet: String?) {
+        val userMarker = getMarker(latLng, title, snippet, USER_MARKER_TAG)
+       // val markerIcon = BitmapDescriptorFactory.fromResource(R.drawable.client_marker)
+        //userMarker.setIcon(markerIcon)
+        this.userMarker = userMarker
     }
 }

@@ -6,3 +6,4 @@ const val TITLE = "tittle"
 const val USER = "user"
 const val LAYOUT = "layout"
 const val ACTIVITY_TRANSITION = "activity_transition"
+const val USER_MARKER_TAG = "u";
