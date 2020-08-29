@@ -60,7 +60,9 @@ xmlns:app="http://schemas.android.com/apk/res-auto">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:background="@drawable/divider_background"
+                android:paddingVertical="@dimen/small_view_padding">
 
                 <ImageButton
                     android:id="@+id/imgBSaveLocation"
@@ -92,7 +94,7 @@ xmlns:app="http://schemas.android.com/apk/res-auto">
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/medium_view_margin"
+                android:paddingVertical="@dimen/small_view_padding"
                 android:layout_marginBottom="@dimen/medium_view_margin">
 
                 <ImageButton
