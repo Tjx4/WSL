@@ -121,8 +121,8 @@ abstract class BaseMapActivity : BaseParentActivity(), OnMapReadyCallback, Conne
                 layoutParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT)
                 layoutParams.addRule(RelativeLayout.ALIGN_PARENT_TOP, 0)
                 layoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE)
-                val bottomMargin = resources.getDimension(R.dimen.xlarge_view_margin).toInt()
-                val rightMargin = resources.getDimension(R.dimen.large_view_margin).toInt()
+                val bottomMargin = resources.getDimension(R.dimen.medium_view_margin).toInt()
+                val rightMargin = resources.getDimension(R.dimen.medium_view_margin).toInt()
                 layoutParams.setMargins(0, 0, rightMargin, bottomMargin)
                 locationButton.layoutParams = layoutParams
             }
