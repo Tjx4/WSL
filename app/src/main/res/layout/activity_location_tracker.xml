@@ -20,72 +20,177 @@ xmlns:app="http://schemas.android.com/apk/res-auto">
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/llLocationsContainer"/>
+        app:layout_constraintBottom_toTopOf="@+id/flBottomContent"/>
 
-    <LinearLayout
-        android:id="@+id/llLocationsContainer"
+    <FrameLayout
+        android:id="@+id/flBottomContent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="@color/lightBackground"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:paddingBottom="@dimen/xlarge_view_padding">
+        app:layout_constraintBottom_toBottomOf="parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
+            android:id="@+id/lldefContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent">
+            android:orientation="vertical"
+            android:background="@color/lightBackground"
+            android:padding="@dimen/small_view_padding">
 
-
-            <ImageView
-                android:id="@+id/imgLocations"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_margin="5dp"
-                android:padding="8dp"
-                android:onClick="onCloseLocationsButtonClicked"
-                android:background="@android:color/transparent"
-                android:scaleType="fitXY"
-                android:src="@drawable/ic_location_dark"
-                app:layout_constraintLeft_toLeftOf="parent"
+            <TextView
+                style="@style/SmallTextView"
+                android:textColor="@color/greyDarkText"
+                android:text="Hi there"
+                app:layout_constraintLeft_toRightOf="@+id/imgBSaveLocation"
+                app:layout_constraintStart_toEndOf="@+id/imgBSaveLocation"
+                app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"/>
 
 
             <TextView
-                style="@style/MediumDarkTextView"
-                android:id="@+id/tvResults"
-                android:gravity="center"
-                android:text="1 of 3 locations"
-                android:paddingHorizontal="@dimen/large_view_padding"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"/>
-
-            <ImageButton
-                android:id="@+id/imgBCloseLocationList"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_margin="5dp"
-                android:padding="8dp"
-                android:onClick="onCloseLocationsButtonClicked"
-                android:background="@android:color/transparent"
-                android:scaleType="fitXY"
-                android:src="@drawable/ic_close_dark"
+                style="@style/LargeDarkTextView"
+                android:text="How can we help you?"
+                app:layout_constraintLeft_toRightOf="@+id/imgBSaveLocation"
+                app:layout_constraintStart_toEndOf="@+id/imgBSaveLocation"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"/>
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginBottom="@dimen/medium_view_margin"
+                android:textStyle="bold"/>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageButton
+                    android:id="@+id/imgBSaveLocation"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:src="@drawable/ic_locations_save_dark"
+                    android:background="@color/lightBackground"
+                    android:scaleType="fitCenter"
+                    android:onClick="onSaveLocationButtonClicked"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintTop_toBottomOf="parent"/>
+
+                <TextView
+                    style="@style/MediumDarkTextView"
+                    android:layout_width="0dp"
+                    android:id="@+id/tvCurrentLocation"
+                    tools:text="Save your current location"
+                    android:text="@{locationTrackerViewModel.currentLocationMessage}"
+                    app:layout_constraintLeft_toRightOf="@+id/imgBSaveLocation"
+                    app:layout_constraintStart_toEndOf="@+id/imgBSaveLocation"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_marginHorizontal="@dimen/medium_view_margin"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/small_view_margin"
+                android:layout_marginBottom="@dimen/medium_view_margin">
+
+                <ImageButton
+                    android:id="@+id/imgBLocations"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:src="@drawable/ic_locations_list_dark"
+                    android:background="@color/lightBackground"
+                    android:scaleType="fitCenter"
+                    android:onClick="onShowLocationsButtonClicked"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintTop_toBottomOf="parent"/>
+
+                <TextView
+                    android:id="@+id/tvLocations"
+                    style="@style/MediumDarkTextView"
+                    android:layout_width="0dp"
+                    android:layout_marginHorizontal="@dimen/medium_view_margin"
+                    android:text="View your previous locations"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toRightOf="@+id/imgBLocations"
+                    app:layout_constraintStart_toEndOf="@+id/imgBLocations"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:visibility="gone"
+            android:id="@+id/llLocationsContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@color/lightBackground"
+            android:paddingBottom="@dimen/xlarge_view_padding">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent">
+
+
+                <ImageView
+                    android:id="@+id/imgLocations"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_margin="5dp"
+                    android:padding="8dp"
+                    android:onClick="onCloseLocationsButtonClicked"
+                    android:background="@android:color/transparent"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/ic_location_dark"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+                <TextView
+                    style="@style/MediumDarkTextView"
+                    android:id="@+id/tvResults"
+                    android:gravity="center"
+                    tools:text="1 of 3 locations"
+                    android:text="@{locationTrackerViewModel.locationIndexMessage}"
+                    android:paddingHorizontal="@dimen/large_view_padding"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+                <ImageButton
+                    android:id="@+id/imgBCloseLocationList"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_margin="5dp"
+                    android:padding="8dp"
+                    android:onClick="onCloseLocationsButtonClicked"
+                    android:background="@android:color/transparent"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/ic_close_dark"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
             <!--
             put view pager or recyclerView
             -->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvLocations"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"/>
+                android:layout_height="180dp"
+                android:background="@color/lightBackground"/>
 
         </LinearLayout>
+
+    </FrameLayout>
 
     <!--
         <LinearLayout
@@ -126,31 +231,19 @@ xmlns:app="http://schemas.android.com/apk/res-auto">
 
         </LinearLayout>
     -->
+
     <ImageButton
-        android:id="@+id/imgBSaveLocation"
+        android:id="@+id/imgBack"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:src="@drawable/ic_locations_save_dark"
+        android:src="@drawable/ic_back_dark"
         android:background="@color/lightBackground"
         android:padding="@dimen/small_view_padding"
         android:scaleType="fitCenter"
-        android:layout_margin="@dimen/large_view_margin"
+        android:layout_margin="@dimen/medium_view_margin"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         android:onClick="onSaveLocationButtonClicked"/>
-
-    <ImageButton
-        android:id="@+id/imgBLocations"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:src="@drawable/ic_locations_list_dark"
-        android:background="@color/lightBackground"
-        android:padding="@dimen/small_view_padding"
-        android:scaleType="fitCenter"
-        android:layout_margin="@dimen/large_view_margin"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:onClick="onShowLocationButtonClicked"/>
 
     <FrameLayout
         android:visibility="gone"
