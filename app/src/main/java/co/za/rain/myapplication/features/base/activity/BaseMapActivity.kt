@@ -16,6 +16,7 @@ import android.view.animation.Interpolator
 import android.view.animation.LinearInterpolator
 import android.widget.RelativeLayout
 import androidx.annotation.DrawableRes
+import androidx.core.app.ActivityCompat
 import androidx.core.content.res.ResourcesCompat
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
@@ -43,16 +44,16 @@ abstract class BaseMapActivity : BaseParentActivity(), OnMapReadyCallback,
     }
 
     protected abstract fun onGpsOff()
-    protected abstract fun onPermissionDenied()
+    protected abstract fun onLocationPermissionDenied()
     protected fun setWakeLock() {
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
     }
 
     protected fun checkLocationPermissionAndContinue() {
-        if (PermissionsHelper.isAccesFimeLocationPermissionGranted(this)) {
+        if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             checkGoogleApi()
         } else {
-            PermissionsHelper.requestAccesFimeLocationPermission(this)
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),1)
         }
     }
 
@@ -65,11 +66,12 @@ abstract class BaseMapActivity : BaseParentActivity(), OnMapReadyCallback,
         for (i in permissions.indices) {
             val permission = permissions[i]
             val grantResult = grantResults[i]
+
             if (permission == Manifest.permission.ACCESS_FINE_LOCATION) {
                 if (grantResult == PackageManager.PERMISSION_GRANTED) {
                     checkGoogleApi()
                 } else {
-                    onPermissionDenied()
+                    onLocationPermissionDenied()
                 }
             }
         }
@@ -148,7 +150,7 @@ abstract class BaseMapActivity : BaseParentActivity(), OnMapReadyCallback,
         locationRequest = LocationRequest()
         locationRequest!!.interval = 2000
         locationRequest!!.priority = LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY
-        if (PermissionsHelper.isAccesFimeLocationPermissionGranted(this)) {
+        if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             val locationCallback: LocationCallback = object : LocationCallback() {
                 override fun onLocationResult(locationResult: LocationResult) {
                     if (locationResult == null) {
