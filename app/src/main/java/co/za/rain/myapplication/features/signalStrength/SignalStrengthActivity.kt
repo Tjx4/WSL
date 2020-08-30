@@ -20,6 +20,7 @@ import co.za.rain.myapplication.constants.RSSI
 import co.za.rain.myapplication.databinding.ActivitySignalStrengthBinding
 import co.za.rain.myapplication.features.base.activity.BaseChildActivity
 import co.za.rain.myapplication.services.SignalMonitorService
+import de.nitri.gauge.Gauge
 
 class SignalStrengthActivity : BaseChildActivity() {
     private lateinit var binding: ActivitySignalStrengthBinding
