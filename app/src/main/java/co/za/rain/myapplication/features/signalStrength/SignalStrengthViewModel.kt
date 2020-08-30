@@ -11,12 +11,12 @@ class SignalStrengthViewModel(application: Application, private val signalStreng
     private val minRSRP: Int = 0
     private val maxRSRP: Int = 170
 
-    private val _wifiPowerPercentage: MutableLiveData<String> = MutableLiveData()
-    val wifiPowerPercentage: MutableLiveData<String>
+    private val _wifiPowerPercentage: MutableLiveData<Int> = MutableLiveData()
+    val wifiPowerPercentage: MutableLiveData<Int>
         get() = _wifiPowerPercentage
 
-    private val _mobilePowerPercentage: MutableLiveData<String> = MutableLiveData()
-    val mobilePowerPercentage: MutableLiveData<String>
+    private val _mobilePowerPercentage: MutableLiveData<Int> = MutableLiveData()
+    val mobilePowerPercentage: MutableLiveData<Int>
         get() = _mobilePowerPercentage
 
     private val _wifiRSRP: MutableLiveData<String> = MutableLiveData()
@@ -45,14 +45,21 @@ class SignalStrengthViewModel(application: Application, private val signalStreng
                 _wifiRSRP.value = "$rsrp mb"
                 _wifiRSSI.value = "$rssi mb"
                 _mobileRSSI.value = "0"
+                _wifiPowerPercentage.value = (rsrp - rssi) / 100 * maxRSRP
+                _mobilePowerPercentage.value = 0
             }
             ConnectionType.Mobile ->{
                 _wifiRSRP.value = "0"
                 _wifiRSSI.value = "0"
                 _mobileRSRP.value = "$rsrp mb"
                 _mobileRSSI.value = "$rssi mb"
+
+                _wifiPowerPercentage.value = 0
+                _mobilePowerPercentage.value = (rsrp - rssi) / maxRSRP * 100
             }
         }
+
+
 
         val total = rsrp + rssi
         _total.value = "$total mb"
