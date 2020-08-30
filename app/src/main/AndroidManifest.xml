@@ -19,7 +19,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".features.signalStrength.SignalStrengthActivity"></activity>
 
         <uses-library
             android:name="org.apache.http.legacy"
@@ -36,19 +35,22 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity
-            android:name=".features.locationTracker.MapsActivity"
-            android:label="@string/title_activity_maps" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".features.locationTracker.LocationTrackerActivity"
-            android:theme="@style/NoActionBarTheme" />
+            android:theme="@style/NoActionBarTheme"
+            android:screenOrientation="portrait" />
+
+        <activity android:name=".features.signalStrength.SignalStrengthActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".features.locationTracker.LocationTrackerActivity" />
+        </activity>
     </application>
 
 </manifest>

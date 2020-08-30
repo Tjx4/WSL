@@ -28,5 +28,7 @@ class SignalStrengthActivity : BaseChildActivity() {
         binding.lifecycleOwner = this
 
         //addObservers()
+
+        supportActionBar?.title = "Signal monitor"
     }
 }
