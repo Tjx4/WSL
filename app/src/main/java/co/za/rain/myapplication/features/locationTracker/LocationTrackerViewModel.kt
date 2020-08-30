@@ -40,9 +40,7 @@ class LocationTrackerViewModel(application: Application, private val locationTra
         get() = _nolocationsMessage
 
     init {
-
         _currentLocationMessage.value = "Save your current location"
-
     }
 
     fun setLocationIndx(index: Int){
@@ -51,11 +49,23 @@ class LocationTrackerViewModel(application: Application, private val locationTra
         _locationIndexMessage.value = "$position of ${_locations.value?.size  } previous locations"
     }
 
-    fun getPreviousLocations(){
+    fun fetchAndSetPreviouseLocations(){
         _showLoading.value = true
 
         ioScope.launch {
-            _locations.value = locationTrackerRepository.getPreviousLocations()
+            val locations = locationTrackerRepository.getPreviousLocations()
+
+            uiScope.launch {
+                if(locations.isNotEmpty()){
+                    _locations.value = locations
+                    setLocationIndx(1)
+                }
+                else
+                {
+                    _nolocationsMessage.value = "No locations saved yet"
+                }
+            }
+
         }
     }
 

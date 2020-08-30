@@ -74,6 +74,8 @@ class LocationTrackerActivity : BaseMapActivity(), LocationsAdapter.LocationClic
     }
 
     fun onNolocations(message: String) {
+        //llLocationsContainer.visibility = View.VISIBLE
+        //lldefContainer.visibility = View.GONE
         //TODO: Add no locations message
     }
 
@@ -131,7 +133,7 @@ class LocationTrackerActivity : BaseMapActivity(), LocationsAdapter.LocationClic
     private fun showLocationsRecyclerView() {
         llLocationsContainer.visibility = View.VISIBLE
         lldefContainer.visibility = View.GONE
-        locationTrackerViewModel.setLocationIndx(1)
+        locationTrackerViewModel.fetchAndSetPreviouseLocations()
     }
 
     fun onCloseLocationsButtonClicked(view: View) {
