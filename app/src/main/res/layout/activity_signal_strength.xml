@@ -11,6 +11,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:padding="@dimen/medium_view_margin"
         tools:context=".features.signalStrength.SignalStrengthActivity">
 
         <ImageView
@@ -35,14 +36,45 @@
             app:layout_constraintRight_toRightOf="parent"/>
 
         <TextView
-            android:id="@+id/tvWifiSpeed"
+            android:id="@+id/tvWifiRSRP"
+            style="@style/MediumDarkTextView"
+            android:textColor="@color/greyDarkText"
+            android:layout_width="wrap_content"
+            android:textStyle="bold"
+            android:text="RSRP"
+            android:layout_marginTop="@dimen/small_view_margin"
+            app:layout_constraintTop_toBottomOf="@+id/tvWifi"
+            app:layout_constraintLeft_toLeftOf="parent"/>
+
+        <TextView
+            android:id="@+id/tvWifiRSRPSpeed"
             style="@style/MediumDarkTextView"
             android:textColor="@color/greyDarkText"
             android:layout_width="wrap_content"
             android:text="0mb"
             android:layout_marginTop="@dimen/small_view_margin"
+            app:layout_constraintTop_toBottomOf="@+id/tvWifiRSRP"
+            app:layout_constraintLeft_toLeftOf="parent"/>
+
+        <TextView
+            android:id="@+id/tvWifiRSSI"
+            style="@style/MediumDarkTextView"
+            android:textColor="@color/greyDarkText"
+            android:layout_width="wrap_content"
+            android:textStyle="bold"
+            android:text="RSSI"
+            android:layout_marginTop="@dimen/small_view_margin"
             app:layout_constraintTop_toBottomOf="@+id/tvWifi"
-            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"/>
+
+        <TextView
+            android:id="@+id/tvWifiRSSISpeed"
+            style="@style/MediumDarkTextView"
+            android:textColor="@color/greyDarkText"
+            android:layout_width="wrap_content"
+            android:text="0mb"
+            android:layout_marginTop="@dimen/small_view_margin"
+            app:layout_constraintTop_toBottomOf="@+id/tvWifiRSSI"
             app:layout_constraintRight_toRightOf="parent"/>
 
         <View
@@ -50,10 +82,9 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="#ddd"
-            app:layout_constraintTop_toBottomOf="@+id/tvWifiSpeed"
+            app:layout_constraintTop_toBottomOf="@+id/tvWifiRSRPSpeed"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            android:layout_marginHorizontal="@dimen/medium_view_margin"
             android:layout_marginVertical="@dimen/medium_view_margin"/>
 
         <ImageView
@@ -71,21 +102,52 @@
             style="@style/LargeDarkTextView"
             android:textColor="@color/greyDarkText"
             android:layout_width="wrap_content"
-            android:text="Mobile data"
+            android:text="MobileData"
             android:layout_marginTop="@dimen/small_view_margin"
             app:layout_constraintTop_toBottomOf="@+id/imgMobileData"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"/>
 
         <TextView
-            android:id="@+id/tvMobileDataSpeed"
+            android:id="@+id/tvMobileDataRSRP"
+            style="@style/MediumDarkTextView"
+            android:textColor="@color/greyDarkText"
+            android:layout_width="wrap_content"
+            android:textStyle="bold"
+            android:text="RSRP"
+            android:layout_marginTop="@dimen/small_view_margin"
+            app:layout_constraintTop_toBottomOf="@+id/tvMobileData"
+            app:layout_constraintLeft_toLeftOf="parent"/>
+
+        <TextView
+            android:id="@+id/tvMobileDataRSRPSpeed"
             style="@style/MediumDarkTextView"
             android:textColor="@color/greyDarkText"
             android:layout_width="wrap_content"
             android:text="0mb"
             android:layout_marginTop="@dimen/small_view_margin"
+            app:layout_constraintTop_toBottomOf="@+id/tvMobileDataRSRP"
+            app:layout_constraintLeft_toLeftOf="parent"/>
+
+        <TextView
+            android:id="@+id/tvMobileDataRSSI"
+            style="@style/MediumDarkTextView"
+            android:textColor="@color/greyDarkText"
+            android:layout_width="wrap_content"
+            android:textStyle="bold"
+            android:text="RSSI"
+            android:layout_marginTop="@dimen/small_view_margin"
             app:layout_constraintTop_toBottomOf="@+id/tvMobileData"
-            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"/>
+
+        <TextView
+            android:id="@+id/tvMobileDataRSSISpeed"
+            style="@style/MediumDarkTextView"
+            android:textColor="@color/greyDarkText"
+            android:layout_width="wrap_content"
+            android:text="0mb"
+            android:layout_marginTop="@dimen/small_view_margin"
+            app:layout_constraintTop_toBottomOf="@+id/tvMobileDataRSSI"
             app:layout_constraintRight_toRightOf="parent"/>
 
         <View
@@ -93,10 +155,9 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="#ddd"
-            app:layout_constraintTop_toBottomOf="@+id/tvMobileDataSpeed"
+            app:layout_constraintTop_toBottomOf="@+id/tvMobileDataRSRPSpeed"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            android:layout_marginHorizontal="@dimen/medium_view_margin"
             android:layout_marginVertical="@dimen/medium_view_margin"/>
 
         <TextView
@@ -109,7 +170,6 @@
             app:layout_constraintTop_toBottomOf="@+id/vDivider2"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"/>
-
 
         <TextView
             android:id="@+id/tvTotalspeed"
