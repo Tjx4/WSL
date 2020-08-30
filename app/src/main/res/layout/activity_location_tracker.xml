@@ -234,17 +234,17 @@ xmlns:app="http://schemas.android.com/apk/res-auto">
     -->
 
     <ImageButton
-        android:id="@+id/imgBack"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:src="@drawable/ic_back_dark"
-        android:background="@color/lightBackground"
-        android:padding="@dimen/small_view_padding"
+        android:id="@+id/imgMenu"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/ic_menu_dark"
+        android:background="@android:color/transparent"
+        android:padding="@dimen/xsmall_view_padding"
         android:scaleType="fitCenter"
         android:layout_margin="@dimen/medium_view_margin"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        android:onClick="onSaveLocationButtonClicked"/>
+        android:onClick="onMenuButtonClicked"/>
 
     <FrameLayout
         android:visibility="gone"

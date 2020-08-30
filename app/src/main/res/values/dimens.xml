@@ -4,6 +4,7 @@
     <dimen name="small_text">12sp</dimen>
     <dimen name="medium_text">16sp</dimen>
     <dimen name="large_text">25sp</dimen>
+    <dimen name="xsmall_view_padding">5dp</dimen>
     <dimen name="small_view_padding">10dp</dimen>
     <dimen name="medium_view_padding">16dp</dimen>
     <dimen name="large_view_padding">25dp</dimen>
