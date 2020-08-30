@@ -12,6 +12,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        navigateToActivity(SignalStrengthActivity::class.java, FADE_IN_ACTIVITY)
+        navigateToActivity(LocationTrackerActivity::class.java, FADE_IN_ACTIVITY)
     }
 }
