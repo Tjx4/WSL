@@ -7,7 +7,6 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.telephony.TelephonyManager
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
@@ -52,19 +51,6 @@ class SignalStrengthActivity : BaseChildActivity() {
             1
         )
 
-       receiver = object : BroadcastReceiver() {
-            override fun onReceive(context: Context?, intent: Intent) {
-                if (intent.action == GET_SIGNAL_STRENGTH) {
-                    val rsrp = intent.extras?.getString(RSRP, ) ?: ""
-                    val rssi = intent.extras?.getString(RSSI) ?: ""
-                    val con = intent.extras?.getInt(CON_TYPE) ?: 0
-                    val conType = ConnectionType.values()[con]
-
-                    signalStrengthViewModel.setData(rsrp, rssi, conType)
-                }
-            }
-        }
-        registerReceiver(receiver, IntentFilter(GET_SIGNAL_STRENGTH))
     }
 
     override fun onStart() {
@@ -94,12 +80,30 @@ class SignalStrengthActivity : BaseChildActivity() {
                 if (grantResult == PackageManager.PERMISSION_GRANTED) {
                     // Start service
                     startService(serviceIntent)
+                    initBroadcastReceiver()
                 } else {
                     onLocationPermissionDenied()
                 }
             }
         }
     }
+
+    private fun initBroadcastReceiver() {
+        receiver = object : BroadcastReceiver() {
+            override fun onReceive(context: Context?, intent: Intent) {
+                if (intent.action == GET_SIGNAL_STRENGTH) {
+                    val rsrp = intent.extras?.getString(RSRP) ?: ""
+                    val rssi = intent.extras?.getString(RSSI) ?: ""
+                    val con = intent.extras?.getInt(CON_TYPE) ?: 0
+                    val conType = ConnectionType.values()[con]
+
+                    signalStrengthViewModel.setData(rsrp, rssi, conType)
+                }
+            }
+        }
+        registerReceiver(receiver, IntentFilter(GET_SIGNAL_STRENGTH))
+    }
+
 
     fun onLocationPermissionDenied(){
         Toast.makeText(this, "onLocationPermissionDenied", Toast.LENGTH_LONG).show()

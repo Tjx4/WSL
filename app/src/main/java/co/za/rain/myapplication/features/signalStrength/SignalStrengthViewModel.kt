@@ -24,6 +24,10 @@ class SignalStrengthViewModel(application: Application, private val signalStreng
     val mobileRSSI: MutableLiveData<String>
         get() = _mobileRSSI
 
+    private val _total: MutableLiveData<String> = MutableLiveData()
+    val total: MutableLiveData<String>
+        get() = _total
+
     init {
 
     }
@@ -32,10 +36,16 @@ class SignalStrengthViewModel(application: Application, private val signalStreng
         if(connectionType == ConnectionType.Wifi) {
             _wifiRSRP.value = rsrp
             _wifiRSSI.value = rssi
+            _mobileRSRP.value = "0"
+            _mobileRSSI.value = "0"
         }
         else {
+            _wifiRSRP.value = "0"
+            _wifiRSSI.value = "0"
             _mobileRSRP.value = rsrp
             _mobileRSSI.value = rssi
         }
+
+        _total.value = rsrp
     }
 }
