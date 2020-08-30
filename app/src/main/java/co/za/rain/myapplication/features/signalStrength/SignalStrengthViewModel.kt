@@ -45,7 +45,7 @@ class SignalStrengthViewModel(application: Application, private val signalStreng
                 _wifiRSRP.value = "$rsrp mb"
                 _wifiRSSI.value = "$rssi mb"
                 _mobileRSSI.value = "0"
-                _wifiPowerPercentage.value = (rsrp - rssi) / 100 * maxRSRP
+                _wifiPowerPercentage.value = (rsrp + rssi) * 100 / maxRSRP
                 _mobilePowerPercentage.value = 0
             }
             ConnectionType.Mobile ->{
@@ -55,7 +55,7 @@ class SignalStrengthViewModel(application: Application, private val signalStreng
                 _mobileRSSI.value = "$rssi mb"
 
                 _wifiPowerPercentage.value = 0
-                _mobilePowerPercentage.value = (rsrp - rssi) / maxRSRP * 100
+                _mobilePowerPercentage.value = (rsrp + rssi) * 100 / maxRSRP
             }
         }
 

@@ -10,6 +10,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.za.rain.myapplication.ConnectionType
 import co.za.rain.myapplication.R
@@ -20,6 +21,7 @@ import co.za.rain.myapplication.constants.RSSI
 import co.za.rain.myapplication.databinding.ActivitySignalStrengthBinding
 import co.za.rain.myapplication.features.base.activity.BaseChildActivity
 import co.za.rain.myapplication.services.SignalMonitorService
+import kotlinx.android.synthetic.main.activity_signal_strength.*
 
 class SignalStrengthActivity : BaseChildActivity() {
     private lateinit var binding: ActivitySignalStrengthBinding
@@ -40,7 +42,7 @@ class SignalStrengthActivity : BaseChildActivity() {
         binding.signalStrengthViewModel = signalStrengthViewModel
         binding.lifecycleOwner = this
 
-        //addObservers()
+        addObservers()
 
         supportActionBar?.title = getString(R.string.signal_monitor)
 
@@ -51,6 +53,20 @@ class SignalStrengthActivity : BaseChildActivity() {
             1
         )
 
+    }
+
+    private fun addObservers() {
+        signalStrengthViewModel.wifiPowerPercentage.observe(this, Observer { onWifiPowerPercentageSet(it) })
+        signalStrengthViewModel.mobilePowerPercentage.observe(this, Observer { onMobilePowerPercentageSet(it) })
+
+    }
+
+    fun onWifiPowerPercentageSet(amount: Int) {
+        gvWifi.moveToValue(amount.toFloat())
+    }
+
+    fun onMobilePowerPercentageSet(amount: Int) {
+        gvMobile.moveToValue(amount.toFloat())
     }
 
     override fun onStart() {
