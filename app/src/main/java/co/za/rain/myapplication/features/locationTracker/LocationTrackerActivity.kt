@@ -84,6 +84,12 @@ class LocationTrackerActivity : BaseMapActivity(), LocationsAdapter.LocationClic
 
     }
 
+    fun onMenuButtonClicked(view: View) {
+        view.blinkView(0.6f, 1.0f, 100, 2, Animation.ABSOLUTE, 0, {
+            Toast.makeText(this, "onMenuButtonClicked", Toast.LENGTH_LONG).show()
+        }, {})
+    }
+
     fun onSaveLocationButtonClicked(view: View) {
         view.blinkView(0.6f, 1.0f, 100, 2, Animation.ABSOLUTE, 0, {
             Toast.makeText(this, "onSaveLocationButtonClicked", Toast.LENGTH_LONG).show()
