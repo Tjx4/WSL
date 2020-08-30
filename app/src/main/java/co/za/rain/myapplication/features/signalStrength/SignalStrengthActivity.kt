@@ -1,30 +1,32 @@
 package co.za.rain.myapplication.features.signalStrength
 
 import android.Manifest
-import android.annotation.SuppressLint
+import android.content.BroadcastReceiver
 import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.content.pm.PackageManager
-import android.net.ConnectivityManager
-import android.net.NetworkInfo
 import android.os.Bundle
-import android.os.Parcel
-import android.os.Parcelable
-import android.telephony.*
+import android.telephony.TelephonyManager
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
+import co.za.rain.myapplication.ConnectionType
 import co.za.rain.myapplication.R
+import co.za.rain.myapplication.constants.CON_TYPE
+import co.za.rain.myapplication.constants.GET_SIGNAL_STRENGTH
+import co.za.rain.myapplication.constants.RSRP
+import co.za.rain.myapplication.constants.RSSI
 import co.za.rain.myapplication.databinding.ActivitySignalStrengthBinding
 import co.za.rain.myapplication.features.base.activity.BaseChildActivity
-import co.za.rain.myapplication.helpers.Connectivity
-import kotlinx.android.synthetic.main.activity_signal_strength.*
-import java.lang.reflect.Method
-
+import co.za.rain.myapplication.services.SignalMonitorService
 
 class SignalStrengthActivity : BaseChildActivity() {
     private lateinit var binding: ActivitySignalStrengthBinding
-    lateinit var signalStrengthViewModel: SignalStrengthViewModel
+    protected lateinit var signalStrengthViewModel: SignalStrengthViewModel
+    private lateinit var serviceIntent: Intent
+    private lateinit var receiver: BroadcastReceiver
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,13 +43,41 @@ class SignalStrengthActivity : BaseChildActivity() {
 
         //addObservers()
 
-        supportActionBar?.title = "Signal monitor"
+        supportActionBar?.title = getString(R.string.signal_monitor)
 
+        serviceIntent = Intent(this, SignalMonitorService::class.java)
         ActivityCompat.requestPermissions(
             this,
             arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION),
             1
         )
+
+       receiver = object : BroadcastReceiver() {
+            override fun onReceive(context: Context?, intent: Intent) {
+                if (intent.action == GET_SIGNAL_STRENGTH) {
+                    val rsrp = intent.extras?.getString(RSRP, ) ?: ""
+                    val rssi = intent.extras?.getString(RSSI) ?: ""
+                    val con = intent.extras?.getInt(CON_TYPE) ?: 0
+                    val conType = ConnectionType.values()[con]
+
+                    signalStrengthViewModel.setData(rsrp, rssi, conType)
+                }
+            }
+        }
+        registerReceiver(receiver, IntentFilter(GET_SIGNAL_STRENGTH))
+    }
+
+    override fun onStart() {
+        super.onStart()
+        // startService(serviceIntent)
+       // registerReceiver(receiver, IntentFilter("GET_SIGNAL_STRENGTH"))
+    }
+
+    override fun onStop() {
+        super.onStop()
+        var dd = ""
+        //stopService(serviceIntent)
+       // unregisterReceiver(receiver)
     }
 
     override fun onRequestPermissionsResult(
@@ -62,7 +92,8 @@ class SignalStrengthActivity : BaseChildActivity() {
 
             if (permission == Manifest.permission.ACCESS_COARSE_LOCATION) {
                 if (grantResult == PackageManager.PERMISSION_GRANTED) {
-                    checkPhoneSignal()
+                    // Start service
+                    startService(serviceIntent)
                 } else {
                     onLocationPermissionDenied()
                 }
@@ -70,70 +101,8 @@ class SignalStrengthActivity : BaseChildActivity() {
         }
     }
 
-    @SuppressLint("MissingPermission")
-    fun checkPhoneSignal(){
-
-        var connectionType = ""
-        if(Connectivity.isConnectedWifi(this)){
-            connectionType = "WIFI"
-        }
-        else if(Connectivity.isConnectedMobile(this)){
-            connectionType = "Mobile"
-        }
-
-        var info = Connectivity.getNetworkInfo(this)
-        //info.subtype.
-        var dfdf = Connectivity.isConnected(this)
-        var dd = "$connectionType $info $dfdf"
-
-        val tm = getSystemService(TELEPHONY_SERVICE) as TelephonyManager
-        val cellInfoList = tm.allCellInfo
-
-        var ddd = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) {
-            tm.signalStrength?.cellSignalStrengths
-        } else {
-
-        }
-
-        for (cellInfo in cellInfoList) {
-            if (cellInfo is CellInfoLte) {
-                var cellSignalStrengthLte = cellInfo.cellSignalStrength as CellSignalStrengthLte
-
-                tvMobileDataRSRPSpeed.text = "${cellSignalStrengthLte.rsrp} mb"
-
-                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) {
-                    tvMobileDataRSSISpeed.text = "${cellSignalStrengthLte.rssi} mb"
-                }
-                else{
-                    //Todo: get RSSI for < Q
-                    tvMobileDataRSSISpeed.text = "0 mb"
-                }
-            }
-            else if (cellInfo is CellInfoGsm) {
-                var cellSignalStrength = cellInfo.cellSignalStrength
-                tvMobileDataRSRPSpeed.text = "${cellSignalStrength.dbm} mb"
-                tvMobileDataRSSISpeed.text = "${cellSignalStrength.asuLevel} mb"
-            }
-        }
-/*
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P && android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) {
-
-            val cellInfoList: List<CellSignalStrength>
-            val tm = getSystemService(TELEPHONY_SERVICE) as TelephonyManager
-
-            cellInfoList = tm.signalStrength!!.cellSignalStrengths
-
-            for (cellInfo in cellInfoList) {
-                if (cellInfo is CellSignalStrengthLte) {
-                    tvWifiSpeed.text = "${cellInfo.rsrp.toString()} mb"
-                    tvMobileDataSpeed.text = "${cellInfo.rssi.toString()} mb"
-                }
-            }
-        }
-*/
-    }
-
     fun onLocationPermissionDenied(){
         Toast.makeText(this, "onLocationPermissionDenied", Toast.LENGTH_LONG).show()
     }
+
 }

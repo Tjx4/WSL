@@ -6,7 +6,7 @@ import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import android.telephony.*
 import androidx.appcompat.app.AppCompatActivity
-
+import co.za.rain.myapplication.ConnectionType
 
 object Connectivity {
 
@@ -23,6 +23,19 @@ object Connectivity {
     fun isConnectedWifi(context: Context): Boolean {
         val info = getNetworkInfo(context)
         return info != null && info.isConnected && info.type == ConnectivityManager.TYPE_WIFI
+    }
+
+    fun getConnectionType(context: Context): ConnectionType {
+        val info = getNetworkInfo(context)
+        return if(info != null && info.isConnected && info.type == ConnectivityManager.TYPE_WIFI){
+            ConnectionType.Wifi
+        }
+        else if(info != null && info.isConnected && info.type == ConnectivityManager.TYPE_MOBILE){
+            ConnectionType.Mobile
+        }
+        else{
+            ConnectionType.Unknown
+        }
     }
 
     fun isConnectedMobile(context: Context): Boolean {

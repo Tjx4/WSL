@@ -3,4 +3,5 @@
     <string name="google_map_apikey">AIzaSyAQj9IEqAljcBzQ_hg4Xf-lDL39lWwqvWo</string>
     <string name="api_user_error">Google API user error</string>
     <string name="title_activity_maps">Map</string>
+    <string name="signal_monitor">Signal monitor</string>
 </resources>
