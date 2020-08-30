@@ -21,6 +21,7 @@ import co.za.rain.myapplication.extensions.DEFAULT_STATUS_BAR_ALPHA
 import co.za.rain.myapplication.extensions.blinkView
 import co.za.rain.myapplication.extensions.setTranslucentStatusBar
 import co.za.rain.myapplication.features.base.activity.BaseMapActivity
+import co.za.rain.myapplication.helpers.getAreaName
 import co.za.rain.myapplication.helpers.hideCurrentLoadingDialog
 import co.za.rain.myapplication.helpers.showLoadingDialog
 import co.za.rain.myapplication.models.UserLocation
@@ -29,6 +30,7 @@ import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import kotlinx.android.synthetic.main.activity_location_tracker.*
+import kotlinx.android.synthetic.main.activity_location_tracker.view.*
 
 class LocationTrackerActivity : BaseMapActivity(), LocationsAdapter.LocationClickListener {
     private lateinit var binding: ActivityLocationTrackerBinding
@@ -60,23 +62,32 @@ class LocationTrackerActivity : BaseMapActivity(), LocationsAdapter.LocationClic
         }
     }
 
-
     private fun addObservers() {
         locationTrackerViewModel.showLoading.observe(this, Observer { onShowLoading(it) })
         locationTrackerViewModel.locations.observe(this, Observer { onLocationsUpdated(it) })
         locationTrackerViewModel.nolocationsMessage.observe(this, Observer { onNolocations(it) })
         locationTrackerViewModel.locationIndex.observe(this, Observer { onLocationSelected(it) })
+        locationTrackerViewModel.locationSaved.observe(this, Observer { onLocationSaved(it) })
     }
 
-    fun onLocationSelected(position: Int) {
+    private fun onLocationSelected(position: Int) {
         val position  = airportMarkers[position].position
         goToLocationZoomAnimated(position, LOCATION_ZOOM)
     }
 
-    fun onNolocations(message: String) {
-        //llLocationsContainer.visibility = View.VISIBLE
-        //lldefContainer.visibility = View.GONE
-        //TODO: Add no locations message
+    private fun onLocationSaved(isSaved: Boolean) {
+        hideCurrentLoadingDialog(this)
+        Toast.makeText(this, "Location saved successfully", Toast.LENGTH_LONG).show()
+
+        llLocationsContainer.visibility = View.GONE
+        lldefContainer.visibility = View.VISIBLE
+        llSaveLocationContainer.visibility = View.GONE
+    }
+
+    private fun onNolocations(message: String) {
+        hideCurrentLoadingDialog(this)
+        tvNoLocations.visibility = View.VISIBLE
+        rvLocations.visibility = View.GONE
     }
 
     fun onLocationsUpdated(locations: List<UserLocation>) {
@@ -110,7 +121,7 @@ class LocationTrackerActivity : BaseMapActivity(), LocationsAdapter.LocationClic
     }
 
     override fun onServiceCategoryClick(view: View, position: Int) {
-
+        var dfdf = ""
     }
 
     fun onMenuButtonClicked(view: View) {
@@ -119,9 +130,20 @@ class LocationTrackerActivity : BaseMapActivity(), LocationsAdapter.LocationClic
         }, {})
     }
 
+    fun onShowSaveLocationButtonClicked(view: View) {
+        view.blinkView(0.6f, 1.0f, 100, 2, Animation.ABSOLUTE, 0, {
+            llLocationsContainer.visibility = View.GONE
+            lldefContainer.visibility = View.GONE
+            llSaveLocationContainer.visibility = View.VISIBLE
+        }, {})
+    }
+
     fun onSaveLocationButtonClicked(view: View) {
         view.blinkView(0.6f, 1.0f, 100, 2, Animation.ABSOLUTE, 0, {
-            Toast.makeText(this, "onSaveLocationButtonClicked", Toast.LENGTH_LONG).show()
+            locationTrackerViewModel.saveLocation()
+            llLocationsContainer.visibility = View.GONE
+            lldefContainer.visibility = View.GONE
+            llSaveLocationContainer.visibility = View.VISIBLE
         }, {})
     }
 
@@ -134,12 +156,21 @@ class LocationTrackerActivity : BaseMapActivity(), LocationsAdapter.LocationClic
     private fun showLocationsRecyclerView() {
         llLocationsContainer.visibility = View.VISIBLE
         lldefContainer.visibility = View.GONE
+        llSaveLocationContainer.visibility = View.GONE
+
         locationTrackerViewModel.fetchAndSetPreviouseLocations()
     }
 
     fun onCloseLocationsButtonClicked(view: View) {
         llLocationsContainer.visibility = View.GONE
         lldefContainer.visibility = View.VISIBLE
+        llSaveLocationContainer.visibility = View.GONE
+    }
+
+    fun onCloseSaveLocationButtonClicked(view: View) {
+        llLocationsContainer.visibility = View.GONE
+        lldefContainer.visibility = View.VISIBLE
+        llSaveLocationContainer.visibility = View.GONE
     }
 
     override fun onGpsOff() {
@@ -177,11 +208,17 @@ class LocationTrackerActivity : BaseMapActivity(), LocationsAdapter.LocationClic
             "Your location description"
         )
 
+        var locationName = getAreaName(LatLng(location.latitude, location.longitude), this)
+        locationTrackerViewModel.setCurrentLocation(locationName)
+        locationTrackerViewModel.setCurrentLocationMessage()
+        locationTrackerViewModel.setCurrentLocationCoordinated(LatLng(location.latitude, location.longitude))
         goToLocationZoomNoAnimation(userCoordinates, USER_ZOOM)
     }
 
     fun plotLocationMarkers(locations: List<UserLocation>) {
         googleMap?.clear()
+        tvNoLocations.visibility = View.GONE
+
         var indx = 0
         for (airport in locations) {
             val tag = "L$indx"

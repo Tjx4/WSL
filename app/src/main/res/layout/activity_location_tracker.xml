@@ -36,7 +36,9 @@ xmlns:app="http://schemas.android.com/apk/res-auto">
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:background="@color/lightBackground"
-            android:padding="@dimen/small_view_padding">
+            android:paddingHorizontal="@dimen/small_view_padding"
+            android:paddingTop="@dimen/small_view_padding"
+            android:paddingBottom="@dimen/medium_view_margin">
 
             <TextView
                 style="@style/SmallTextView"
@@ -48,7 +50,6 @@ xmlns:app="http://schemas.android.com/apk/res-auto">
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"/>
 
-
             <TextView
                 style="@style/LargeDarkTextView"
                 android:text="How can we help you?"
@@ -57,7 +58,8 @@ xmlns:app="http://schemas.android.com/apk/res-auto">
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                android:layout_marginBottom="@dimen/medium_view_margin"
+                android:paddingBottom="@dimen/small_view_padding"
+                android:background="@drawable/divider_background"
                 android:textStyle="bold"/>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -65,12 +67,12 @@ xmlns:app="http://schemas.android.com/apk/res-auto">
                 android:layout_height="wrap_content"
                 android:background="@drawable/divider_background"
                 android:paddingVertical="@dimen/small_view_padding"
-                android:onClick="onSaveLocationButtonClicked">
+                android:onClick="onShowSaveLocationButtonClicked">
 
                 <ImageView
                     android:id="@+id/imgSaveLocation"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
+                    android:layout_width="@dimen/mediumIcon"
+                    android:layout_height="@dimen/mediumIcon"
                     android:src="@drawable/ic_locations_save_dark"
                     android:background="@color/lightBackground"
                     android:scaleType="fitCenter"
@@ -79,17 +81,17 @@ xmlns:app="http://schemas.android.com/apk/res-auto">
                     app:layout_constraintTop_toBottomOf="parent"/>
 
                 <TextView
+                    android:id="@+id/tvCurrentLocation"
                     style="@style/MediumDarkTextView"
                     android:layout_width="0dp"
-                    android:id="@+id/tvCurrentLocation"
-                    tools:text="Save your current location"
-                    android:text="@{locationTrackerViewModel.currentLocationMessage}"
-                    app:layout_constraintLeft_toRightOf="@+id/imgSaveLocation"
-                    app:layout_constraintStart_toEndOf="@+id/imgSaveLocation"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
+                    android:layout_marginHorizontal="@dimen/medium_view_margin"
+                    android:text="Save your current location"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    android:layout_marginHorizontal="@dimen/medium_view_margin"/>
+                    app:layout_constraintLeft_toRightOf="@+id/imgSaveLocation"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/imgSaveLocation"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="Save your current location" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -98,12 +100,13 @@ xmlns:app="http://schemas.android.com/apk/res-auto">
                 android:layout_height="wrap_content"
                 android:paddingVertical="@dimen/small_view_padding"
                 android:layout_marginBottom="@dimen/medium_view_margin"
+                android:background="@drawable/divider_background"
                 android:onClick="onShowLocationsButtonClicked">
 
                 <ImageView
                     android:id="@+id/imgViewLocations"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
+                    android:layout_width="@dimen/mediumIcon"
+                    android:layout_height="@dimen/mediumIcon"
                     android:src="@drawable/ic_locations_list_dark"
                     android:background="@color/lightBackground"
                     android:scaleType="fitCenter"
@@ -191,49 +194,95 @@ xmlns:app="http://schemas.android.com/apk/res-auto">
                 android:layout_height="180dp"
                 android:background="@color/lightBackground"/>
 
+            <TextView
+                android:visibility="gone"
+                style="@style/MediumDarkTextView"
+                android:id="@+id/tvNoLocations"
+                android:gravity="center"
+                tools:text="No locations saved yet"
+                android:text="@{locationTrackerViewModel.nolocationsMessage}"
+                android:padding="@dimen/large_view_padding"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
         </LinearLayout>
 
-    </FrameLayout>
-
-    <!--
         <LinearLayout
+            android:id="@+id/llSaveLocationContainer"
             android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="@dimen/large_view_padding"
+            android:paddingBottom="@dimen/large_view_padding"
             android:background="@color/lightBackground"
             app:layout_constraintBottom_toBottomOf="parent">
 
-            <TextView
-                style="@style/MediumDarkTextView"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Save location"/>
+                app:layout_constraintBottom_toBottomOf="parent">
+
+                <TextView
+                    style="@style/MediumDarkTextView"
+                    android:gravity="center"
+                    tools:text="You are in Location name"
+                    android:text="@{locationTrackerViewModel.currentLocationMessage}"
+                    android:paddingLeft="@dimen/small_view_padding"
+                    android:paddingRight="@dimen/large_view_padding"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+                <ImageButton
+                    android:id="@+id/imgBCloseSaveLocationList"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_margin="5dp"
+                    android:padding="8dp"
+                    android:onClick="onCloseSaveLocationButtonClicked"
+                    android:background="@android:color/transparent"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/ic_close_dark"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <EditText
                 style="@style/DarkEditText"
                 android:hint="Name"
+                android:text="@={locationTrackerViewModel.locationName}"
+                android:singleLine="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/small_view_margin"/>
+                android:layout_marginTop="@dimen/small_view_margin"
+                android:layout_marginHorizontal="@dimen/medium_view_margin"/>
 
             <EditText
                 style="@style/DarkEditText"
                 android:hint="Description"
+                android:text="@={locationTrackerViewModel.locationDescription}"
                 android:layout_width="match_parent"
                 android:layout_height="110dp"
                 android:gravity="top|left"
-                android:layout_marginTop="@dimen/small_view_margin"/>
+                android:layout_marginTop="@dimen/small_view_margin"
+                android:layout_marginHorizontal="@dimen/medium_view_margin"/>
 
             <Button
                 style="@style/DefButton"
                 android:id="@+id/btnSignIn"
                 android:text="Save location"
-                android:layout_marginTop="@dimen/small_view_margin" />
+                android:onClick="onSaveLocationButtonClicked"
+                android:layout_marginTop="@dimen/medium_view_margin"
+                android:layout_marginHorizontal="@dimen/medium_view_margin" />
 
         </LinearLayout>
-    -->
+
+    </FrameLayout>
+
+
 
     <ImageButton
         android:id="@+id/imgMenu"

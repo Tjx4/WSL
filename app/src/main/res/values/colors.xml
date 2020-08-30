@@ -6,6 +6,8 @@
     <color name="colorAccent">#03DAC5</color>
     <color name="statusBarColor">#990F0F0F</color>
     <color name="darkBackground">#000</color>
+    <color name="editTextBackground">#f4f4f6</color>
+    <color name="colorDivider">#f1f1f1</color>
     <color name="lightBackground">#FFF</color>
     <color name="lightText">#DDD</color>
     <color name="greyLightText">#aaa</color>

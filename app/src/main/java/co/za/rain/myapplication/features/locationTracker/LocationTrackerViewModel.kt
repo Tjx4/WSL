@@ -2,9 +2,14 @@ package co.za.rain.myapplication.features.locationTracker
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
+import co.za.dvt.myskilldevapp.features.database.tables.LocationsTable
+import co.za.rain.myapplication.extensions.latLngToString
 import co.za.rain.myapplication.features.base.viewmodel.BaseVieModel
 import co.za.rain.myapplication.models.UserLocation
+import com.google.android.gms.maps.model.LatLng
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.*
 
 class LocationTrackerViewModel(application: Application, private val locationTrackerRepository: LocationTrackerRepository) : BaseVieModel(application) {
 
@@ -32,15 +37,29 @@ class LocationTrackerViewModel(application: Application, private val locationTra
     val showLoading: MutableLiveData<Boolean>
         get() = _showLoading
 
-    var busyMessage: String = "Fetching location, please wait"
+    private val _locationSaved: MutableLiveData<Boolean> = MutableLiveData()
+    val locationSaved: MutableLiveData<Boolean>
+        get() = _locationSaved
 
+    private val _locationName: MutableLiveData<String> = MutableLiveData()
+    val locationName: MutableLiveData<String>
+        get() = _locationName
+
+    private val _coordinates: MutableLiveData<LatLng> = MutableLiveData()
+    val coordinates: MutableLiveData<LatLng>
+        get() = _coordinates
+
+    private val _locationDescription: MutableLiveData<String> = MutableLiveData()
+    val locationDescription: MutableLiveData<String>
+        get() = _locationDescription
+
+    var busyMessage: String = ""
 
     private val _nolocationsMessage: MutableLiveData<String> = MutableLiveData()
     val nolocationsMessage: MutableLiveData<String>
         get() = _nolocationsMessage
 
     init {
-        _currentLocationMessage.value = "Save your current location"
     }
 
     fun setLocationIndx(index: Int){
@@ -54,6 +73,7 @@ class LocationTrackerViewModel(application: Application, private val locationTra
 
     fun fetchAndSetPreviouseLocations(){
         _showLoading.value = true
+        busyMessage = "Fetching locations, please wait"
 
         ioScope.launch {
             val locations = locationTrackerRepository.getPreviousLocations()
@@ -67,6 +87,42 @@ class LocationTrackerViewModel(application: Application, private val locationTra
                 {
                     _nolocationsMessage.value = "No locations saved yet"
                 }
+            }
+
+        }
+    }
+
+    fun setCurrentLocation(currentLocationName: String){
+        _currentLocation.value = currentLocationName
+    }
+
+    fun setCurrentLocationMessage(){
+        _currentLocationMessage.value = "You are currently in ${_currentLocation.value ?: "Unknown location"}"
+    }
+
+    fun setCurrentLocationCoordinated(coordinates: LatLng){
+        _coordinates.value = coordinates
+    }
+
+    fun saveLocation(){
+        _showLoading.value = true
+        busyMessage = "Adding location, please wait"
+
+        var dateTime = SimpleDateFormat("dd/M/yyyy hh:mm:ss").format(Date())
+
+        var userLocation = LocationsTable()
+        userLocation.name = _locationName.value
+        userLocation.description = _locationDescription.value
+        userLocation.coordinates = _coordinates.value?.latLngToString()
+        userLocation.dateTime = dateTime
+
+        ioScope.launch {
+            val locations = locationTrackerRepository.addLocationToDb(userLocation)
+
+            uiScope.launch {
+                _locationSaved.value = true
+                _locationName.value = ""
+                _locationDescription.value = ""
             }
 
         }
