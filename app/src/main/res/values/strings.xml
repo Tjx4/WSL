@@ -3,6 +3,4 @@
     <string name="google_map_apikey">AIzaSyAQj9IEqAljcBzQ_hg4Xf-lDL39lWwqvWo</string>
     <string name="api_user_error">Google API user error</string>
     <string name="title_activity_maps">Map</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
