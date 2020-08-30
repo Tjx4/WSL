@@ -99,6 +99,7 @@ class LocationTrackerActivity : BaseMapActivity(), LocationsAdapter.LocationClic
                 var maxLocations = locationTrackerViewModel.locations.value?.size ?: 0
                 var finalIndex = if(indx >= maxLocations) { maxLocations } else { indx }
                 locationTrackerViewModel.setLocationIndx(finalIndex)
+                locationTrackerViewModel.setPositionMessage(finalIndex)
                 return indx
             }
         }

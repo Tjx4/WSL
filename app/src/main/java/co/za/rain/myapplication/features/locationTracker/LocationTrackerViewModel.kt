@@ -45,6 +45,9 @@ class LocationTrackerViewModel(application: Application, private val locationTra
 
     fun setLocationIndx(index: Int){
         _locationIndex.value = index
+    }
+
+    fun setPositionMessage(index: Int){
         val position = index + 1
         _locationIndexMessage.value = "$position of ${_locations.value?.size  } previous locations"
     }
@@ -58,7 +61,7 @@ class LocationTrackerViewModel(application: Application, private val locationTra
             uiScope.launch {
                 if(locations.isNotEmpty()){
                     _locations.value = locations
-                    setLocationIndx(1)
+                    setLocationIndx(0)
                 }
                 else
                 {
