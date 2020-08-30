@@ -12,7 +12,7 @@ import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import co.za.rain.myapplication.ConnectionType
+import co.za.rain.myapplication.enums.ConnectionType
 import co.za.rain.myapplication.R
 import co.za.rain.myapplication.constants.CON_TYPE
 import co.za.rain.myapplication.constants.GET_SIGNAL_STRENGTH

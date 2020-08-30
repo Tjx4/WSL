@@ -4,7 +4,7 @@ import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import co.za.rain.myapplication.features.base.viewmodel.BaseVieModel
 import co.za.rain.myapplication.models.UserLocation
-import com.google.android.gms.maps.model.LatLng
+import kotlinx.coroutines.launch
 
 class LocationTrackerViewModel(application: Application, private val locationTrackerRepository: LocationTrackerRepository) : BaseVieModel(application) {
 
@@ -20,25 +20,43 @@ class LocationTrackerViewModel(application: Application, private val locationTra
     val locationIndexMessage: MutableLiveData<String>
         get() = _locationIndexMessage
 
+    private val _locationIndex: MutableLiveData<Int> = MutableLiveData()
+    val locationIndex: MutableLiveData<Int>
+        get() = _locationIndex
+
     private val _currentLocationMessage: MutableLiveData<String> = MutableLiveData()
     val currentLocationMessage: MutableLiveData<String>
         get() = _currentLocationMessage
 
-    init {
-        var dumyLocations = arrayListOf (
-            UserLocation("Mabopane", "When I originate", LatLng(0.0, 0.0), "00/00/0000 00:00"),
-            UserLocation("Pheli", "Kasi yaka where Im from", LatLng(0.0, 0.0), "10/10/2020 00:00"),
-            UserLocation("West park", "Last but not least", LatLng(0.0, 0.0), "01/08/2020 00:00")
-        )
+    private val _showLoading: MutableLiveData<Boolean> = MutableLiveData()
+    val showLoading: MutableLiveData<Boolean>
+        get() = _showLoading
 
-        _currentLocation.value = "Sunny side"
-        _currentLocationMessage.value = "Save your current location" //You are currently at ${_currentLocation.value}"
-        _locations.value = dumyLocations
-        setLocationIndx(1)
+    var busyMessage: String = "Fetching location, please wait"
+
+
+    private val _nolocationsMessage: MutableLiveData<String> = MutableLiveData()
+    val nolocationsMessage: MutableLiveData<String>
+        get() = _nolocationsMessage
+
+    init {
+
+        _currentLocationMessage.value = "Save your current location"
+
     }
 
-    fun setLocationIndx(indx: Int){
-        _locationIndexMessage.value = "$indx of ${_locations.value?.size  } previous locations"
+    fun setLocationIndx(index: Int){
+        _locationIndex.value = index
+        val position = index + 1
+        _locationIndexMessage.value = "$position of ${_locations.value?.size  } previous locations"
+    }
+
+    fun getPreviousLocations(){
+        _showLoading.value = true
+
+        ioScope.launch {
+            _locations.value = locationTrackerRepository.getPreviousLocations()
+        }
     }
 
 }

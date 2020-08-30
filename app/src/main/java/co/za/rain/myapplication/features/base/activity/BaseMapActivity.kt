@@ -32,15 +32,17 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 import com.google.android.gms.tasks.OnSuccessListener
+import java.util.ArrayList
 
 abstract class BaseMapActivity : BaseParentActivity(), OnMapReadyCallback, ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
     protected var fragmentMap: SupportMapFragment? = null
     protected var googleMap: GoogleMap? = null
     protected var locationRequest: LocationRequest? = null
     protected var googleApiClient: GoogleApiClient? = null
-    protected var airportMarkers: List<Marker>? = null
+    protected val airportMarkers = ArrayList<Marker>()
     protected var userMarker: Marker? = null
     protected val USER_ZOOM = 14
+    protected val LOCATION_ZOOM = 16
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -131,12 +133,12 @@ abstract class BaseMapActivity : BaseParentActivity(), OnMapReadyCallback, Conne
 
     private fun moveInToLocation(ll: LatLng, zoom: Int) {
         val cameraUpdate = CameraUpdateFactory.newLatLngZoom(ll, zoom.toFloat())
-        googleMap!!.moveCamera(cameraUpdate)
+        googleMap?.moveCamera(cameraUpdate)
     }
 
     private fun zoomInToLocation(ll: LatLng, zoom: Int, animate: Boolean) {
         val cameraUpdate = CameraUpdateFactory.newLatLngZoom(ll, zoom.toFloat())
-        googleMap!!.animateCamera(cameraUpdate)
+        googleMap?.animateCamera(cameraUpdate)
     }
 
     protected fun goToLocationZoomNoAnimation(ll: LatLng, zoom: Int) {
@@ -251,9 +253,9 @@ abstract class BaseMapActivity : BaseParentActivity(), OnMapReadyCallback, Conne
         if (snippet != null && !snippet.isEmpty()) {
             markerOptions.snippet(snippet)
         }
-        val airportMarker = googleMap!!.addMarker(markerOptions)
-        airportMarker.tag = tag
-        return airportMarker
+        val marker = googleMap!!.addMarker(markerOptions)
+        marker?.tag = tag
+        return marker
     }
 
     protected open fun isGPSOn(): Boolean {

@@ -12,6 +12,7 @@ xmlns:app="http://schemas.android.com/apk/res-auto">
     android:id="@+id/clCParent"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/lightBackground"
     tools:context=".features.locationTracker.LocationTrackerActivity">
 
     <fragment
@@ -19,6 +20,7 @@ xmlns:app="http://schemas.android.com/apk/res-auto">
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:background="@color/lightBackground"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/flBottomContent"/>
 

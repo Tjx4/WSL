@@ -1,4 +1,4 @@
-package co.za.rain.myapplication
+package co.za.rain.myapplication.splash
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -10,5 +10,6 @@ class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         navigateToActivity(LocationTrackerActivity::class.java, FADE_IN_ACTIVITY)
+        finish()
     }
 }

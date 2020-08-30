@@ -1,4 +1,4 @@
-package co.za.rain.myapplication
+package co.za.rain.myapplication.enums
 
 enum class ConnectionType(val id: Int, val connectionName: String) {
     Unknown(0, "Unknown"),

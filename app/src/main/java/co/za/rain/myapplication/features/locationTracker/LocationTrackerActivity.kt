@@ -2,22 +2,30 @@ package co.za.rain.myapplication.features.locationTracker
 
 import android.location.Location
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.animation.Animation
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.recyclerview.widget.*
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.PagerSnapHelper
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.SnapHelper
 import co.za.rain.myapplication.R
 import co.za.rain.myapplication.adapters.LocationsAdapter
+import co.za.rain.myapplication.constants.USER_MARKER_TAG
 import co.za.rain.myapplication.databinding.ActivityLocationTrackerBinding
 import co.za.rain.myapplication.extensions.DEFAULT_STATUS_BAR_ALPHA
 import co.za.rain.myapplication.extensions.blinkView
 import co.za.rain.myapplication.extensions.setTranslucentStatusBar
 import co.za.rain.myapplication.features.base.activity.BaseMapActivity
+import co.za.rain.myapplication.helpers.hideCurrentLoadingDialog
+import co.za.rain.myapplication.helpers.showLoadingDialog
 import co.za.rain.myapplication.models.UserLocation
 import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import kotlinx.android.synthetic.main.activity_location_tracker.*
@@ -54,7 +62,19 @@ class LocationTrackerActivity : BaseMapActivity(), LocationsAdapter.LocationClic
 
 
     private fun addObservers() {
+        locationTrackerViewModel.showLoading.observe(this, Observer { onShowLoading(it) })
         locationTrackerViewModel.locations.observe(this, Observer { onLocationsUpdated(it) })
+        locationTrackerViewModel.nolocationsMessage.observe(this, Observer { onNolocations(it) })
+        locationTrackerViewModel.locationIndex.observe(this, Observer { onLocationSelected(it) })
+    }
+
+    fun onLocationSelected(position: Int) {
+        val position  = airportMarkers[position].position
+        goToLocationZoomAnimated(position, LOCATION_ZOOM)
+    }
+
+    fun onNolocations(message: String) {
+        //TODO: Add no locations message
     }
 
     fun onLocationsUpdated(locations: List<UserLocation>) {
@@ -68,16 +88,22 @@ class LocationTrackerActivity : BaseMapActivity(), LocationsAdapter.LocationClic
         rvLocations?.adapter = locationsAdapter
 
         val snapHelper: SnapHelper = object : PagerSnapHelper() {
-            override fun findTargetSnapPosition(layoutManager: RecyclerView.LayoutManager, velocityX: Int, velocityY: Int): Int {
+            override fun findTargetSnapPosition(
+                layoutManager: RecyclerView.LayoutManager,
+                velocityX: Int,
+                velocityY: Int
+            ): Int {
                 var indx = super.findTargetSnapPosition(layoutManager, velocityX, velocityY)
                 var maxLocations = locationTrackerViewModel.locations.value?.size ?: 0
-                var fntIndx = if(indx >= maxLocations) { maxLocations } else { indx + 1}
-                locationTrackerViewModel.setLocationIndx(fntIndx)
+                var finalIndex = if(indx >= maxLocations) { maxLocations } else { indx }
+                locationTrackerViewModel.setLocationIndx(finalIndex)
                 return indx
             }
         }
 
         snapHelper.attachToRecyclerView(rvLocations)
+        plotLocationMarkers(locations)
+        hideCurrentLoadingDialog(this)
     }
 
     override fun onServiceCategoryClick(view: View, position: Int) {
@@ -98,16 +124,19 @@ class LocationTrackerActivity : BaseMapActivity(), LocationsAdapter.LocationClic
 
     fun onShowLocationsButtonClicked(view: View) {
         view.blinkView(0.6f, 1.0f, 100, 2, Animation.ABSOLUTE, 0, {
-            llLocationsContainer.visibility = View.VISIBLE
-            lldefContainer.visibility = View.GONE
+            showLocationsRecyclerView()
         }, {})
     }
 
+    private fun showLocationsRecyclerView() {
+        llLocationsContainer.visibility = View.VISIBLE
+        lldefContainer.visibility = View.GONE
+        locationTrackerViewModel.setLocationIndx(1)
+    }
+
     fun onCloseLocationsButtonClicked(view: View) {
-        view.blinkView(0.6f, 1.0f, 100, 2, Animation.ABSOLUTE, 0, {
-            llLocationsContainer.visibility = View.GONE
-            lldefContainer.visibility = View.VISIBLE
-        }, {})
+        llLocationsContainer.visibility = View.GONE
+        lldefContainer.visibility = View.VISIBLE
     }
 
     override fun onGpsOff() {
@@ -118,7 +147,7 @@ class LocationTrackerActivity : BaseMapActivity(), LocationsAdapter.LocationClic
     }
 
     override fun onLocationPermissionDenied() {
-        // Do some
+        //TODO: Do some onLocationPermissionDenied
     }
 
     override fun initMap() {
@@ -142,11 +171,60 @@ class LocationTrackerActivity : BaseMapActivity(), LocationsAdapter.LocationClic
         plotUserMarker(
             userCoordinates,
             "You",
-            "Location description"
+            "Your location description"
         )
 
         goToLocationZoomNoAnimation(userCoordinates, USER_ZOOM)
     }
+
+    fun plotLocationMarkers(locations: List<UserLocation>) {
+        googleMap?.clear()
+        var indx = 0
+        for (airport in locations) {
+            val tag = "L$indx"
+            val name = airport.name
+            val description = airport.description
+            val airportCoordinates = airport.coordinates
+            plotAirportMarker(airportCoordinates, name, description, tag) //"${airport.coordinates.latitude} | ${airport.coordinates.longitude}"
+            indx++
+        }
+        listenForMarkerClicks()
+        goToLocationZoomAnimated(airportMarkers[0].position, LOCATION_ZOOM)
+    }
+
+    fun plotAirportMarker(latLng: LatLng?, title: String?,  snippet: String?, tag: String?) {
+        val airportMarker = getMarker(latLng, title, snippet, tag)
+        //val markerIcon = getBitmapDescriptor(R.drawable.ic_pin)
+        //airportMarker.setIcon(markerIcon)
+        airportMarkers.add(airportMarker)
+    }
+
+    protected fun listenForMarkerClicks() {
+        googleMap!!.setOnMarkerClickListener(OnMarkerClickListener { marker ->
+            val selectedMarkerTag = marker.tag.toString()
+            if (selectedMarkerTag == USER_MARKER_TAG) return@OnMarkerClickListener false
+            try {
+                var markerIndex = 0
+                for (airportMarker in airportMarkers) {
+                    val currentMarkerTag = airportMarker.tag.toString()
+                    if (selectedMarkerTag == currentMarkerTag) {
+                        showLocationsRecyclerView()
+                        //Go to position (markerIndex)
+                        break
+                    }
+                    ++markerIndex
+                }
+            } catch (e: Exception) {
+                Log.e("MARKER_CLICK_ERROR", "Marker click error: $e")
+            }
+            false
+        })
+    }
+
+    private fun onShowLoading(isBusy: Boolean) {
+        showLoadingDialog(locationTrackerViewModel.busyMessage, this)
+    }
+
 
     override fun onLocationChanged(location: Location?) {
        // val currentCoordinates = LatLng(location!!.latitude, location.longitude)

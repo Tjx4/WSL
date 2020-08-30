@@ -6,7 +6,7 @@ import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import android.telephony.*
 import androidx.appcompat.app.AppCompatActivity
-import co.za.rain.myapplication.ConnectionType
+import co.za.rain.myapplication.enums.ConnectionType
 
 object Connectivity {
 
