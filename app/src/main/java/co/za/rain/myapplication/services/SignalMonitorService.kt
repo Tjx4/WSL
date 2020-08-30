@@ -52,30 +52,29 @@ class SignalMonitorService : Service() {
     }
 
     @SuppressLint("MissingPermission")
-    fun checkPhoneSignal(): Map<String, String>{
+    fun checkPhoneSignal(): Map<String, Int>{
         val tm = getSystemService(TELEPHONY_SERVICE) as TelephonyManager
         val cellInfoList = tm.allCellInfo
-        var rsrp = "0"
-        var rssi = "0"
+        var rsrp = 0
+        var rssi = 0
 
         for (cellInfo in cellInfoList) {
             if (cellInfo is CellInfoLte) {
                 var cellSignalStrengthLte = cellInfo.cellSignalStrength as CellSignalStrengthLte
 
-                rsrp = "${cellSignalStrengthLte.rsrp} mb"
+                rsrp = cellSignalStrengthLte.rsrp
                 rssi = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) {
-                     "${cellSignalStrengthLte.rssi} mb"
+                     cellSignalStrengthLte.rssi
                 }
                 else{
                     //Todo: get RSSI for < Q
-                    "0 mb"
+                    0
                 }
             }
             else if (cellInfo is CellInfoGsm) {
                 var cellSignalStrength = cellInfo.cellSignalStrength
-
-                rsrp = "${cellSignalStrength.dbm} mb"
-                rssi = "${cellSignalStrength.asuLevel} mb"
+                rsrp = cellSignalStrength.dbm
+                rssi = cellSignalStrength.asuLevel
             }
         }
 

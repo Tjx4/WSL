@@ -20,7 +20,6 @@ import co.za.rain.myapplication.constants.RSSI
 import co.za.rain.myapplication.databinding.ActivitySignalStrengthBinding
 import co.za.rain.myapplication.features.base.activity.BaseChildActivity
 import co.za.rain.myapplication.services.SignalMonitorService
-import de.nitri.gauge.Gauge
 
 class SignalStrengthActivity : BaseChildActivity() {
     private lateinit var binding: ActivitySignalStrengthBinding
@@ -93,8 +92,8 @@ class SignalStrengthActivity : BaseChildActivity() {
         receiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context?, intent: Intent) {
                 if (intent.action == GET_SIGNAL_STRENGTH) {
-                    val rsrp = intent.extras?.getString(RSRP) ?: ""
-                    val rssi = intent.extras?.getString(RSSI) ?: ""
+                    val rsrp = intent.extras?.getInt(RSRP) ?: 0
+                    val rssi = intent.extras?.getInt(RSSI) ?: 0
                     val con = intent.extras?.getInt(CON_TYPE) ?: 0
                     val conType = ConnectionType.values()[con]
 

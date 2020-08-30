@@ -8,6 +8,17 @@ import co.za.rain.myapplication.features.locationTracker.LocationTrackerReposito
 
 class SignalStrengthViewModel(application: Application, private val signalStrengthRepository: SignalStrengthRepository) : BaseVieModel(application) {
 
+    private val minRSRP: Int = 0
+    private val maxRSRP: Int = 170
+
+    private val _wifiPowerPercentage: MutableLiveData<String> = MutableLiveData()
+    val wifiPowerPercentage: MutableLiveData<String>
+        get() = _wifiPowerPercentage
+
+    private val _mobilePowerPercentage: MutableLiveData<String> = MutableLiveData()
+    val mobilePowerPercentage: MutableLiveData<String>
+        get() = _mobilePowerPercentage
+
     private val _wifiRSRP: MutableLiveData<String> = MutableLiveData()
     val wifiRSRP: MutableLiveData<String>
         get() = _wifiRSRP
@@ -28,24 +39,22 @@ class SignalStrengthViewModel(application: Application, private val signalStreng
     val total: MutableLiveData<String>
         get() = _total
 
-    init {
-
-    }
-
-    fun setData(rsrp: String, rssi: String, connectionType: ConnectionType){
-        if(connectionType == ConnectionType.Wifi) {
-            _wifiRSRP.value = rsrp
-            _wifiRSSI.value = rssi
-            _mobileRSRP.value = "0"
-            _mobileRSSI.value = "0"
-        }
-        else {
-            _wifiRSRP.value = "0"
-            _wifiRSSI.value = "0"
-            _mobileRSRP.value = rsrp
-            _mobileRSSI.value = rssi
+    fun setData(rsrp: Int, rssi: Int, connectionType: ConnectionType){
+        when(connectionType) {
+            ConnectionType.Wifi ->{
+                _wifiRSRP.value = "$rsrp mb"
+                _wifiRSSI.value = "$rssi mb"
+                _mobileRSSI.value = "0"
+            }
+            ConnectionType.Mobile ->{
+                _wifiRSRP.value = "0"
+                _wifiRSSI.value = "0"
+                _mobileRSRP.value = "$rsrp mb"
+                _mobileRSSI.value = "$rssi mb"
+            }
         }
 
-        _total.value = rsrp
+        val total = rsrp + rssi
+        _total.value = "$total mb"
     }
 }

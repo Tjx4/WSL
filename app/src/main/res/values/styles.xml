@@ -46,6 +46,7 @@
     <style name="LargeTextView" parent="BaseTextView">
         <item name="android:textSize">@dimen/large_text</item>
         <item name="android:gravity">left</item>
+        <item name="android:textStyle">bold</item>
     </style>
     <style name="LargeDarkTextView" parent="LargeTextView">
         <item name="android:textColor">@color/darkText</item>
