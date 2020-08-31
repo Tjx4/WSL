@@ -91,5 +91,6 @@
     <style name="RowDetails">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">50dp</item>
+        <item name="android:paddingHorizontal">@dimen/medium_view_padding</item>
     </style>
 </resources>
