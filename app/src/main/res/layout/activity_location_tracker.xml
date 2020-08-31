@@ -296,6 +296,7 @@ xmlns:app="http://schemas.android.com/apk/res-auto">
                     style="@style/MediumDarkTextView"
                     android:gravity="center"
                     tools:text="You are in Location name"
+                    android:singleLine="true"
                     android:text="@{locationTrackerViewModel.currentUserLocationMessage}"
                     android:paddingLeft="@dimen/small_view_padding"
                     android:paddingRight="@dimen/large_view_padding"
