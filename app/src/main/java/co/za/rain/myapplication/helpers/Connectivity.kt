@@ -10,9 +10,9 @@ import co.za.rain.myapplication.enums.ConnectionType
 
 object Connectivity {
 
-    fun getNetworkInfo(context: Context): NetworkInfo {
+    fun getNetworkInfo(context: Context): NetworkInfo? {
         val cm = context.getSystemService(AppCompatActivity.CONNECTIVITY_SERVICE) as ConnectivityManager
-        return cm.activeNetworkInfo
+        return cm?.activeNetworkInfo
     }
 
     fun isConnected(context: Context): Boolean {
