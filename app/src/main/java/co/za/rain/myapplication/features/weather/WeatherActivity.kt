@@ -42,8 +42,9 @@ class WeatherActivity : BaseChildActivity() {
     private fun addObservers() {
         weatherViewModel.showLoading.observe(this, Observer { onShowLoading(it) })
         weatherViewModel.currentLocation.observe(this, Observer { onCurrentLocationSet(it) })
-        weatherViewModel.weather.observe(this, Observer { onWeatherSet(it) })
         weatherViewModel.isNoLocation.observe(this, Observer { onNoLocation(it) })
+
+        weatherViewModel.weather.observe(this, Observer { onWeatherSet(it) })
     }
 
     private fun onShowLoading(isBusy: Boolean) {
@@ -51,11 +52,13 @@ class WeatherActivity : BaseChildActivity() {
     }
 
     private fun onCurrentLocationSet(location: UserLocation) {
-        weatherViewModel.getLocationWeather()
+        weatherViewModel.getLocationWeather()?.observe(this, Observer { onWeatherSet(it) })
+       // weatherViewModel.getLocationWeatherAsync()
     }
 
     private fun onWeatherSet(weather: WeatherModel) {
         hideCurrentLoadingDialog(this)
+        // Set description
     }
 
     private fun onNoLocation(isBusy: Boolean) {

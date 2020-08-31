@@ -92,7 +92,7 @@
                         style="@style/MediumLightTextView"
                         android:layout_width="0dp"
                         tools:text="2"
-                        android:text="@{weatherViewModel.weather.temp_min.toString()}"
+                        android:text="@{weatherViewModel.weather.current.clouds.toString()}"
                         android:layout_marginLeft="@dimen/medium_view_margin"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
@@ -113,7 +113,7 @@
                         style="@style/MediumLightTextView"
                         android:layout_width="0dp"
                         tools:text="1"
-                        android:text="@{weatherViewModel.weather.temp_max.toString()}"
+                        android:text="@{weatherViewModel.weather.current.humidity.toString()}"
                         android:layout_marginLeft="@dimen/medium_view_margin"
                         app:layout_constraintLeft_toRightOf="@id/imgWeatherIcon"
                         app:layout_constraintTop_toTopOf="parent"
@@ -127,6 +127,17 @@
                         android:layout_marginLeft="@dimen/small_view_margin"
                         android:layout_marginRight="@dimen/large_view_margin"
                         app:layout_constraintLeft_toRightOf="@id/tvWeather2"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"/>
+
+                    <TextView
+                        android:id="@+id/tvWeather3"
+                        style="@style/MediumLightTextView"
+                        android:layout_width="0dp"
+                        tools:text="Description"
+                        android:text="@{weatherViewModel.description}"
+                        android:layout_marginLeft="@dimen/medium_view_margin"
+                        app:layout_constraintLeft_toRightOf="@id/imgWeatherIcon2"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"/>
 

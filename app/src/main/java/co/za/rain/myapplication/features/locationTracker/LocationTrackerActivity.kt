@@ -6,7 +6,6 @@ import android.util.Log
 import android.view.KeyEvent
 import android.view.View
 import android.view.animation.Animation
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
