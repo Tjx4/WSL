@@ -224,7 +224,6 @@ xmlns:app="http://schemas.android.com/apk/res-auto">
                     android:layout_height="40dp"
                     android:layout_margin="5dp"
                     android:padding="8dp"
-                    android:onClick="onCloseLocationsButtonClicked"
                     android:background="@android:color/transparent"
                     android:scaleType="fitXY"
                     android:src="@drawable/ic_location_dark"
@@ -258,9 +257,7 @@ xmlns:app="http://schemas.android.com/apk/res-auto">
                     app:layout_constraintBottom_toBottomOf="parent"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
-            <!--
-            put view pager or recyclerView
-            -->
+
             <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/vpLocations"
                 android:layout_width="match_parent"
@@ -355,6 +352,46 @@ xmlns:app="http://schemas.android.com/apk/res-auto">
 
     </FrameLayout>
 
+    <LinearLayout
+        android:id="@+id/llLoadingContainer"
+        android:visibility="gone"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_gravity="bottom"
+        android:orientation="vertical"
+        android:padding="@dimen/large_view_padding"
+        android:clickable="true"
+        android:background="@color/lightBackground"
+        app:layout_constraintTop_toTopOf="@+id/flBottomContent"
+        app:layout_constraintBottom_toBottomOf="@+id/flBottomContent"
+        app:layout_constraintLeft_toLeftOf="@+id/flBottomContent"
+        app:layout_constraintRight_toRightOf="@+id/flBottomContent"
+        android:animateLayoutChanges="true">
+
+        <com.wang.avi.AVLoadingIndicatorView
+            android:id="@+id/progressBarLoading"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:indicatorName="BallClipRotateIndicator"
+            app:indicatorColor="@color/darkText"/>
+
+
+        <TextView
+            style="@style/MediumDarkTextView"
+            android:id="@+id/tvLoadingtext"
+            android:gravity="center"
+            tools:text="Loading please wait.."
+            android:text="@{locationTrackerViewModel.busyMessage}"
+            android:layout_marginTop="@dimen/small_view_margin"
+            android:paddingHorizontal="@dimen/large_view_padding"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+    </LinearLayout>
+
+
     <ImageButton
         android:id="@+id/imgMenu"
         android:layout_width="45dp"
@@ -369,20 +406,66 @@ xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
         android:id="@+id/clWeatherBar"
+        android:visibility="gone"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:padding="0dp"
         android:orientation="vertical"
         android:background="@drawable/weather_banner_backgroud"
         android:layout_marginLeft="@dimen/medium_view_padding"
+        app:layout_constraintLeft_toRightOf="@+id/imgMenu"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0"
         app:layout_constraintBottom_toBottomOf="parent"
         android:animateLayoutChanges="true">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <ImageView
+                android:id="@+id/imgWeather"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_margin="5dp"
+                android:padding="8dp"
+                android:background="@android:color/transparent"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_cloud"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+            <TextView
+                style="@style/MediumLightTextView"
+                android:id="@+id/tvWeatherHeading"
+                android:gravity="center"
+                tools:text="@string/location_name"
+                android:textStyle="bold"
+                android:text="@{locationTrackerViewModel.currentLocation.name}"
+                android:paddingHorizontal="@dimen/large_view_padding"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+            <ImageButton
+                android:id="@+id/imgBCloseWeather"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_margin="5dp"
+                android:padding="8dp"
+                android:onClick="onCloseWeatherClicked"
+                android:background="@android:color/transparent"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_close_light"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/clWeatherSubContainer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -434,12 +517,6 @@ xmlns:app="http://schemas.android.com/apk/res-auto">
                 app:layout_constraintBottom_toBottomOf="parent"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <FrameLayout
-            android:id="@+id/frFullWeatherDetails"
-            android:visibility="gone"
-            android:layout_width="match_parent"
-            android:layout_height="800dp"/>
 
     </LinearLayout>
 
