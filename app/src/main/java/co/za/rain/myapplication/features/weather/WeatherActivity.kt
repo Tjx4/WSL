@@ -64,8 +64,5 @@ class WeatherActivity : BaseChildActivity() {
         }
     }
 
-    private fun onBackButtonClicked(view: View) {
-
-    }
-
+    fun onBackButtonClicked(view: View) = onBackPressed()
 }

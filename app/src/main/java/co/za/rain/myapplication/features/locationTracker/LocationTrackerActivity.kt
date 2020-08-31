@@ -3,6 +3,7 @@ package co.za.rain.myapplication.features.locationTracker
 import android.location.Location
 import android.os.Bundle
 import android.util.Log
+import android.view.KeyEvent
 import android.view.View
 import android.view.animation.Animation
 import android.widget.Toast
@@ -23,6 +24,7 @@ import co.za.rain.myapplication.features.weather.WeatherActivity
 import co.za.rain.myapplication.helpers.getAreaName
 import co.za.rain.myapplication.helpers.showDialogFragment
 import co.za.rain.myapplication.helpers.showErrorAlert
+import co.za.rain.myapplication.helpers.showSuccessAlert
 import co.za.rain.myapplication.models.UserLocation
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener
@@ -56,7 +58,9 @@ class LocationTrackerActivity : BaseMapActivity(), LocationsAdapter.LocationClic
             checkLocationPermissionAndContinue()
         }
         else{
-            Toast.makeText(this, "Google play services unavailable", Toast.LENGTH_LONG).show()
+            showErrorAlert(this, getString(R.string.error), "Google play services unavailable", getString(R.string.ok)) {
+                finish()
+            }
         }
     }
 
@@ -78,12 +82,9 @@ class LocationTrackerActivity : BaseMapActivity(), LocationsAdapter.LocationClic
 
     private fun onLocationSaved(isSaved: Boolean) {
         llLoadingContainer.visibility = View.GONE
-        //Todo: Find better way to show message
-        Toast.makeText(this, "Location saved successfully", Toast.LENGTH_LONG).show()
-
-        llLocationsContainer.visibility = View.GONE
-        lldefContainer.visibility = View.VISIBLE
-        llSaveLocationContainer.visibility = View.GONE
+        showSuccessAlert(this, getString(R.string.success), getString(R.string.location_save_success), getString(R.string.ok)) {
+            showDefView()
+        }
     }
 
     private fun onNoLocations(message: String) {
@@ -138,12 +139,10 @@ class LocationTrackerActivity : BaseMapActivity(), LocationsAdapter.LocationClic
     }
 
     fun onSaveLocationButtonClicked(view: View) {
-        view.blinkView(0.6f, 1.0f, 100, 2, Animation.ABSOLUTE, 0, {
-            locationTrackerViewModel.checkAndSaveLocation()
-            llLocationsContainer.visibility = View.GONE
-            lldefContainer.visibility = View.GONE
-            llSaveLocationContainer.visibility = View.VISIBLE
-        }, {})
+        locationTrackerViewModel.checkAndSaveLocation()
+        llLocationsContainer.visibility = View.GONE
+        lldefContainer.visibility = View.GONE
+        llSaveLocationContainer.visibility = View.VISIBLE
     }
 
     fun onShowLocationsButtonClicked(view: View) {
@@ -160,15 +159,17 @@ class LocationTrackerActivity : BaseMapActivity(), LocationsAdapter.LocationClic
     }
 
     fun onCloseLocationsButtonClicked(view: View) {
-        llLocationsContainer.visibility = View.GONE
-        lldefContainer.visibility = View.VISIBLE
-        llSaveLocationContainer.visibility = View.GONE
+        showDefView()
     }
 
     fun onCloseSaveLocationButtonClicked(view: View) {
+        showDefView()
+        clErrorContainer.visibility = View.GONE
+    }
+
+    private fun showDefView() {
         llLocationsContainer.visibility = View.GONE
         lldefContainer.visibility = View.VISIBLE
-        clErrorContainer.visibility = View.GONE
         llSaveLocationContainer.visibility = View.GONE
     }
 
@@ -286,6 +287,17 @@ class LocationTrackerActivity : BaseMapActivity(), LocationsAdapter.LocationClic
       //  if (getPresenter().isMoved25Meters(currentCoordinates, userMarker!!.position)) {
       //      moveUserMarker(currentCoordinates)
       //  }
+    }
+
+    override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
+        if (keyCode == android.view.KeyEvent.KEYCODE_BACK && lldefContainer.visibility == View.VISIBLE) {
+            moveTaskToBack(true)
+            return true
+        }
+        else{
+           showDefView()
+        }
+        return false
     }
 
 }

@@ -39,6 +39,13 @@ private fun getFragmentDialog(title: String, layout: Int, newFragmentBaseBase: B
     return newFragmentBaseBase
 }
 
+fun showSuccessAlert(context: Context, title: String, message: String, buttonText: String = "Ok", callbackFun:  () -> Unit = {}){
+    val ab = setupBasicMessage(title, message, buttonText, "", "", callbackFun, {}, {}, context)
+    ab.setIcon(R.drawable.ic_success_dark)
+    ab.setCancelable(false)
+    showAlertMessage(ab, context)
+}
+
 fun showErrorAlert(context: Context, title: String, message: String, buttonText: String = "Ok", callbackFun: () -> Unit = {}){
     val ab = setupBasicMessage(title, message, buttonText, "", "", callbackFun, {}, {}, context)
     ab.setIcon(R.drawable.ic_error_dark)
