@@ -1,6 +1,13 @@
 package co.za.rain.myapplication.models
 
+import android.os.Parcelable
 import com.google.android.gms.maps.model.LatLng
-import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
-data class UserLocation(var name: String?, var description: String?, var coordinates: LatLng?, var dateTime: String?)
+@Parcelize
+data class UserLocation(
+    var name: String?,
+    var description: String?,
+    var coordinates: LatLng?,
+    var dateTime: String?
+): Parcelable

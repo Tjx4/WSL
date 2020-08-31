@@ -3,6 +3,7 @@ package co.za.rain.myapplication.constants
 const val PAYLOAD_KEY = "payload"
 const val TITLE = "tittle"
 const val USER = "user"
+const val USER_LOCATION = "user_location"
 const val LAYOUT = "layout"
 const val CATID = "catId"
 const val ACTIVITY_TRANSITION = "activity_transition"

@@ -18,6 +18,7 @@ import co.za.rain.myapplication.extensions.*
 import co.za.rain.myapplication.features.base.activity.BaseMapActivity
 import co.za.rain.myapplication.features.locationTracker.fragments.MoreInfoFragment
 import co.za.rain.myapplication.features.signalStrength.SignalStrengthActivity
+import co.za.rain.myapplication.features.weather.WeatherActivity
 import co.za.rain.myapplication.helpers.getAreaName
 import co.za.rain.myapplication.helpers.showDialogFragment
 import co.za.rain.myapplication.models.UserLocation
@@ -114,8 +115,7 @@ class LocationTrackerActivity : BaseMapActivity(), LocationsAdapter.LocationClic
 
     fun onViewWeatherClicked(view: View) {
         view.blinkView(0.5f, 1.0f, 100, 2, Animation.ABSOLUTE, 0, {
-            clWeatherBar.visibility = View.VISIBLE
-            locationTrackerViewModel.getLocationWeather()
+            navigateToActivity(WeatherActivity::class.java, SLIDE_IN_ACTIVITY)
         })
     }
 

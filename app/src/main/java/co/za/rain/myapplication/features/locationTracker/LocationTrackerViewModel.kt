@@ -18,6 +18,14 @@ import java.util.*
 
 class LocationTrackerViewModel(application: Application, private val locationTrackerRepository: LocationTrackerRepository) : BaseVieModel(application) {
 
+    private val _showLoading: MutableLiveData<Boolean> = MutableLiveData()
+    val showLoading: MutableLiveData<Boolean>
+        get() = _showLoading
+
+    private val _busyMessage: MutableLiveData<String> = MutableLiveData()
+    val busyMessage: MutableLiveData<String>
+        get() = _busyMessage
+
     private val _currentLocation: MutableLiveData<UserLocation> = MutableLiveData()
     val currentLocation: MutableLiveData<UserLocation>
         get() = _currentLocation
@@ -29,10 +37,6 @@ class LocationTrackerViewModel(application: Application, private val locationTra
     private val _locations: MutableLiveData<List<UserLocation>> = MutableLiveData()
     val locations: MutableLiveData<List<UserLocation>>
         get() = _locations
-
-    private var _weather: MutableLiveData<WeatherModel> = MutableLiveData()
-    var weather: MutableLiveData<WeatherModel> = MutableLiveData()
-        get() = _weather
 
     private var _errorMessage: MutableLiveData<String> = MutableLiveData()
     var errorMessage: MutableLiveData<String> = MutableLiveData()
@@ -50,10 +54,6 @@ class LocationTrackerViewModel(application: Application, private val locationTra
     val currentUserLocationMessage: MutableLiveData<String>
         get() = _currentUserLocationMessage
 
-    private val _showLoading: MutableLiveData<Boolean> = MutableLiveData()
-    val showLoading: MutableLiveData<Boolean>
-        get() = _showLoading
-
     private val _hideError: MutableLiveData<Boolean> = MutableLiveData()
     val hideError: MutableLiveData<Boolean>
         get() = _hideError
@@ -69,11 +69,6 @@ class LocationTrackerViewModel(application: Application, private val locationTra
     private val _locationDescription: MutableLiveData<String> = MutableLiveData()
     val locationDescription: MutableLiveData<String>
         get() = _locationDescription
-
-
-    private val _busyMessage: MutableLiveData<String> = MutableLiveData()
-    val busyMessage: MutableLiveData<String>
-        get() = _busyMessage
 
     private val _nolocationsMessage: MutableLiveData<String> = MutableLiveData()
     val nolocationsMessage: MutableLiveData<String>
@@ -179,18 +174,6 @@ class LocationTrackerViewModel(application: Application, private val locationTra
 
     fun checkIsValidLocationDescription(description: String): Boolean {
         return description.isValidDescription()
-    }
-
-    fun getLocationWeather(){
-        var currentCoordinates = _currentLocation.value?.coordinates ?: LatLng(0.0, 0.0) //Todo: Fix
-        ioScope.launch {
-            val weather = locationTrackerRepository.getWeather(API_KEY, currentCoordinates)
-
-            uiScope.launch {
-                _weather.value = weather
-            }
-
-        }
     }
 }
 

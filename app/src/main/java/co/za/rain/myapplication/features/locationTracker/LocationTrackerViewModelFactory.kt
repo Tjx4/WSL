@@ -10,9 +10,8 @@ import java.lang.IllegalArgumentException
 class LocationTrackerViewModelFactory (private val application: Application) : ViewModelProvider.Factory {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         if(modelClass.isAssignableFrom(LocationTrackerViewModel::class.java)){
-            val retrofitHelper = MyApi.retrofitHelper
             var database = WSLDatabase.getInstance(application)
-            val repository = LocationTrackerRepository(database, retrofitHelper)
+            val repository = LocationTrackerRepository(database)
             return LocationTrackerViewModel(application, repository) as T
         }
 

@@ -3,12 +3,9 @@ package co.za.rain.myapplication.features.locationTracker
 import co.za.dvt.myskilldevapp.features.database.tables.LocationsTable
 import co.za.rain.myapplication.database.WSLDatabase
 import co.za.rain.myapplication.extensions.stringToLatLong
-import co.za.rain.myapplication.helpers.RetrofitHelper
 import co.za.rain.myapplication.models.UserLocation
-import co.za.rain.myapplication.models.WeatherModel
-import com.google.android.gms.maps.model.LatLng
 
-class LocationTrackerRepository(private var database: WSLDatabase, private var retrofitHelper: RetrofitHelper) {
+class LocationTrackerRepository(private var database: WSLDatabase) {
     suspend fun getPreviousLocations() : List<UserLocation>{
         var savedLocations =  ArrayList<UserLocation>()
 
@@ -24,7 +21,4 @@ class LocationTrackerRepository(private var database: WSLDatabase, private var r
         database.LOCDAO.insert(locationsTable)
     }
 
-    suspend fun getWeather(apiKey: String, latLng: LatLng) : WeatherModel? {
-        return WeatherModel("Pretoria", 12.5, 21.4) //retrofitHelper?.getMyLocationWeather(apiKey, latLng?.latitude, latLng?.longitude)
-    }
 }
