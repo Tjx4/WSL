@@ -113,10 +113,17 @@ class LocationTrackerActivity : BaseMapActivity(), LocationsAdapter.LocationClic
         var dfdf = ""
     }
 
+    fun onViewWeatherClicked(view: View) {
+        view.blinkView(0.5f, 1.0f, 100, 2, Animation.ABSOLUTE, 0, {
+            clWeatherSubContainer.visibility = View.VISIBLE
+            frFullWeatherDetails.visibility = View.VISIBLE
+        })
+    }
+
     fun onMenuButtonClicked(view: View) {
         view.blinkView(0.6f, 1.0f, 100, 2, Animation.ABSOLUTE, 0, {
             navigateToActivity(SignalStrengthActivity::class.java, SLIDE_IN_ACTIVITY)
-        }, {})
+        })
     }
 
     fun onShowSaveLocationButtonClicked(view: View) {
@@ -210,13 +217,15 @@ class LocationTrackerActivity : BaseMapActivity(), LocationsAdapter.LocationClic
 
     override fun onRequestListenerSuccess(location: Location?) {
         val userCoordinates = LatLng(location!!.latitude, location!!.longitude)
-        plotUserMarker(userCoordinates,"You","Your location description")
-
         var locationName = getAreaName(LatLng(location.latitude, location.longitude), this)
-        locationTrackerViewModel.setCurrentLocationName(locationName)
-        locationTrackerViewModel.setCurrentLocationCoordinated(LatLng(location.latitude, location.longitude))
+        //Todo: Fix
+        locationTrackerViewModel.setCurrentLocation(UserLocation(locationName, "", userCoordinates, ""))
 
         locationTrackerViewModel.setCurrentLocationViewpagerMessage()
+        locationTrackerViewModel.getLocationWeather(LatLng(location.latitude, location.longitude))
+
+
+        //plotUserMarker(userCoordinates,"You","Your location description")
         goToLocationZoomNoAnimation(userCoordinates, USER_ZOOM)
     }
 

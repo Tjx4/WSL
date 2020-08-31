@@ -25,6 +25,6 @@ class LocationTrackerRepository(private var database: WSLDatabase, private var r
     }
 
     suspend fun getWeather(apiKey: String, latLng: LatLng) : WeatherModel? {
-        return retrofitHelper?.getMyLocationWeather(apiKey, latLng?.latitude, latLng?.longitude)
+        return WeatherModel("Pretoria", 12.5, 21.4) //retrofitHelper?.getMyLocationWeather(apiKey, latLng?.latitude, latLng?.longitude)
     }
 }

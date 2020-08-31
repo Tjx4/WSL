@@ -74,4 +74,19 @@
         <item name="android:textColor">@color/lightText</item>
         <item name="android:background">@drawable/rounded_button_background</item>
     </style>
+    <style name="Action_icons">
+        <item name="android:layout_width">@dimen/actionIcon</item>
+        <item name="android:layout_height">@dimen/actionIcon</item>
+        <item name="android:background">@drawable/round_solid_grey_background</item>
+        <item name="android:padding">8dp</item>
+        <item name="android:scaleType">fitCenter</item>
+    </style>
+
+    <style name="large_icons">
+        <item name="android:layout_width">@dimen/largeIcon</item>
+        <item name="android:layout_height">@dimen/largeIcon</item>
+        <item name="android:background">@drawable/round_solid_grey_background</item>
+        <item name="android:padding">8dp</item>
+        <item name="android:scaleType">fitCenter</item>
+    </style>
 </resources>

@@ -89,7 +89,7 @@ xmlns:app="http://schemas.android.com/apk/res-auto">
             <TextView
                 style="@style/MediumPlusDarkTextView"
                 tools:text="You are currently in location name"
-                android:text="@{locationTrackerViewModel.currentLocationViewPagerMessage}"
+                android:text="@{locationTrackerViewModel.currentUserLocationMessage}"
                 app:layout_constraintLeft_toRightOf="@+id/imgSaveLocation"
                 app:layout_constraintStart_toEndOf="@+id/imgSaveLocation"
                 app:layout_constraintRight_toRightOf="parent"
@@ -107,12 +107,9 @@ xmlns:app="http://schemas.android.com/apk/res-auto">
                 android:onClick="onShowSaveLocationButtonClicked">
 
                 <ImageView
+                    style="@style/Action_icons"
                     android:id="@+id/imgSaveLocation"
-                    android:layout_width="@dimen/mediumIcon"
-                    android:layout_height="@dimen/mediumIcon"
                     android:src="@drawable/ic_locations_save_dark"
-                    android:background="@color/lightBackground"
-                    android:scaleType="fitCenter"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintTop_toBottomOf="parent"/>
@@ -141,12 +138,9 @@ xmlns:app="http://schemas.android.com/apk/res-auto">
                 android:onClick="onShowLocationsButtonClicked">
 
                 <ImageView
+                    style="@style/Action_icons"
                     android:id="@+id/imgViewLocations"
-                    android:layout_width="@dimen/mediumIcon"
-                    android:layout_height="@dimen/mediumIcon"
                     android:src="@drawable/ic_locations_list_dark"
-                    android:background="@color/lightBackground"
-                    android:scaleType="fitCenter"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintTop_toBottomOf="parent"/>
@@ -162,6 +156,49 @@ xmlns:app="http://schemas.android.com/apk/res-auto">
                     app:layout_constraintStart_toEndOf="@+id/imgViewLocations"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#f1f1f1"
+                android:paddingVertical="@dimen/small_view_padding"
+                android:paddingHorizontal="@dimen/xsmall_view_padding"
+                android:onClick="onViewWeatherClicked">
+
+                <ImageView
+                    style="@style/large_icons"
+                    android:id="@+id/imgViewWeather"
+                    android:src="@drawable/ic_cloud_dark"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintTop_toBottomOf="parent"/>
+
+                <TextView
+                    android:id="@+id/tvViewWeather"
+                    style="@style/MediumDarkTextView"
+                    android:layout_width="0dp"
+                    android:layout_marginHorizontal="@dimen/medium_view_margin"
+                    android:text="View weather in your area"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toRightOf="@+id/imgViewWeather"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+                <ImageView
+                    style="@style/Action_icons"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:padding="1dp"
+                    android:scaleType="fitCenter"
+                    android:id="@+id/imgPreviewWeather"
+                    android:src="@drawable/ic_shev_right_grey"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintTop_toBottomOf="parent"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -262,7 +299,7 @@ xmlns:app="http://schemas.android.com/apk/res-auto">
                     style="@style/MediumDarkTextView"
                     android:gravity="center"
                     tools:text="You are in Location name"
-                    android:text="@{locationTrackerViewModel.currentLocationViewPagerMessage}"
+                    android:text="@{locationTrackerViewModel.currentUserLocationMessage}"
                     android:paddingLeft="@dimen/small_view_padding"
                     android:paddingRight="@dimen/large_view_padding"
                     app:layout_constraintLeft_toLeftOf="parent"
@@ -320,73 +357,96 @@ xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <ImageButton
         android:id="@+id/imgMenu"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
         android:src="@drawable/ic_menu_dark"
         android:background="@android:color/transparent"
-        android:padding="@dimen/xsmall_view_padding"
         android:scaleType="fitCenter"
         android:layout_margin="@dimen/medium_view_margin"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         android:onClick="onMenuButtonClicked"/>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:id="@+id/clWeatherBar"
         android:layout_width="0dp"
-        android:layout_height="40dp"
+        android:layout_height="wrap_content"
+        android:padding="0dp"
+        android:orientation="vertical"
         android:background="@drawable/weather_banner_backgroud"
-        android:paddingHorizontal="@dimen/small_view_padding"
         android:layout_marginLeft="@dimen/medium_view_padding"
-        app:layout_constraintLeft_toRightOf="@+id/imgMenu"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/imgMenu"
-        app:layout_constraintBottom_toBottomOf="@+id/imgMenu">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:animateLayoutChanges="true">
 
-        <TextView
-            android:id="@+id/tvWeather"
-            style="@style/MediumLightTextView"
-            android:layout_width="0dp"
-            tools:text="2"
-            android:text="@{locationTrackerViewModel.weather.temp_min.toString()}"
-            android:layout_marginLeft="@dimen/medium_view_margin"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:visibility="gone"
+            android:id="@+id/clWeatherSubContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:paddingHorizontal="@dimen/small_view_padding"
+            android:paddingVertical="@dimen/small_view_padding">
 
-        <ImageView
-            android:id="@+id/imgWeatherIcon"
-            android:layout_height="19dp"
-            android:layout_width="19dp"
-            android:src="@drawable/ic_weather"
-            android:layout_marginLeft="@dimen/small_view_margin"
-            app:layout_constraintLeft_toRightOf="@id/tvWeather"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            <TextView
+                android:id="@+id/tvWeather"
+                style="@style/MediumLightTextView"
+                android:layout_width="0dp"
+                tools:text="2"
+                android:text="@{locationTrackerViewModel.weather.temp_min.toString()}"
+                android:layout_marginLeft="@dimen/medium_view_margin"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
 
+            <ImageView
+                android:id="@+id/imgWeatherIcon"
+                android:layout_height="19dp"
+                android:layout_width="19dp"
+                android:src="@drawable/ic_cloud"
+                android:layout_marginLeft="@dimen/small_view_margin"
+                app:layout_constraintLeft_toRightOf="@id/tvWeather"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
 
-        <TextView
-            android:id="@+id/tvWeather2"
-            style="@style/MediumLightTextView"
-            android:layout_width="0dp"
-            tools:text="1"
-            android:text="@{locationTrackerViewModel.weather.temp_max.toString()}"
-            android:layout_marginLeft="@dimen/medium_view_margin"
-            app:layout_constraintLeft_toRightOf="@id/imgWeatherIcon"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            <TextView
+                android:id="@+id/tvWeather2"
+                style="@style/MediumLightTextView"
+                android:layout_width="0dp"
+                tools:text="1"
+                android:text="@{locationTrackerViewModel.weather.temp_max.toString()}"
+                android:layout_marginLeft="@dimen/medium_view_margin"
+                app:layout_constraintLeft_toRightOf="@id/imgWeatherIcon"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
 
-        <ImageView
-            android:id="@+id/imgWeatherIcon2"
-            android:layout_height="19dp"
-            android:layout_width="19dp"
-            android:src="@drawable/ic_weather_sun"
-            android:layout_marginLeft="@dimen/small_view_margin"
-            app:layout_constraintLeft_toRightOf="@id/tvWeather2"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            <ImageView
+                android:id="@+id/imgWeatherIcon2"
+                android:layout_height="19dp"
+                android:layout_width="19dp"
+                android:src="@drawable/ic_weather_sun"
+                android:layout_marginLeft="@dimen/small_view_margin"
+                android:layout_marginRight="@dimen/large_view_margin"
+                app:layout_constraintLeft_toRightOf="@id/tvWeather2"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <FrameLayout
+            android:id="@+id/frFullWeatherDetails"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="800dp"/>
+
+    </LinearLayout>
+
+    <!--
+    Image src binding
+    https://stackoverflow.com/questions/35809290/set-drawable-resource-id-in-androidsrc-for-imageview-using-data-binding-in-andr
+    -->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

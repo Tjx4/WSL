@@ -18,9 +18,17 @@ import java.util.*
 
 class LocationTrackerViewModel(application: Application, private val locationTrackerRepository: LocationTrackerRepository) : BaseVieModel(application) {
 
-    private val _currentLocation: MutableLiveData<String> = MutableLiveData()
-    val currentLocation: MutableLiveData<String>
+    private val _currentLocation: MutableLiveData<UserLocation> = MutableLiveData()
+    val currentLocation: MutableLiveData<UserLocation>
         get() = _currentLocation
+
+    private val _selectedLocation: MutableLiveData<UserLocation> = MutableLiveData()
+    val selectedLocation: MutableLiveData<UserLocation>
+        get() = _selectedLocation
+
+    private val _locations: MutableLiveData<List<UserLocation>> = MutableLiveData()
+    val locations: MutableLiveData<List<UserLocation>>
+        get() = _locations
 
     private var _weather: MutableLiveData<WeatherModel> = MutableLiveData()
     var weather: MutableLiveData<WeatherModel> = MutableLiveData()
@@ -30,14 +38,6 @@ class LocationTrackerViewModel(application: Application, private val locationTra
     var errorMessage: MutableLiveData<String> = MutableLiveData()
         get() = _errorMessage
 
-    private val _locations: MutableLiveData<List<UserLocation>> = MutableLiveData()
-    val locations: MutableLiveData<List<UserLocation>>
-        get() = _locations
-
-    private val _selectedLocation: MutableLiveData<UserLocation> = MutableLiveData()
-    val selectedLocation: MutableLiveData<UserLocation>
-        get() = _selectedLocation
-
     private val _locationIndexMessage: MutableLiveData<String> = MutableLiveData()
     val locationIndexMessage: MutableLiveData<String>
         get() = _locationIndexMessage
@@ -46,9 +46,9 @@ class LocationTrackerViewModel(application: Application, private val locationTra
     val locationIndex: MutableLiveData<Int>
         get() = _locationIndex
 
-    private val _currentLocationViewPagerMessage: MutableLiveData<String> = MutableLiveData()
-    val currentLocationViewPagerMessage: MutableLiveData<String>
-        get() = _currentLocationViewPagerMessage
+    private val _currentUserLocationMessage: MutableLiveData<String> = MutableLiveData()
+    val currentUserLocationMessage: MutableLiveData<String>
+        get() = _currentUserLocationMessage
 
     private val _showLoading: MutableLiveData<Boolean> = MutableLiveData()
     val showLoading: MutableLiveData<Boolean>
@@ -65,10 +65,6 @@ class LocationTrackerViewModel(application: Application, private val locationTra
     private val _locationName: MutableLiveData<String> = MutableLiveData()
     val locationName: MutableLiveData<String>
         get() = _locationName
-
-    private val _coordinates: MutableLiveData<LatLng> = MutableLiveData()
-    val coordinates: MutableLiveData<LatLng>
-        get() = _coordinates
 
     private val _locationDescription: MutableLiveData<String> = MutableLiveData()
     val locationDescription: MutableLiveData<String>
@@ -116,16 +112,13 @@ delay(2000)
         }
     }
 
-    fun setCurrentLocationName(currentLocationName: String){
-        _currentLocation.value = currentLocationName
-    }
-
-    fun setCurrentLocationCoordinated(coordinates: LatLng){
-        _coordinates.value = coordinates
+    fun setCurrentLocation(userLocation: UserLocation){
+        _currentLocation.value = userLocation
+        _currentLocation.value?.coordinates = LatLng(userLocation.coordinates?.latitude ?: 0.0, userLocation.coordinates?.longitude ?: 0.0)
     }
 
     fun setCurrentLocationViewpagerMessage(){
-        _currentLocationViewPagerMessage.value = "You are currently in ${_currentLocation.value ?: "Unknown location"}"
+        _currentUserLocationMessage.value = "You are currently in ${_currentLocation.value?.name ?: "Unknown location"}"
     }
 
     fun checkAndSaveLocation(){
@@ -148,7 +141,7 @@ delay(2000)
         var location = LocationsTable()
         location.name = name
         location.description = description
-        location.coordinates = _coordinates.value?.latLngToString()
+        location.coordinates = _currentLocation.value?.coordinates?.latLngToString()
         location.dateTime = SimpleDateFormat("dd/M/yyyy hh:mm:ss").format(Date())
 
         ioScope.launch {
