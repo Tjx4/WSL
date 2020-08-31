@@ -70,7 +70,10 @@ class LocationTrackerViewModel(application: Application, private val locationTra
     val locationDescription: MutableLiveData<String>
         get() = _locationDescription
 
-    var busyMessage: String = ""
+
+    private val _busyMessage: MutableLiveData<String> = MutableLiveData()
+    val busyMessage: MutableLiveData<String>
+        get() = _busyMessage
 
     private val _nolocationsMessage: MutableLiveData<String> = MutableLiveData()
     val nolocationsMessage: MutableLiveData<String>
@@ -89,7 +92,7 @@ class LocationTrackerViewModel(application: Application, private val locationTra
     }
 
     fun fetchAndSetPreviouseLocations(){
-        busyMessage = "Fetching locations, please wait"
+        _busyMessage.value = "Fetching locations, please wait"
         _showLoading.value = true
 
         ioScope.launch {
@@ -132,7 +135,7 @@ class LocationTrackerViewModel(application: Application, private val locationTra
             return
         }
 
-        busyMessage = "Adding location, please wait"
+        _busyMessage.value  = "Adding location, please wait"
         _showLoading.value = true
 
         var location = LocationsTable()

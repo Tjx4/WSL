@@ -23,8 +23,7 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/bannerBackground">
+                android:layout_height="wrap_content">
 
                 <TextView
                     style="@style/MediumDarkTextView"
@@ -53,7 +52,8 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                style="@style/RowDetails">
+                style="@style/RowDetails"
+                android:background="@color/bannerBackground">
 
                 <TextView
                     style="@style/MediumDarkTextView"
@@ -63,8 +63,9 @@
                     android:text="Name :"
                     android:textStyle="bold"
                     app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"/>
+                    app:layout_constraintTop_toTopOf="@+id/tvMoreInfoName"
+                    app:layout_constraintVertical_bias="0"
+                    app:layout_constraintBottom_toBottomOf="@+id/tvMoreInfoName"/>
 
                 <TextView
                     style="@style/MediumDarkTextView"
@@ -81,25 +82,24 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                style="@style/RowDetails"
-                android:background="@color/bannerBackground">
+                style="@style/RowDetails">
 
                 <TextView
                     style="@style/MediumDarkTextView"
                     android:id="@+id/tvMoreInfoDescriptionTitle"
                     android:layout_width="wrap_content"
-                    android:gravity="center"
                     android:text="Description :"
                     android:textStyle="bold"
                     app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"/>
+                    app:layout_constraintTop_toTopOf="@+id/tvMoreInfoDescription"
+                    app:layout_constraintVertical_bias="0"
+                    app:layout_constraintBottom_toBottomOf="@+id/tvMoreInfoDescription"/>
 
                 <TextView
                     style="@style/MediumDarkTextView"
                     android:id="@+id/tvMoreInfoDescription"
                     android:layout_width="0dp"
-                    tools:text="Location description"
+                    tools:text="Location description tion description tion description tion description tion description"
                     android:text="@{locationTrackerViewModel.selectedLocation.description}"
                     android:layout_marginLeft="@dimen/small_view_margin"
                     app:layout_constraintLeft_toRightOf="@+id/tvMoreInfoDescriptionTitle"
@@ -109,7 +109,8 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                style="@style/RowDetails">
+                style="@style/RowDetails"
+                android:background="@color/bannerBackground">
                 <TextView
                     style="@style/MediumDarkTextView"
                     android:id="@+id/tvMoreInfoCoordinatesTitle"
@@ -118,8 +119,9 @@
                     android:text="Coordinates :"
                     android:textStyle="bold"
                     app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"/>
+                    app:layout_constraintTop_toTopOf="@+id/tvMoreInfoCoordinates"
+                    app:layout_constraintVertical_bias="0"
+                    app:layout_constraintBottom_toBottomOf="@+id/tvMoreInfoCoordinates"/>
 
                 <TextView
                     style="@style/MediumDarkTextView"
@@ -136,8 +138,7 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                style="@style/RowDetails"
-                android:background="@color/bannerBackground">
+                style="@style/RowDetails">
 
                 <TextView
                     style="@style/MediumDarkTextView"
@@ -146,8 +147,9 @@
                     android:text="Date time :"
                     android:textStyle="bold"
                     app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"/>
+                    app:layout_constraintTop_toTopOf="@+id/tvMoreInfoDateTime"
+                    app:layout_constraintVertical_bias="0"
+                    app:layout_constraintBottom_toBottomOf="@+id/tvMoreInfoDateTime"/>
 
                 <TextView
                     style="@style/MediumDarkTextView"
