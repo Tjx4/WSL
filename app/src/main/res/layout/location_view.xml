@@ -6,7 +6,8 @@
     android:layout_height="match_parent"
     android:paddingHorizontal="@dimen/medium_view_padding"
     android:layout_marginHorizontal="@dimen/small_view_margin"
-    android:background="#fff">
+    android:background="@color/lightBackground">
+
     <TextView
         android:id="@+id/tvLocationName"
         style="@style/LargeDarkTextView"
@@ -24,16 +25,24 @@
     <TextView
         android:id="@+id/tvLocationDateTime"
         style="@style/SmallGreyTextView"
+        android:layout_width="0dp"
         android:gravity="end"
-        android:text="You were at this location on 00/00/00 00:00"
-        android:layout_marginTop="@dimen/small_view_margin"
+        android:text="You were here on 00/00/00 00:00"
+        android:layout_marginRight="@dimen/medium_view_margin"
+        app:layout_constraintTop_toTopOf="@+id/btnMore"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/btnMore"
+        app:layout_constraintLeft_toLeftOf="parent" />
+
+    <Button
+        style="@style/DefButton"
+        android:layout_height="70dp"
+        android:layout_width="70dp"
+        android:id="@+id/btnMore"
+        android:text="@string/more"
         app:layout_constraintTop_toBottomOf="@+id/tvLocationDescription"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintVertical_bias="1"
-        app:layout_constraintLeft_toLeftOf="parent"/>
+        app:layout_constraintRight_toRightOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-
-

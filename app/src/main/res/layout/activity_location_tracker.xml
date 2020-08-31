@@ -188,8 +188,8 @@ xmlns:app="http://schemas.android.com/apk/res-auto">
             <!--
             put view pager or recyclerView
             -->
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvLocations"
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/vpLocations"
                 android:layout_width="match_parent"
                 android:layout_height="180dp"
                 android:background="@color/lightBackground"/>
@@ -210,7 +210,7 @@ xmlns:app="http://schemas.android.com/apk/res-auto">
 
         <LinearLayout
             android:id="@+id/llSaveLocationContainer"
-            android:visibility="visible"
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"

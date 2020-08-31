@@ -9,19 +9,18 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.PagerSnapHelper
-import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.SnapHelper
+import androidx.viewpager2.widget.ViewPager2
 import co.za.rain.myapplication.R
 import co.za.rain.myapplication.adapters.LocationsAdapter
 import co.za.rain.myapplication.constants.USER_MARKER_TAG
 import co.za.rain.myapplication.databinding.ActivityLocationTrackerBinding
 import co.za.rain.myapplication.extensions.*
 import co.za.rain.myapplication.features.base.activity.BaseMapActivity
+import co.za.rain.myapplication.features.locationTracker.fragments.MoreInfoFragment
 import co.za.rain.myapplication.features.signalStrength.SignalStrengthActivity
 import co.za.rain.myapplication.helpers.getAreaName
 import co.za.rain.myapplication.helpers.hideCurrentLoadingDialog
+import co.za.rain.myapplication.helpers.showDialogFragment
 import co.za.rain.myapplication.helpers.showLoadingDialog
 import co.za.rain.myapplication.models.UserLocation
 import com.google.android.gms.maps.GoogleMap
@@ -87,35 +86,24 @@ class LocationTrackerActivity : BaseMapActivity(), LocationsAdapter.LocationClic
     private fun onNolocations(message: String) {
         hideCurrentLoadingDialog(this)
         tvNoLocations.visibility = View.VISIBLE
-        rvLocations.visibility = View.GONE
+        vpLocations.visibility = View.GONE
     }
 
     fun onLocationsUpdated(locations: List<UserLocation>) {
         var  locationsAdapter = LocationsAdapter(this, locations)
         locationsAdapter.setLocationClickListener(this)
 
-        val categoryLayoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-        categoryLayoutManager.initialPrefetchItemCount = locations.size
+        vpLocations?.adapter = locationsAdapter
 
-        rvLocations?.layoutManager = categoryLayoutManager
-        rvLocations?.adapter = locationsAdapter
-
-        val snapHelper: SnapHelper = object : PagerSnapHelper() {
-            override fun findTargetSnapPosition(
-                layoutManager: RecyclerView.LayoutManager,
-                velocityX: Int,
-                velocityY: Int
-            ): Int {
-                var indx = super.findTargetSnapPosition(layoutManager, velocityX, velocityY)
-                var maxLocations = locationTrackerViewModel.locations.value?.size ?: 0
-                var finalIndex = if(indx >= maxLocations) { maxLocations } else { indx }
-                locationTrackerViewModel.setLocationIndx(finalIndex)
-                locationTrackerViewModel.setPositionMessage(finalIndex)
-                return indx
+        vpLocations.registerOnPageChangeCallback(object :
+            ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+                locationTrackerViewModel.setLocationIndx(position)
+                locationTrackerViewModel.setPositionMessage(position)
             }
-        }
+        })
 
-        snapHelper.attachToRecyclerView(rvLocations)
         plotLocationMarkers(locations)
         hideCurrentLoadingDialog(this)
     }
@@ -206,8 +194,13 @@ class LocationTrackerActivity : BaseMapActivity(), LocationsAdapter.LocationClic
     }
 
     private fun onHideErrorSet(hideError: Boolean) {
-        //Todo: add fade out animation
         clErrorContainer.visibility = View.GONE
+    }
+
+    fun showMoreInfoOnLocation() {
+        var usersFragment = MoreInfoFragment.newInstance()
+        usersFragment.isCancelable = true
+        showDialogFragment("getString(R.string.select_user)",R.layout.fragment_more_info, usersFragment,this)
     }
 
     override fun onRequestListenerSuccess(location: Location?) {
@@ -235,17 +228,17 @@ class LocationTrackerActivity : BaseMapActivity(), LocationsAdapter.LocationClic
             val name = airport.name
             val description = airport.description
             val airportCoordinates = airport.coordinates
-            plotAirportMarker(airportCoordinates, name, description, tag) //"${airport.coordinates.latitude} | ${airport.coordinates.longitude}"
+            plotUserLocationMarker(airportCoordinates, name, description, tag) //"${airport.coordinates.latitude} | ${airport.coordinates.longitude}"
             indx++
         }
         listenForMarkerClicks()
         goToLocationZoomAnimated(airportMarkers[0].position, LOCATION_ZOOM)
     }
 
-    fun plotAirportMarker(latLng: LatLng?, title: String?,  snippet: String?, tag: String?) {
+    private fun plotUserLocationMarker(latLng: LatLng?, title: String?, snippet: String?, tag: String?) {
         val airportMarker = getMarker(latLng, title, snippet, tag)
-        //val markerIcon = getBitmapDescriptor(R.drawable.ic_pin)
-        //airportMarker.setIcon(markerIcon)
+        val markerIcon = getBitmapDescriptor(R.drawable.location_marker)
+        airportMarker.setIcon(markerIcon)
         airportMarkers.add(airportMarker)
     }
 
