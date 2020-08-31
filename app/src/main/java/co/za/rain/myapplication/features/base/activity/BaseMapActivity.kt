@@ -112,9 +112,6 @@ abstract class BaseMapActivity : BaseParentActivity(), OnMapReadyCallback, Conne
         moveLocationButtonToBottomRight()
         googleMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(this, R.raw.blue_map_style))
         mapReady(googleMap)
-
-
-
     }
 
     protected fun moveLocationButtonToBottomRight() {
