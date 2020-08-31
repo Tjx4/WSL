@@ -52,8 +52,8 @@ class WeatherActivity : BaseChildActivity() {
     }
 
     private fun onCurrentLocationSet(location: UserLocation) {
-        weatherViewModel.getLocationWeather()?.observe(this, Observer { onWeatherSet(it) })
-       // weatherViewModel.getLocationWeatherAsync()
+        // weatherViewModel.getLocationWeather()?.observe(this, Observer { onWeatherSet(it) })
+       weatherViewModel.getLocationWeatherAsync()
     }
 
     private fun onWeatherSet(weather: WeatherModel) {
