@@ -204,7 +204,8 @@ class LocationTrackerActivity : BaseMapActivity(), LocationsAdapter.LocationClic
     private fun onErrorMessageSet(errorMessage: String) {
         clErrorContainer.visibility = View.VISIBLE
         clErrorContainer.blinkView(0.6f, 1.0f, 500, 2, Animation.ABSOLUTE, 0, {
-            locationTrackerViewModel.startHideErrorCountDown()
+            //Todo: finalize
+            //locationTrackerViewModel.startHideErrorCountDown()
         })
     }
 
