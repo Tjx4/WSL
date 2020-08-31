@@ -5,4 +5,5 @@
     <string name="signal_monitor">Signal monitor</string>
     <string name="save_location">Save location</string>
     <string name="more">More</string>
+    <string name="location_name">Location name</string>
 </resources>

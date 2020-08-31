@@ -19,9 +19,7 @@ import co.za.rain.myapplication.features.base.activity.BaseMapActivity
 import co.za.rain.myapplication.features.locationTracker.fragments.MoreInfoFragment
 import co.za.rain.myapplication.features.signalStrength.SignalStrengthActivity
 import co.za.rain.myapplication.helpers.getAreaName
-import co.za.rain.myapplication.helpers.hideCurrentLoadingDialog
 import co.za.rain.myapplication.helpers.showDialogFragment
-import co.za.rain.myapplication.helpers.showLoadingDialog
 import co.za.rain.myapplication.models.UserLocation
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener
@@ -62,7 +60,7 @@ class LocationTrackerActivity : BaseMapActivity(), LocationsAdapter.LocationClic
     private fun addObservers() {
         locationTrackerViewModel.showLoading.observe(this, Observer { onShowLoading(it) })
         locationTrackerViewModel.locations.observe(this, Observer { onLocationsUpdated(it) })
-        locationTrackerViewModel.nolocationsMessage.observe(this, Observer { onNolocations(it) })
+        locationTrackerViewModel.nolocationsMessage.observe(this, Observer { onNoLocations(it) })
         locationTrackerViewModel.locationIndex.observe(this, Observer { onLocationSelected(it) })
         locationTrackerViewModel.locationSaved.observe(this, Observer { onLocationSaved(it) })
         locationTrackerViewModel.errorMessage.observe(this, Observer { onErrorMessageSet(it) })
@@ -76,7 +74,8 @@ class LocationTrackerActivity : BaseMapActivity(), LocationsAdapter.LocationClic
     }
 
     private fun onLocationSaved(isSaved: Boolean) {
-        hideCurrentLoadingDialog(this)
+        llLoadingContainer.visibility = View.GONE
+        //Todo: Find better way to show message
         Toast.makeText(this, "Location saved successfully", Toast.LENGTH_LONG).show()
 
         llLocationsContainer.visibility = View.GONE
@@ -84,8 +83,8 @@ class LocationTrackerActivity : BaseMapActivity(), LocationsAdapter.LocationClic
         llSaveLocationContainer.visibility = View.GONE
     }
 
-    private fun onNolocations(message: String) {
-        hideCurrentLoadingDialog(this)
+    private fun onNoLocations(message: String) {
+        llLoadingContainer.visibility = View.GONE
         tvNoLocations.visibility = View.VISIBLE
         vpLocations.visibility = View.GONE
     }
@@ -106,7 +105,7 @@ class LocationTrackerActivity : BaseMapActivity(), LocationsAdapter.LocationClic
         })
 
         plotLocationMarkers(locations)
-        hideCurrentLoadingDialog(this)
+        llLoadingContainer.visibility = View.GONE
     }
 
     override fun onServiceCategoryClick(view: View, position: Int) {
@@ -115,8 +114,14 @@ class LocationTrackerActivity : BaseMapActivity(), LocationsAdapter.LocationClic
 
     fun onViewWeatherClicked(view: View) {
         view.blinkView(0.5f, 1.0f, 100, 2, Animation.ABSOLUTE, 0, {
-            clWeatherSubContainer.visibility = View.VISIBLE
-            frFullWeatherDetails.visibility = View.VISIBLE
+            clWeatherBar.visibility = View.VISIBLE
+            locationTrackerViewModel.getLocationWeather()
+        })
+    }
+
+    fun onCloseWeatherClicked(view: View) {
+        view.blinkView(0.5f, 1.0f, 100, 2, Animation.ABSOLUTE, 0, {
+            clWeatherBar.visibility = View.GONE
         })
     }
 
@@ -218,13 +223,8 @@ class LocationTrackerActivity : BaseMapActivity(), LocationsAdapter.LocationClic
     override fun onRequestListenerSuccess(location: Location?) {
         val userCoordinates = LatLng(location!!.latitude, location!!.longitude)
         var locationName = getAreaName(LatLng(location.latitude, location.longitude), this)
-        //Todo: Fix
         locationTrackerViewModel.setCurrentLocation(UserLocation(locationName, "", userCoordinates, ""))
-
-        locationTrackerViewModel.setCurrentLocationViewpagerMessage()
-        locationTrackerViewModel.getLocationWeather(LatLng(location.latitude, location.longitude))
-
-
+        locationTrackerViewModel.setUserCurrentLocationMessage()
         //plotUserMarker(userCoordinates,"You","Your location description")
         goToLocationZoomNoAnimation(userCoordinates, USER_ZOOM)
     }
@@ -276,7 +276,7 @@ class LocationTrackerActivity : BaseMapActivity(), LocationsAdapter.LocationClic
     }
 
     private fun onShowLoading(isBusy: Boolean) {
-        showLoadingDialog(locationTrackerViewModel.busyMessage, this)
+        llLoadingContainer.visibility = View.VISIBLE
     }
 
 

@@ -95,9 +95,6 @@ class LocationTrackerViewModel(application: Application, private val locationTra
         ioScope.launch {
             val locations = locationTrackerRepository.getPreviousLocations()
 
-            //Todo: show loader in container
-delay(2000)
-
             uiScope.launch {
                 if(locations.isNotEmpty()){
                     _locations.value = locations
@@ -117,7 +114,7 @@ delay(2000)
         _currentLocation.value?.coordinates = LatLng(userLocation.coordinates?.latitude ?: 0.0, userLocation.coordinates?.longitude ?: 0.0)
     }
 
-    fun setCurrentLocationViewpagerMessage(){
+    fun setUserCurrentLocationMessage(){
         _currentUserLocationMessage.value = "You are currently in ${_currentLocation.value?.name ?: "Unknown location"}"
     }
 
@@ -181,10 +178,10 @@ delay(2000)
         return description.isValidDescription()
     }
 
-
-    fun getLocationWeather(latLng: LatLng){
+    fun getLocationWeather(){
+        var currentCoordinates = _currentLocation.value?.coordinates ?: LatLng(0.0, 0.0) //Todo: Fix
         ioScope.launch {
-            val weather = locationTrackerRepository.getWeather(API_KEY, latLng)
+            val weather = locationTrackerRepository.getWeather(API_KEY, currentCoordinates)
 
             uiScope.launch {
                 _weather.value = weather

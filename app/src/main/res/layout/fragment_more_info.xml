@@ -13,24 +13,24 @@
         android:layout_height="match_parent"
         android:background="@android:color/transparent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/lightBackground"
             android:paddingBottom="@dimen/medium_view_padding"
+            android:orientation="vertical"
             tools:context=".features.locationTracker.fragments.MoreInfoFragment">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/clTopBanner"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/bannerBackground"
-                app:layout_constraintTop_toTopOf="parent">
+                android:background="@color/bannerBackground">
 
                 <TextView
                     style="@style/MediumDarkTextView"
                     android:gravity="center"
                     android:text="Location details"
+                    android:textStyle="bold"
                     android:paddingLeft="@dimen/small_view_padding"
                     android:paddingRight="@dimen/large_view_padding"
                     app:layout_constraintLeft_toLeftOf="parent"
@@ -52,55 +52,70 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <TextView
-                style="@style/LargeDarkTextView"
-                android:id="@+id/tvMoreInfoName"
-                android:gravity="center"
-                tools:text="Name of location"
-                android:text="@{locationTrackerViewModel.selectedLocation.name}"
-                android:paddingHorizontal="@dimen/large_view_padding"
-                android:layout_marginTop="@dimen/small_view_margin"
-                app:layout_constraintTop_toBottomOf="@+id/clTopBanner"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"/>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                style="@style/RowDetails">
 
-            <TextView
-                style="@style/MediumDarkTextView"
-                android:id="@+id/tvMoreInfoDescription"
-                android:gravity="center"
-                tools:text="Location description"
-                android:text="@{locationTrackerViewModel.selectedLocation.description}"
-                android:layout_marginTop="@dimen/medium_view_margin"
-                android:paddingHorizontal="@dimen/large_view_padding"
-                app:layout_constraintTop_toBottomOf="@+id/tvMoreInfoName"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"/>
+                <TextView
+                    style="@style/MediumDarkTextView"
+                    android:id="@+id/tvMoreInfoName"
+                    android:gravity="center"
+                    tools:text="Name of location"
+                    android:text="@{locationTrackerViewModel.selectedLocation.name}"
+                    app:layout_constraintLeft_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
 
-            <TextView
-                style="@style/MediumDarkTextView"
-                android:id="@+id/tvMoreInfoCoordinates"
-                android:gravity="center"
-                tools:text="Location coordinates"
-                android:text="@{locationTrackerViewModel.selectedLocation.coordinates.toString()}"
-                android:layout_marginTop="@dimen/medium_view_margin"
-                android:paddingHorizontal="@dimen/large_view_padding"
-                app:layout_constraintTop_toBottomOf="@+id/tvMoreInfoDescription"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <TextView
-                style="@style/MediumDarkTextView"
-                android:id="@+id/tvMoreInfoDateTime"
-                android:gravity="center"
-                tools:text="Location coordinates"
-                android:text="@{locationTrackerViewModel.selectedLocation.dateTime}"
-                android:layout_marginTop="@dimen/medium_view_margin"
-                android:paddingHorizontal="@dimen/large_view_padding"
-                app:layout_constraintTop_toBottomOf="@+id/tvMoreInfoCoordinates"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"/>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                style="@style/RowDetails"
+                android:background="@color/bannerBackground">
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                <TextView
+                    style="@style/MediumDarkTextView"
+                    android:id="@+id/tvMoreInfoDescription"
+                    android:gravity="center"
+                    tools:text="Location description"
+                    android:text="@{locationTrackerViewModel.selectedLocation.description}"
+                    app:layout_constraintLeft_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                style="@style/RowDetails">
+
+                <TextView
+                    style="@style/MediumDarkTextView"
+                    android:id="@+id/tvMoreInfoCoordinates"
+                    android:gravity="center"
+                    tools:text="Location coordinates"
+                    android:text="@{locationTrackerViewModel.selectedLocation.coordinates.toString()}"
+                    app:layout_constraintLeft_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                style="@style/RowDetails"
+                android:background="@color/bannerBackground">
+
+                <TextView
+                    style="@style/MediumDarkTextView"
+                    android:id="@+id/tvMoreInfoDateTime"
+                    android:gravity="center"
+                    tools:text="Location date time"
+                    android:text="@{locationTrackerViewModel.selectedLocation.dateTime}"
+                    app:layout_constraintLeft_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        </LinearLayout>
 
     </ScrollView>
 
