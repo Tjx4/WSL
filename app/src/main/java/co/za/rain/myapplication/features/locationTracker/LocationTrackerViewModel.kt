@@ -153,7 +153,7 @@ class LocationTrackerViewModel(application: Application, private val locationTra
 
     fun startHideErrorCountDown(){
         ioScope.launch {
-            delay(3000)
+            delay(6000)
             uiScope.launch {
                 _hideError.value = true
             }

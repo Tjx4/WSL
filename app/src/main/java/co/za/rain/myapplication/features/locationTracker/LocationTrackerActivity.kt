@@ -164,13 +164,13 @@ class LocationTrackerActivity : BaseMapActivity(), LocationsAdapter.LocationClic
 
     fun onCloseSaveLocationButtonClicked(view: View) {
         showDefView()
-        clErrorContainer.visibility = View.GONE
     }
 
     private fun showDefView() {
         llLocationsContainer.visibility = View.GONE
         lldefContainer.visibility = View.VISIBLE
         llSaveLocationContainer.visibility = View.GONE
+        clErrorContainer.visibility = View.GONE
     }
 
     override fun onGpsOff() {
