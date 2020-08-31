@@ -6,4 +6,9 @@
     <string name="save_location">Save location</string>
     <string name="more">More</string>
     <string name="location_name">Location name</string>
+    <string name="ok">Ok</string>
+    <string name="no_location_message">There was a problem retrieving your location, please try again later</string>
+    <string name="error">Error</string>
+    <string name="no_gps">Your GPS is off please turn it on to use the app</string>
+    <string name="permission_denied">To use this app u need %1$s Please go to settings and enable it</string>
 </resources>

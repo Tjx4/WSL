@@ -10,7 +10,123 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@drawable/weather_day_bg"
             tools:context=".features.weather.WeatherActivity">
+
+            <LinearLayout
+                android:id="@+id/clWeatherBar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="0dp"
+                android:orientation="vertical"
+                android:background="@drawable/weather_banner_backgroud"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:animateLayoutChanges="true">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="parent">
+
+                    <ImageButton
+                        android:id="@+id/imgbBack"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_margin="5dp"
+                        android:padding="8dp"
+                        android:onClick="onBackButtonClicked"
+                        android:background="@android:color/transparent"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/ic_back_dark"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"/>
+
+                    <TextView
+                        style="@style/MediumLightTextView"
+                        android:id="@+id/tvWeatherHeading"
+                        android:layout_width="0dp"
+                        android:gravity="right"
+                        tools:text="@string/location_name"
+                        android:textStyle="bold"
+                        android:text="@{weatherViewModel.currentLocation.name}"
+                        android:paddingHorizontal="@dimen/small_view_padding"
+                        app:layout_constraintLeft_toRightOf="@+id/imgbBack"
+                        app:layout_constraintRight_toLeftOf="@+id/imgWeather"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"/>
+
+                    <ImageView
+                        android:id="@+id/imgWeather"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_margin="5dp"
+                        android:padding="8dp"
+                        android:background="@android:color/transparent"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/ic_cloud"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"/>
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/clWeatherSubContainer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:paddingHorizontal="@dimen/small_view_padding"
+                    android:paddingVertical="@dimen/small_view_padding">
+
+                    <TextView
+                        android:id="@+id/tvWeather"
+                        style="@style/MediumLightTextView"
+                        android:layout_width="0dp"
+                        tools:text="2"
+                        android:text="@{weatherViewModel.weather.temp_min.toString()}"
+                        android:layout_marginLeft="@dimen/medium_view_margin"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"/>
+
+                    <ImageView
+                        android:id="@+id/imgWeatherIcon"
+                        android:layout_height="19dp"
+                        android:layout_width="19dp"
+                        android:src="@drawable/ic_cloud"
+                        android:layout_marginLeft="@dimen/small_view_margin"
+                        app:layout_constraintLeft_toRightOf="@id/tvWeather"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"/>
+
+                    <TextView
+                        android:id="@+id/tvWeather2"
+                        style="@style/MediumLightTextView"
+                        android:layout_width="0dp"
+                        tools:text="1"
+                        android:text="@{weatherViewModel.weather.temp_max.toString()}"
+                        android:layout_marginLeft="@dimen/medium_view_margin"
+                        app:layout_constraintLeft_toRightOf="@id/imgWeatherIcon"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"/>
+
+                    <ImageView
+                        android:id="@+id/imgWeatherIcon2"
+                        android:layout_height="19dp"
+                        android:layout_width="19dp"
+                        android:src="@drawable/ic_weather_sun"
+                        android:layout_marginLeft="@dimen/small_view_margin"
+                        android:layout_marginRight="@dimen/large_view_margin"
+                        app:layout_constraintLeft_toRightOf="@id/tvWeather2"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </LinearLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

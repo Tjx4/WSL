@@ -23,11 +23,19 @@ class WeatherViewModel(application: Application, private val weatherRepository: 
     val currentLocation: MutableLiveData<UserLocation>
         get() = _currentLocation
 
+    private val _isNoLocation: MutableLiveData<Boolean> = MutableLiveData()
+    val isNoLocation: MutableLiveData<Boolean>
+        get() = _isNoLocation
+
     private var _weather: MutableLiveData<WeatherModel> = MutableLiveData()
     var weather: MutableLiveData<WeatherModel> = MutableLiveData()
         get() = _weather
 
-    fun setCurrentLocation(location: UserLocation){
+    fun checkAndSetLocation(location: UserLocation?){
+        if(location == null){
+            _isNoLocation.value = true
+            return
+        }
         _currentLocation.value = location
     }
 

@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.viewpager2.widget.ViewPager2
 import co.za.rain.myapplication.R
 import co.za.rain.myapplication.adapters.LocationsAdapter
+import co.za.rain.myapplication.constants.USER_LOCATION
 import co.za.rain.myapplication.constants.USER_MARKER_TAG
 import co.za.rain.myapplication.databinding.ActivityLocationTrackerBinding
 import co.za.rain.myapplication.extensions.*
@@ -21,6 +22,7 @@ import co.za.rain.myapplication.features.signalStrength.SignalStrengthActivity
 import co.za.rain.myapplication.features.weather.WeatherActivity
 import co.za.rain.myapplication.helpers.getAreaName
 import co.za.rain.myapplication.helpers.showDialogFragment
+import co.za.rain.myapplication.helpers.showErrorAlert
 import co.za.rain.myapplication.models.UserLocation
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener
@@ -115,13 +117,9 @@ class LocationTrackerActivity : BaseMapActivity(), LocationsAdapter.LocationClic
 
     fun onViewWeatherClicked(view: View) {
         view.blinkView(0.5f, 1.0f, 100, 2, Animation.ABSOLUTE, 0, {
-            navigateToActivity(WeatherActivity::class.java, SLIDE_IN_ACTIVITY)
-        })
-    }
-
-    fun onCloseWeatherClicked(view: View) {
-        view.blinkView(0.5f, 1.0f, 100, 2, Animation.ABSOLUTE, 0, {
-            clWeatherBar.visibility = View.GONE
+            var payload = Bundle()
+            payload.putParcelable(USER_LOCATION, locationTrackerViewModel.currentLocation.value)
+            navigateToActivity(WeatherActivity::class.java, SLIDE_IN_ACTIVITY, payload)
         })
     }
 
@@ -175,14 +173,17 @@ class LocationTrackerActivity : BaseMapActivity(), LocationsAdapter.LocationClic
     }
 
     override fun onGpsOff() {
-        var gpsOff = true
-        //val noGPSFragment: NoGPSFragment = NoGPSFragment.newInstance(this, null)
-        //NotificationHelper.showFragmentDialog(this, getString(R.string.gps_off),R.layout.fragment_no_g, noGPSFragment)
-        // dialogFragment = noGPSFragment
+        showErrorAlert(this, getString(R.string.error), getString(R.string.no_gps), getString(R.string.ok)) {
+            //Todo: go to settings and accept permission
+            finish()
+        }
     }
 
     override fun onLocationPermissionDenied() {
-        //TODO: Do some onLocationPermissionDenied
+        showErrorAlert(this, getString(R.string.error), getString(R.string.permission_denied, "(Location permission),"), getString(R.string.ok)) {
+            //Todo: go to settings and accept permission
+            finish()
+        }
     }
 
     override fun initMap() {

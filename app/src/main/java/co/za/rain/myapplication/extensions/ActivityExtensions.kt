@@ -5,6 +5,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.view.View
@@ -130,21 +131,13 @@ private fun getStatusBarHeight(context: Context): Int {
     return context.resources.getDimensionPixelSize(resourceId)
 }
 
-//===================
-
-
-/*
-fun Activity.setTranslucentStatusBar(statusBarAlpha: Int, callBack: () -> Unit = {}) {
-    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT)
-        return
-
-    setTransparentStatusBar(this)
-    addTranslucentView(this, statusBarAlpha)
-    callBack()
+fun AppCompatActivity.openPermissionSettings() {
+    // Todo: fix
+    val intent = Intent(
+        "Permissions",
+        Uri.parse("package:" + this.packageName)
+    )
+    intent.addCategory(Intent.CATEGORY_DEFAULT)
+    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+    this.startActivity(intent)
 }
-
-fun setTransparentStatusBar(activity: Activity) {
-    transparentStatusBar(activity)
-    setRootView(activity)
-}
-*/
