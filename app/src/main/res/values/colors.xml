@@ -4,6 +4,7 @@
     <color name="colorPrimaryDark">#111111</color>
     <color name="colorTransStatusBar">#7E111111</color>
     <color name="colorAccent">#03DAC5</color>
+    <color name="colorSplashBackground">#2da5e1</color>
     <color name="statusBarColor">#990F0F0F</color>
     <color name="darkBackground">#000</color>
     <color name="editTextBackground">#f4f4f6</color>
@@ -13,4 +14,5 @@
     <color name="greyLightText">#aaa</color>
     <color name="greyDarkText">#555</color>
     <color name="darkText">#111</color>
+    <color name="errorBackground">#dd0055</color>
 </resources>

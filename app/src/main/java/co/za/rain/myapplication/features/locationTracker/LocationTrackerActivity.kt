@@ -17,10 +17,9 @@ import co.za.rain.myapplication.R
 import co.za.rain.myapplication.adapters.LocationsAdapter
 import co.za.rain.myapplication.constants.USER_MARKER_TAG
 import co.za.rain.myapplication.databinding.ActivityLocationTrackerBinding
-import co.za.rain.myapplication.extensions.DEFAULT_STATUS_BAR_ALPHA
-import co.za.rain.myapplication.extensions.blinkView
-import co.za.rain.myapplication.extensions.setTranslucentStatusBar
+import co.za.rain.myapplication.extensions.*
 import co.za.rain.myapplication.features.base.activity.BaseMapActivity
+import co.za.rain.myapplication.features.signalStrength.SignalStrengthActivity
 import co.za.rain.myapplication.helpers.getAreaName
 import co.za.rain.myapplication.helpers.hideCurrentLoadingDialog
 import co.za.rain.myapplication.helpers.showLoadingDialog
@@ -30,7 +29,6 @@ import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import kotlinx.android.synthetic.main.activity_location_tracker.*
-import kotlinx.android.synthetic.main.activity_location_tracker.view.*
 
 class LocationTrackerActivity : BaseMapActivity(), LocationsAdapter.LocationClickListener {
     private lateinit var binding: ActivityLocationTrackerBinding
@@ -68,6 +66,8 @@ class LocationTrackerActivity : BaseMapActivity(), LocationsAdapter.LocationClic
         locationTrackerViewModel.nolocationsMessage.observe(this, Observer { onNolocations(it) })
         locationTrackerViewModel.locationIndex.observe(this, Observer { onLocationSelected(it) })
         locationTrackerViewModel.locationSaved.observe(this, Observer { onLocationSaved(it) })
+        locationTrackerViewModel.errorMessage.observe(this, Observer { onErrorMessageSet(it) })
+        locationTrackerViewModel.hideError.observe(this, Observer { onHideErrorSet(it) })
     }
 
     private fun onLocationSelected(position: Int) {
@@ -126,7 +126,7 @@ class LocationTrackerActivity : BaseMapActivity(), LocationsAdapter.LocationClic
 
     fun onMenuButtonClicked(view: View) {
         view.blinkView(0.6f, 1.0f, 100, 2, Animation.ABSOLUTE, 0, {
-            Toast.makeText(this, "onMenuButtonClicked", Toast.LENGTH_LONG).show()
+            navigateToActivity(SignalStrengthActivity::class.java, SLIDE_IN_ACTIVITY)
         }, {})
     }
 
@@ -140,7 +140,7 @@ class LocationTrackerActivity : BaseMapActivity(), LocationsAdapter.LocationClic
 
     fun onSaveLocationButtonClicked(view: View) {
         view.blinkView(0.6f, 1.0f, 100, 2, Animation.ABSOLUTE, 0, {
-            locationTrackerViewModel.saveLocation()
+            locationTrackerViewModel.checkAndSaveLocation()
             llLocationsContainer.visibility = View.GONE
             lldefContainer.visibility = View.GONE
             llSaveLocationContainer.visibility = View.VISIBLE
@@ -196,8 +196,18 @@ class LocationTrackerActivity : BaseMapActivity(), LocationsAdapter.LocationClic
             onGpsOff()
             return
         }
+    }
 
-         var dfdf= isGpsON
+    private fun onErrorMessageSet(errorMessage: String) {
+        clErrorContainer.visibility = View.VISIBLE
+        clErrorContainer.blinkView(0.6f, 1.0f, 500, 2, Animation.ABSOLUTE, 0, {
+            locationTrackerViewModel.startHideErrorCountDown()
+        })
+    }
+
+    private fun onHideErrorSet(hideError: Boolean) {
+        //Todo: add fade out animation
+        clErrorContainer.visibility = View.GONE
     }
 
     override fun onRequestListenerSuccess(location: Location?) {
@@ -209,8 +219,8 @@ class LocationTrackerActivity : BaseMapActivity(), LocationsAdapter.LocationClic
         )
 
         var locationName = getAreaName(LatLng(location.latitude, location.longitude), this)
-        locationTrackerViewModel.setCurrentLocation(locationName)
-        locationTrackerViewModel.setCurrentLocationMessage()
+        locationTrackerViewModel.setCurrentLocationName(locationName)
+        locationTrackerViewModel.setCurrentLocationViewpagerMessage()
         locationTrackerViewModel.setCurrentLocationCoordinated(LatLng(location.latitude, location.longitude))
         goToLocationZoomNoAnimation(userCoordinates, USER_ZOOM)
     }

@@ -210,11 +210,11 @@ xmlns:app="http://schemas.android.com/apk/res-auto">
 
         <LinearLayout
             android:id="@+id/llSaveLocationContainer"
-            android:visibility="gone"
+            android:visibility="visible"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingBottom="@dimen/large_view_padding"
+            android:paddingBottom="@dimen/xlarge_view_padding"
             android:background="@color/lightBackground"
             app:layout_constraintBottom_toBottomOf="parent">
 
@@ -227,7 +227,7 @@ xmlns:app="http://schemas.android.com/apk/res-auto">
                     style="@style/MediumDarkTextView"
                     android:gravity="center"
                     tools:text="You are in Location name"
-                    android:text="@{locationTrackerViewModel.currentLocationMessage}"
+                    android:text="@{locationTrackerViewModel.currentLocationViewPagerMessage}"
                     android:paddingLeft="@dimen/small_view_padding"
                     android:paddingRight="@dimen/large_view_padding"
                     app:layout_constraintLeft_toLeftOf="parent"
@@ -273,8 +273,9 @@ xmlns:app="http://schemas.android.com/apk/res-auto">
             <Button
                 style="@style/DefButton"
                 android:id="@+id/btnSignIn"
-                android:text="Save location"
+                android:text="@string/save_location"
                 android:onClick="onSaveLocationButtonClicked"
+                android:layout_marginBottom="@dimen/xlarge_view_padding"
                 android:layout_marginTop="@dimen/medium_view_margin"
                 android:layout_marginHorizontal="@dimen/medium_view_margin" />
 
@@ -305,6 +306,43 @@ xmlns:app="http://schemas.android.com/apk/res-auto">
         android:layout_height="@dimen/def_statusbar_height"
         android:background="@color/colorTransStatusBar"
         app:layout_constraintTop_toTopOf="parent"/>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clErrorContainer"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_gravity="bottom"
+        android:focusableInTouchMode="true"
+        android:paddingHorizontal="@dimen/small_view_padding"
+        android:background="@color/errorBackground"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <ImageView
+            android:id="@+id/imgErroIcon"
+            android:layout_height="55dp"
+            android:layout_width="55dp"
+            tools:text="Error message"
+            android:src="@drawable/ic_error_light"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <TextView
+            style="@style/MediumLightTextView"
+            android:id="@+id/txtErrorMessage"
+            android:layout_width="0dp"
+            tools:text="Error message"
+            android:text="@{locationTrackerViewModel.errorMessage}"
+            android:gravity="left"
+            android:layout_marginLeft="@dimen/small_view_margin"
+            app:layout_constraintLeft_toRightOf="@+id/imgErroIcon"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

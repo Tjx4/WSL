@@ -3,10 +3,13 @@ package co.za.rain.myapplication.features.locationTracker
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import co.za.dvt.myskilldevapp.features.database.tables.LocationsTable
+import co.za.rain.myapplication.extensions.isValidDescription
+import co.za.rain.myapplication.extensions.isValidName
 import co.za.rain.myapplication.extensions.latLngToString
 import co.za.rain.myapplication.features.base.viewmodel.BaseVieModel
 import co.za.rain.myapplication.models.UserLocation
 import com.google.android.gms.maps.model.LatLng
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
@@ -16,6 +19,10 @@ class LocationTrackerViewModel(application: Application, private val locationTra
     private val _currentLocation: MutableLiveData<String> = MutableLiveData()
     val currentLocation: MutableLiveData<String>
         get() = _currentLocation
+
+    private var _errorMessage: MutableLiveData<String> = MutableLiveData()
+    var errorMessage: MutableLiveData<String> = MutableLiveData()
+        get() = _errorMessage
 
     private val _locations: MutableLiveData<List<UserLocation>> = MutableLiveData()
     val locations: MutableLiveData<List<UserLocation>>
@@ -29,13 +36,17 @@ class LocationTrackerViewModel(application: Application, private val locationTra
     val locationIndex: MutableLiveData<Int>
         get() = _locationIndex
 
-    private val _currentLocationMessage: MutableLiveData<String> = MutableLiveData()
-    val currentLocationMessage: MutableLiveData<String>
-        get() = _currentLocationMessage
+    private val _currentLocationViewPagerMessage: MutableLiveData<String> = MutableLiveData()
+    val currentLocationViewPagerMessage: MutableLiveData<String>
+        get() = _currentLocationViewPagerMessage
 
     private val _showLoading: MutableLiveData<Boolean> = MutableLiveData()
     val showLoading: MutableLiveData<Boolean>
         get() = _showLoading
+
+    private val _hideError: MutableLiveData<Boolean> = MutableLiveData()
+    val hideError: MutableLiveData<Boolean>
+        get() = _hideError
 
     private val _locationSaved: MutableLiveData<Boolean> = MutableLiveData()
     val locationSaved: MutableLiveData<Boolean>
@@ -92,32 +103,43 @@ class LocationTrackerViewModel(application: Application, private val locationTra
         }
     }
 
-    fun setCurrentLocation(currentLocationName: String){
+    fun setCurrentLocationName(currentLocationName: String){
         _currentLocation.value = currentLocationName
     }
 
-    fun setCurrentLocationMessage(){
-        _currentLocationMessage.value = "You are currently in ${_currentLocation.value ?: "Unknown location"}"
+    fun setCurrentLocationViewpagerMessage(){
+        _currentLocationViewPagerMessage.value = "You are currently in ${_currentLocation.value ?: "Unknown location"}"
     }
 
     fun setCurrentLocationCoordinated(coordinates: LatLng){
         _coordinates.value = coordinates
     }
 
-    fun saveLocation(){
+    fun checkAndSaveLocation(){
+        var name = _locationName.value ?: ""
+        var description = _locationDescription.value ?: ""
+
+        if(!checkIsValidLocationName(name)){
+            errorMessage.value = "Please enter a location name"
+            return
+        }
+
+        if(!checkIsValidLocationDescription(description)){
+            errorMessage.value = "Please enter at least 10 characters for your description"
+            return
+        }
+
         _showLoading.value = true
         busyMessage = "Adding location, please wait"
 
-        var dateTime = SimpleDateFormat("dd/M/yyyy hh:mm:ss").format(Date())
-
-        var userLocation = LocationsTable()
-        userLocation.name = _locationName.value
-        userLocation.description = _locationDescription.value
-        userLocation.coordinates = _coordinates.value?.latLngToString()
-        userLocation.dateTime = dateTime
+        var location = LocationsTable()
+        location.name = name
+        location.description = description
+        location.coordinates = _coordinates.value?.latLngToString()
+        location.dateTime = SimpleDateFormat("dd/M/yyyy hh:mm:ss").format(Date())
 
         ioScope.launch {
-            val locations = locationTrackerRepository.addLocationToDb(userLocation)
+            saveUserLocation(location)
 
             uiScope.launch {
                 _locationSaved.value = true
@@ -126,6 +148,27 @@ class LocationTrackerViewModel(application: Application, private val locationTra
             }
 
         }
+    }
+
+    fun startHideErrorCountDown(){
+        ioScope.launch {
+            delay(3000)
+            uiScope.launch {
+                _hideError.value = true
+            }
+        }
+    }
+
+    suspend fun saveUserLocation(location: LocationsTable){
+        locationTrackerRepository.addLocationToDb(location)
+    }
+
+    fun checkIsValidLocationName(name: String): Boolean {
+        return name.isValidName()
+    }
+
+    fun checkIsValidLocationDescription(description: String): Boolean {
+        return description.isValidDescription()
     }
 
 }
