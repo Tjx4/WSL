@@ -32,7 +32,7 @@ class LocationsAdapter(context: Context, private val userLocations: List<UserLoc
         holder.locationDateTimeTv.text = "You were here on ${userLocation.dateTime}"
         holder.moreBtn.setOnClickListener {
             it.blinkView(0.6f, 1.0f, 100, 2, Animation.ABSOLUTE, 0, {
-                locationTrackerActivity.showMoreInfoOnLocation()
+                locationTrackerActivity.showMoreInfoOnLocation(position)
             })
         }
     }

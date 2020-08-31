@@ -163,6 +163,10 @@ class LocationTrackerViewModel(application: Application, private val locationTra
         }
     }
 
+    fun setSelectedLocation(position: Int){
+       _selectedLocation.value = _locations?.value?.get(position)
+    }
+
     suspend fun saveUserLocation(location: LocationsTable){
         locationTrackerRepository.addLocationToDb(location)
     }

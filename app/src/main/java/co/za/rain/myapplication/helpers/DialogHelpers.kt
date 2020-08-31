@@ -26,10 +26,10 @@ fun showDialogFragment(title: String, Layout: Int, newFragmentBaseBase: BaseDial
     activity.activeDialogFragment = newFragment
 }
 
-private fun getFragmentDialog(title: String, Layout: Int, newFragmentBaseBase: BaseDialogFragment) : BaseDialogFragment {
+private fun getFragmentDialog(title: String, layout: Int, newFragmentBaseBase: BaseDialogFragment) : BaseDialogFragment {
     val payload = newFragmentBaseBase.arguments
     payload?.putString(TITLE, title)
-    payload?.putInt(LAYOUT, Layout)
+    payload?.putInt(LAYOUT, layout)
 
     newFragmentBaseBase.arguments = payload
     return newFragmentBaseBase

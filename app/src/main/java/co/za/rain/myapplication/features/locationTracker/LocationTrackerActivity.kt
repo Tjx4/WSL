@@ -67,6 +67,7 @@ class LocationTrackerActivity : BaseMapActivity(), LocationsAdapter.LocationClic
         locationTrackerViewModel.locationSaved.observe(this, Observer { onLocationSaved(it) })
         locationTrackerViewModel.errorMessage.observe(this, Observer { onErrorMessageSet(it) })
         locationTrackerViewModel.hideError.observe(this, Observer { onHideErrorSet(it) })
+        locationTrackerViewModel.selectedLocation.observe(this, Observer { onLocationselected(it) })
     }
 
     private fun onLocationSelected(position: Int) {
@@ -197,10 +198,14 @@ class LocationTrackerActivity : BaseMapActivity(), LocationsAdapter.LocationClic
         clErrorContainer.visibility = View.GONE
     }
 
-    fun showMoreInfoOnLocation() {
-        var usersFragment = MoreInfoFragment.newInstance()
-        usersFragment.isCancelable = true
-        showDialogFragment("getString(R.string.select_user)",R.layout.fragment_more_info, usersFragment,this)
+    fun showMoreInfoOnLocation(position: Int) {
+        locationTrackerViewModel.setSelectedLocation(position)
+    }
+
+    fun onLocationselected(location: UserLocation) {
+        var moreInfoFragment = MoreInfoFragment.newInstance()
+        moreInfoFragment.isCancelable = true
+        showDialogFragment("getString(R.string.select_user)", R.layout.fragment_more_info, moreInfoFragment,this)
     }
 
     override fun onRequestListenerSuccess(location: Location?) {
