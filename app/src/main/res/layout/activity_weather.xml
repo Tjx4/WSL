@@ -19,14 +19,15 @@
                 android:layout_height="match_parent"
                 android:padding="0dp"
                 android:orientation="vertical"
-                android:background="@drawable/weather_banner_backgroud"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                android:animateLayoutChanges="true">
+                android:animateLayoutChanges="true"
+                android:background="@drawable/weather_bar_background">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@drawable/weather_bar_background"
                     app:layout_constraintBottom_toBottomOf="parent">
 
                     <ImageButton
@@ -38,7 +39,7 @@
                         android:onClick="onBackButtonClicked"
                         android:background="@android:color/transparent"
                         android:scaleType="fitXY"
-                        android:src="@drawable/ic_back_dark"
+                        android:src="@drawable/ic_back_light"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"/>
@@ -75,11 +76,12 @@
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/clWeatherSubContainer"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@android:color/transparent"
+                    android:background="@drawable/weather_item_background"
+                    android:layout_margin="@dimen/small_view_margin"
                     android:paddingHorizontal="@dimen/small_view_padding"
-                    android:paddingVertical="@dimen/small_view_padding">
+                    android:paddingVertical="@dimen/large_view_padding">
 
                     <TextView
                         android:id="@+id/tvWeather"
