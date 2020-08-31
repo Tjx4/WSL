@@ -5,12 +5,6 @@ import co.za.rain.myapplication.models.WeatherModel
 import retrofit2.http.*
 
 interface RetrofitHelper {
-
-    @FormUrlEncoded
-    @POST(LOCATION_WEATHER)
-    suspend fun registerMember(@FieldMap params: Map<String, String>): WeatherModel?
-
-    //@GET(LOCATION_WEATHER)
-    //suspend fun getAllUsers(@Header("authorization") token: String): List<WeatherModel>?
-
+    @GET(LOCATION_WEATHER)
+    suspend fun getMyLocationWeather(@Query("key") api_key: String?, @Query("latitude") latitude: Double?, @Query("longitude") longitude: Double?): WeatherModel?
 }

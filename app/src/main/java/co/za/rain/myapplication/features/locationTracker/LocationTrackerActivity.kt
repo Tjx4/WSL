@@ -210,16 +210,13 @@ class LocationTrackerActivity : BaseMapActivity(), LocationsAdapter.LocationClic
 
     override fun onRequestListenerSuccess(location: Location?) {
         val userCoordinates = LatLng(location!!.latitude, location!!.longitude)
-        plotUserMarker(
-            userCoordinates,
-            "You",
-            "Your location description"
-        )
+        plotUserMarker(userCoordinates,"You","Your location description")
 
         var locationName = getAreaName(LatLng(location.latitude, location.longitude), this)
         locationTrackerViewModel.setCurrentLocationName(locationName)
-        locationTrackerViewModel.setCurrentLocationViewpagerMessage()
         locationTrackerViewModel.setCurrentLocationCoordinated(LatLng(location.latitude, location.longitude))
+
+        locationTrackerViewModel.setCurrentLocationViewpagerMessage()
         goToLocationZoomNoAnimation(userCoordinates, USER_ZOOM)
     }
 
@@ -233,7 +230,7 @@ class LocationTrackerActivity : BaseMapActivity(), LocationsAdapter.LocationClic
             val name = airport.name
             val description = airport.description
             val airportCoordinates = airport.coordinates
-            plotUserLocationMarker(airportCoordinates, name, description, tag) //"${airport.coordinates.latitude} | ${airport.coordinates.longitude}"
+            plotUserLocationMarker(airportCoordinates, name, description, tag)
             indx++
         }
         listenForMarkerClicks()

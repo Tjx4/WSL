@@ -3,6 +3,7 @@ package co.za.rain.myapplication.features.locationTracker
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import co.za.dvt.myskilldevapp.features.database.tables.LocationsTable
+import co.za.rain.myapplication.constants.API_KEY
 import co.za.rain.myapplication.extensions.isValidDescription
 import co.za.rain.myapplication.extensions.isValidName
 import co.za.rain.myapplication.extensions.latLngToString
@@ -80,7 +81,6 @@ class LocationTrackerViewModel(application: Application, private val locationTra
         get() = _nolocationsMessage
 
     init {
-        _weather.value = WeatherModel("Sunny side", 14.8, 3.6)
     }
 
     fun setLocationIndx(index: Int){
@@ -120,12 +120,12 @@ delay(2000)
         _currentLocation.value = currentLocationName
     }
 
-    fun setCurrentLocationViewpagerMessage(){
-        _currentLocationViewPagerMessage.value = "You are currently in ${_currentLocation.value ?: "Unknown location"}"
-    }
-
     fun setCurrentLocationCoordinated(coordinates: LatLng){
         _coordinates.value = coordinates
+    }
+
+    fun setCurrentLocationViewpagerMessage(){
+        _currentLocationViewPagerMessage.value = "You are currently in ${_currentLocation.value ?: "Unknown location"}"
     }
 
     fun checkAndSaveLocation(){
@@ -188,5 +188,16 @@ delay(2000)
         return description.isValidDescription()
     }
 
+
+    fun getLocationWeather(latLng: LatLng){
+        ioScope.launch {
+            val weather = locationTrackerRepository.getWeather(API_KEY, latLng)
+
+            uiScope.launch {
+                _weather.value = weather
+            }
+
+        }
+    }
 }
 

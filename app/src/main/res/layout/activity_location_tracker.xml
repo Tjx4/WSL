@@ -87,8 +87,9 @@ xmlns:app="http://schemas.android.com/apk/res-auto">
                 app:layout_constraintBottom_toBottomOf="parent"/>
 
             <TextView
-                style="@style/LargeDarkTextView"
-                android:text="How can we help you?"
+                style="@style/MediumPlusDarkTextView"
+                tools:text="You are currently in location name"
+                android:text="@{locationTrackerViewModel.currentLocationViewPagerMessage}"
                 app:layout_constraintLeft_toRightOf="@+id/imgSaveLocation"
                 app:layout_constraintStart_toEndOf="@+id/imgSaveLocation"
                 app:layout_constraintRight_toRightOf="parent"
@@ -339,7 +340,8 @@ xmlns:app="http://schemas.android.com/apk/res-auto">
         android:layout_marginLeft="@dimen/medium_view_padding"
         app:layout_constraintLeft_toRightOf="@+id/imgMenu"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/imgMenu">
+        app:layout_constraintTop_toTopOf="@+id/imgMenu"
+        app:layout_constraintBottom_toBottomOf="@+id/imgMenu">
 
         <TextView
             android:id="@+id/tvWeather"

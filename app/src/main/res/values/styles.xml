@@ -45,6 +45,13 @@
     <style name="MediumLightTextView" parent="MediumTextView">
         <item name="android:textColor">@color/lightText</item>
     </style>
+    <style name="MediumPlusTextView" parent="BaseTextView">
+    <item name="android:textSize">@dimen/medium_plus_text</item>
+    <item name="android:gravity">left</item>
+</style>
+    <style name="MediumPlusDarkTextView" parent="MediumPlusTextView">
+        <item name="android:textColor">@color/darkText</item>
+    </style>
     <style name="LargeTextView" parent="BaseTextView">
         <item name="android:textSize">@dimen/large_text</item>
         <item name="android:gravity">left</item>
