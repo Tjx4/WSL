@@ -84,8 +84,18 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/weather_item_background"
                     android:layout_margin="@dimen/small_view_margin"
-                    android:paddingHorizontal="@dimen/small_view_padding"
+                    android:paddingHorizontal="@dimen/medium_view_padding"
                     android:paddingVertical="@dimen/large_view_padding">
+
+                    <TextView
+                        android:id="@+id/tvWeatherDescription"
+                        style="@style/MediumLightTextView"
+                        android:layout_width="0dp"
+                        tools:text="Description"
+                        android:text="@{weatherViewModel.description}"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"/>
 
                     <TextView
                         android:id="@+id/tvWeather"
@@ -94,8 +104,9 @@
                         tools:text="0"
                         android:text="@{weatherViewModel.weather.current.clouds.toString()}"
                         android:layout_marginLeft="@dimen/medium_view_margin"
+                        android:layout_marginTop="@dimen/small_view_margin"
+                        app:layout_constraintTop_toBottomOf="@+id/tvWeatherDescription"
                         app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"/>
 
                     <ImageView
@@ -104,8 +115,9 @@
                         android:layout_width="19dp"
                         android:src="@drawable/ic_cloud"
                         android:layout_marginLeft="@dimen/small_view_margin"
+                        android:layout_marginTop="@dimen/small_view_margin"
                         app:layout_constraintLeft_toRightOf="@id/tvWeather"
-                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tvWeatherDescription"
                         app:layout_constraintBottom_toBottomOf="parent"/>
 
                     <TextView
@@ -115,8 +127,9 @@
                         tools:text="0"
                         android:text="@{weatherViewModel.weather.current.humidity.toString()}"
                         android:layout_marginLeft="@dimen/medium_view_margin"
+                        android:layout_marginTop="@dimen/small_view_margin"
                         app:layout_constraintLeft_toRightOf="@id/imgWeatherIcon"
-                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tvWeatherDescription"
                         app:layout_constraintBottom_toBottomOf="parent"/>
 
                     <ImageView
@@ -126,8 +139,9 @@
                         android:src="@drawable/ic_humidity_light"
                         android:layout_marginLeft="@dimen/small_view_margin"
                         android:layout_marginRight="@dimen/large_view_margin"
+                        android:layout_marginTop="@dimen/small_view_margin"
                         app:layout_constraintLeft_toRightOf="@id/tvWeather2"
-                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tvWeatherDescription"
                         app:layout_constraintBottom_toBottomOf="parent"/>
 
                     <TextView
@@ -138,7 +152,8 @@
                         android:text="@{weatherViewModel.weather.current.temp.toString()}"
                         android:layout_marginLeft="@dimen/medium_view_margin"
                         app:layout_constraintLeft_toRightOf="@id/imgWeatherIcon2"
-                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tvWeatherDescription"
+                        android:layout_marginTop="@dimen/small_view_margin"
                         app:layout_constraintBottom_toBottomOf="parent"/>
 
                     <ImageView
@@ -148,8 +163,9 @@
                         android:src="@drawable/ic_weather_sun"
                         android:layout_marginLeft="@dimen/small_view_margin"
                         android:layout_marginRight="@dimen/large_view_margin"
+                        android:layout_marginTop="@dimen/small_view_margin"
                         app:layout_constraintLeft_toRightOf="@id/tvWeather3"
-                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tvWeatherDescription"
                         app:layout_constraintBottom_toBottomOf="parent"/>
 
                     <TextView
@@ -159,8 +175,9 @@
                         tools:text="0"
                         android:text="@{weatherViewModel.weather.current.wind_speed.toString()}"
                         android:layout_marginLeft="@dimen/medium_view_margin"
+                        android:layout_marginTop="@dimen/small_view_margin"
                         app:layout_constraintLeft_toRightOf="@id/imgWeatherIcon3"
-                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tvWeatherDescription"
                         app:layout_constraintBottom_toBottomOf="parent"/>
 
                     <ImageView
@@ -168,22 +185,13 @@
                         android:layout_height="25dp"
                         android:layout_width="25dp"
                         android:src="@drawable/ic_wind_speed"
+                        android:layout_marginTop="@dimen/small_view_margin"
                         android:layout_marginLeft="@dimen/small_view_margin"
                         android:layout_marginRight="@dimen/large_view_margin"
                         app:layout_constraintLeft_toRightOf="@id/tvWeather4"
-                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tvWeatherDescription"
                         app:layout_constraintBottom_toBottomOf="parent"/>
 
-                    <TextView
-                        android:id="@+id/tvWeather5"
-                        style="@style/MediumLightTextView"
-                        android:layout_width="0dp"
-                        tools:text="Description"
-                        android:text="@{weatherViewModel.description}"
-                        android:layout_marginLeft="@dimen/medium_view_margin"
-                        app:layout_constraintLeft_toRightOf="@id/imgWeatherIcon4"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"/>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
