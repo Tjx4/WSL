@@ -24,7 +24,6 @@ xmlns:app="http://schemas.android.com/apk/res-auto">
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/flBottomContent"/>
 
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/clErrorContainer"
         android:visibility="gone"
@@ -331,14 +330,61 @@ xmlns:app="http://schemas.android.com/apk/res-auto">
         app:layout_constraintLeft_toLeftOf="parent"
         android:onClick="onMenuButtonClicked"/>
 
-    <FrameLayout
-        android:visibility="gone"
-        android:id="@+id/flStatusBar"
-        android:layout_width="match_parent"
-        android:layout_gravity="top"
-        android:layout_height="@dimen/def_statusbar_height"
-        android:background="@color/colorTransStatusBar"
-        app:layout_constraintTop_toTopOf="parent"/>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clWeatherBar"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:background="@drawable/weather_banner_backgroud"
+        android:paddingHorizontal="@dimen/small_view_padding"
+        android:layout_marginLeft="@dimen/medium_view_padding"
+        app:layout_constraintLeft_toRightOf="@+id/imgMenu"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/imgMenu">
+
+        <TextView
+            android:id="@+id/tvWeather"
+            style="@style/MediumLightTextView"
+            android:layout_width="0dp"
+            tools:text="2"
+            android:text="@{locationTrackerViewModel.weather.temp_min.toString()}"
+            android:layout_marginLeft="@dimen/medium_view_margin"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <ImageView
+            android:id="@+id/imgWeatherIcon"
+            android:layout_height="19dp"
+            android:layout_width="19dp"
+            android:src="@drawable/ic_weather"
+            android:layout_marginLeft="@dimen/small_view_margin"
+            app:layout_constraintLeft_toRightOf="@id/tvWeather"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+
+        <TextView
+            android:id="@+id/tvWeather2"
+            style="@style/MediumLightTextView"
+            android:layout_width="0dp"
+            tools:text="1"
+            android:text="@{locationTrackerViewModel.weather.temp_max.toString()}"
+            android:layout_marginLeft="@dimen/medium_view_margin"
+            app:layout_constraintLeft_toRightOf="@id/imgWeatherIcon"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <ImageView
+            android:id="@+id/imgWeatherIcon2"
+            android:layout_height="19dp"
+            android:layout_width="19dp"
+            android:src="@drawable/ic_weather_sun"
+            android:layout_marginLeft="@dimen/small_view_margin"
+            app:layout_constraintLeft_toRightOf="@id/tvWeather2"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

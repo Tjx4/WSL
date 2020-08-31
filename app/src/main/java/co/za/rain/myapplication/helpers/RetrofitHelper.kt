@@ -11,6 +11,6 @@ interface RetrofitHelper {
     suspend fun registerMember(@FieldMap params: Map<String, String>): WeatherModel?
 
     //@GET(LOCATION_WEATHER)
-    //suspend fun getAllUsers(@Header("authorization") token: String): List<UserModel>?
+    //suspend fun getAllUsers(@Header("authorization") token: String): List<WeatherModel>?
 
 }

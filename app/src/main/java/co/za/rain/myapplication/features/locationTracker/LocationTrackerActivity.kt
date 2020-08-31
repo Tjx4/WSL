@@ -158,6 +158,7 @@ class LocationTrackerActivity : BaseMapActivity(), LocationsAdapter.LocationClic
     fun onCloseSaveLocationButtonClicked(view: View) {
         llLocationsContainer.visibility = View.GONE
         lldefContainer.visibility = View.VISIBLE
+        clErrorContainer.visibility = View.GONE
         llSaveLocationContainer.visibility = View.GONE
     }
 

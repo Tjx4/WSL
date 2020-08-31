@@ -31,7 +31,6 @@ class SignalStrengthActivity : BaseChildActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         var application = requireNotNull(this).application
         var viewModelFactory = SignalStrengthViewModelFactory(application)
 
@@ -52,7 +51,6 @@ class SignalStrengthActivity : BaseChildActivity() {
             arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION),
             1
         )
-
     }
 
     private fun addObservers() {
