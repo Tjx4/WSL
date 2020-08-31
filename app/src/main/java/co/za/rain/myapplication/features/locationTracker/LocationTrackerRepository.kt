@@ -1,14 +1,11 @@
 package co.za.rain.myapplication.features.locationTracker
 
-import android.app.Application
 import co.za.dvt.myskilldevapp.features.database.tables.LocationsTable
 import co.za.rain.myapplication.database.WSLDatabase
 import co.za.rain.myapplication.extensions.stringToLatLong
 import co.za.rain.myapplication.models.UserLocation
-import com.google.android.gms.maps.model.LatLng
 
-class LocationTrackerRepository(var application: Application, var database: WSLDatabase) {
-
+class LocationTrackerRepository(private var database: WSLDatabase) {
     suspend fun getPreviousLocations() : List<UserLocation>{
         var savedLocations =  ArrayList<UserLocation>()
 
