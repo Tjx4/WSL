@@ -10,19 +10,21 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/lightBackground"
-            android:layout_margin="@dimen/large_view_margin"
+            android:paddingBottom="@dimen/medium_view_padding"
             tools:context=".features.locationTracker.fragments.MoreInfoFragment">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/clTopBanner"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@color/bannerBackground"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <TextView
@@ -41,7 +43,6 @@
                     android:layout_height="40dp"
                     android:layout_margin="5dp"
                     android:padding="8dp"
-                    android:onClick="onCloseSaveLocationButtonClicked"
                     android:background="@android:color/transparent"
                     android:scaleType="fitXY"
                     android:src="@drawable/ic_close_dark"
@@ -56,7 +57,7 @@
                 android:id="@+id/tvMoreInfoName"
                 android:gravity="center"
                 tools:text="Name of location"
-                android:text="fgfgfgfgfgfgfgf"
+                android:text="@{locationTrackerViewModel.selectedLocation.name}"
                 android:paddingHorizontal="@dimen/large_view_padding"
                 android:layout_marginTop="@dimen/small_view_margin"
                 app:layout_constraintTop_toBottomOf="@+id/clTopBanner"

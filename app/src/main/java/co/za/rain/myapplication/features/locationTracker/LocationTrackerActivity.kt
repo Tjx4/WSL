@@ -139,6 +139,7 @@ class LocationTrackerActivity : BaseMapActivity(), LocationsAdapter.LocationClic
     fun onShowLocationsButtonClicked(view: View) {
         view.blinkView(0.6f, 1.0f, 100, 2, Animation.ABSOLUTE, 0, {
             showLocationsRecyclerView()
+            locationTrackerViewModel.fetchAndSetPreviouseLocations()
         }, {})
     }
 
@@ -146,8 +147,6 @@ class LocationTrackerActivity : BaseMapActivity(), LocationsAdapter.LocationClic
         llLocationsContainer.visibility = View.VISIBLE
         lldefContainer.visibility = View.GONE
         llSaveLocationContainer.visibility = View.GONE
-
-        locationTrackerViewModel.fetchAndSetPreviouseLocations()
     }
 
     fun onCloseLocationsButtonClicked(view: View) {
@@ -257,7 +256,7 @@ class LocationTrackerActivity : BaseMapActivity(), LocationsAdapter.LocationClic
                     val currentMarkerTag = airportMarker.tag.toString()
                     if (selectedMarkerTag == currentMarkerTag) {
                         showLocationsRecyclerView()
-                        //Go to position (markerIndex)
+                        //locationTrackerViewModel.fetchAndSetPreviouseLocations()
                         break
                     }
                     ++markerIndex

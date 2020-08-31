@@ -32,7 +32,7 @@ abstract class BaseDialogFragment : DialogFragment() {
         super.onResume()
         val params: ViewGroup.LayoutParams = dialog!!.window!!.attributes
         params.width = ActionBar.LayoutParams.MATCH_PARENT
-        params.height = ActionBar.LayoutParams.MATCH_PARENT
+        params.height = ActionBar.LayoutParams.WRAP_CONTENT
         dialog!!.window!!.attributes = params as WindowManager.LayoutParams
     }
 

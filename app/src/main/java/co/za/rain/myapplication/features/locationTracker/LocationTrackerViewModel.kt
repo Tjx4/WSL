@@ -93,6 +93,9 @@ class LocationTrackerViewModel(application: Application, private val locationTra
         ioScope.launch {
             val locations = locationTrackerRepository.getPreviousLocations()
 
+            //Todo: show loader in container
+delay(2000)
+
             uiScope.launch {
                 if(locations.isNotEmpty()){
                     _locations.value = locations
