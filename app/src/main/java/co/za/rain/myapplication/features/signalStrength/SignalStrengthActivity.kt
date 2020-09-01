@@ -69,14 +69,17 @@ class SignalStrengthActivity : BaseChildActivity() {
 
     override fun onStart() {
         super.onStart()
-        // startService(serviceIntent)
-       // registerReceiver(receiver, IntentFilter("GET_SIGNAL_STRENGTH"))
+        registerReceiver(receiver, IntentFilter(GET_SIGNAL_STRENGTH))
     }
 
     override fun onStop() {
         super.onStop()
-        stopService(serviceIntent)
         unregisterReceiver(receiver)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        stopService(serviceIntent)
     }
 
     override fun onRequestPermissionsResult(
