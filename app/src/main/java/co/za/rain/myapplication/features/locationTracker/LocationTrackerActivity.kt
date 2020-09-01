@@ -108,6 +108,7 @@ class LocationTrackerActivity : BaseMapActivity(), LocationsAdapter.LocationClic
 
         plotLocationMarkers(locations)
         llLoadingContainer.visibility = View.GONE
+        vpLocations.visibility = View.VISIBLE
     }
 
     override fun onServiceCategoryClick(view: View, position: Int) {

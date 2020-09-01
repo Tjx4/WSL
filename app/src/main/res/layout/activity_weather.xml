@@ -103,7 +103,6 @@
                         android:layout_width="0dp"
                         tools:text="0"
                         android:text="@{weatherViewModel.weather.current.clouds.toString()}"
-                        android:layout_marginLeft="@dimen/medium_view_margin"
                         android:layout_marginTop="@dimen/small_view_margin"
                         app:layout_constraintTop_toBottomOf="@+id/tvWeatherDescription"
                         app:layout_constraintLeft_toLeftOf="parent"
@@ -203,18 +202,9 @@
                     android:background="@drawable/weather_item_background"
                     android:layout_margin="@dimen/small_view_margin"
                     android:paddingHorizontal="@dimen/medium_view_padding"
-                    android:paddingVertical="@dimen/large_view_padding">
+                    android:paddingVertical="@dimen/xlarge_view_padding">
 
 
-                    <TextView
-                        android:id="@+id/txtAdditionalInfo"
-                        style="@style/MediumLightTextView"
-                        android:layout_width="0dp"
-                        tools:text="Description"
-                        android:text=""
-                        app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintRight_toRightOf="parent"/>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </LinearLayout>
