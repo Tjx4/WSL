@@ -404,9 +404,5 @@ xmlns:app="http://schemas.android.com/apk/res-auto">
         app:layout_constraintLeft_toLeftOf="parent"
         android:onClick="onMenuButtonClicked"/>
 
-    <!--
-    Image src binding
-    https://stackoverflow.com/questions/35809290/set-drawable-resource-id-in-androidsrc-for-imageview-using-data-binding-in-andr
-    -->
 </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

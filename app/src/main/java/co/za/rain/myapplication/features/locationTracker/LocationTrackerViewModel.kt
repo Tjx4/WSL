@@ -3,13 +3,12 @@ package co.za.rain.myapplication.features.locationTracker
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import co.za.dvt.myskilldevapp.features.database.tables.LocationsTable
-import co.za.rain.myapplication.constants.API_KEY
+import co.za.rain.myapplication.R
 import co.za.rain.myapplication.extensions.isValidDescription
 import co.za.rain.myapplication.extensions.isValidName
 import co.za.rain.myapplication.extensions.latLngToString
 import co.za.rain.myapplication.features.base.viewmodel.BaseVieModel
 import co.za.rain.myapplication.models.UserLocation
-import co.za.rain.myapplication.models.WeatherModel
 import com.google.android.gms.maps.model.LatLng
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -87,7 +86,7 @@ class LocationTrackerViewModel(application: Application, private val locationTra
     }
 
     fun fetchAndSetPreviouseLocations(){
-        _busyMessage.value = "Fetching locations, please wait"
+        _busyMessage.value = app.getString(R.string.fetching_locations)
         _showLoading.value = true
 
         ioScope.launch {
@@ -100,10 +99,9 @@ class LocationTrackerViewModel(application: Application, private val locationTra
                 }
                 else
                 {
-                    _nolocationsMessage.value = "No locations saved yet"
+                    _nolocationsMessage.value = app.getString(R.string.no_locations)
                 }
             }
-
         }
     }
 
@@ -121,16 +119,16 @@ class LocationTrackerViewModel(application: Application, private val locationTra
         var description = _locationDescription.value ?: ""
 
         if(!checkIsValidLocationName(name)){
-            errorMessage.value = "Please enter a location name"
+            errorMessage.value = app.getString(R.string.name_auth_message)
             return
         }
 
         if(!checkIsValidLocationDescription(description)){
-            errorMessage.value = "Please enter at least 10 characters for your description"
+            errorMessage.value = app.getString(R.string.desscription_auth_message)
             return
         }
 
-        _busyMessage.value  = "Adding location, please wait"
+        _busyMessage.value  = app.getString(R.string.adding_location)
         _showLoading.value = true
 
         var location = LocationsTable()
@@ -146,16 +144,6 @@ class LocationTrackerViewModel(application: Application, private val locationTra
                 _locationSaved.value = true
                 _locationName.value = ""
                 _locationDescription.value = ""
-            }
-
-        }
-    }
-
-    fun startHideErrorCountDown(){
-        ioScope.launch {
-            delay(6000)
-            uiScope.launch {
-                _hideError.value = true
             }
         }
     }
@@ -176,4 +164,3 @@ class LocationTrackerViewModel(application: Application, private val locationTra
         return description.isValidDescription()
     }
 }
-

@@ -14,4 +14,9 @@
     <string name="location_save_success">Location saved successfully</string>
     <string name="success">Success</string>
     <string name="weather_error">There was a problem getting your weather, please try again later</string>
+    <string name="fetching_locations">Fetching locations, please wait</string>
+    <string name="name_auth_message">Please enter a location name</string>
+    <string name="desscription_auth_message">Please enter at least 10 characters for your description</string>
+    <string name="adding_location">Adding location, please wait</string>
+    <string name="no_locations">No locations saved yet</string>
 </resources>

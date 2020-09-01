@@ -8,11 +8,8 @@ import android.view.animation.Animation
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import co.za.rain.myapplication.R
-import co.za.rain.myapplication.extensions.SLIDE_IN_ACTIVITY
 import co.za.rain.myapplication.extensions.blinkView
-import co.za.rain.myapplication.extensions.navigateToActivity
 import co.za.rain.myapplication.features.locationTracker.LocationTrackerActivity
-import co.za.rain.myapplication.features.signalStrength.SignalStrengthActivity
 import co.za.rain.myapplication.models.UserLocation
 
 class LocationsAdapter(context: Context, private val userLocations: List<UserLocation>) : RecyclerView.Adapter<LocationsAdapter.ViewHolder>() {

@@ -174,14 +174,12 @@ class LocationTrackerActivity : BaseMapActivity(), LocationsAdapter.LocationClic
 
     override fun onGpsOff() {
         showErrorAlert(this, getString(R.string.error), getString(R.string.no_gps), getString(R.string.ok)) {
-            //Todo: go to settings and accept permission
             finish()
         }
     }
 
     override fun onLocationPermissionDenied() {
         showErrorAlert(this, getString(R.string.error), getString(R.string.permission_denied, "(Location permission),"), getString(R.string.ok)) {
-            //Todo: go to settings and accept permission
             finish()
         }
     }
@@ -202,10 +200,7 @@ class LocationTrackerActivity : BaseMapActivity(), LocationsAdapter.LocationClic
 
     private fun onErrorMessageSet(errorMessage: String) {
         clErrorContainer.visibility = View.VISIBLE
-        clErrorContainer.blinkView(0.6f, 1.0f, 500, 2, Animation.ABSOLUTE, 0, {
-            //Todo: finalize
-            //locationTrackerViewModel.startHideErrorCountDown()
-        })
+        clErrorContainer.blinkView(0.6f, 1.0f, 500, 2, Animation.ABSOLUTE, 0)
     }
 
     private fun onHideErrorSet(hideError: Boolean) {
@@ -265,7 +260,7 @@ class LocationTrackerActivity : BaseMapActivity(), LocationsAdapter.LocationClic
                     val currentMarkerTag = airportMarker.tag.toString()
                     if (selectedMarkerTag == currentMarkerTag) {
                         showLocationsRecyclerView()
-                        //locationTrackerViewModel.fetchAndSetPreviouseLocations()
+                        vpLocations.setCurrentItem(markerIndex, true)
                         break
                     }
                     ++markerIndex
@@ -283,10 +278,6 @@ class LocationTrackerActivity : BaseMapActivity(), LocationsAdapter.LocationClic
 
 
     override fun onLocationChanged(location: Location?) {
-       // val currentCoordinates = LatLng(location!!.latitude, location.longitude)
-      //  if (getPresenter().isMoved25Meters(currentCoordinates, userMarker!!.position)) {
-      //      moveUserMarker(currentCoordinates)
-      //  }
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
