@@ -7,7 +7,6 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -20,6 +19,7 @@ import co.za.rain.myapplication.constants.RSRP
 import co.za.rain.myapplication.constants.RSSI
 import co.za.rain.myapplication.databinding.ActivitySignalStrengthBinding
 import co.za.rain.myapplication.features.base.activity.BaseChildActivity
+import co.za.rain.myapplication.helpers.showErrorAlert
 import co.za.rain.myapplication.services.SignalMonitorService
 import kotlinx.android.synthetic.main.activity_signal_strength.*
 
@@ -27,7 +27,7 @@ class SignalStrengthActivity : BaseChildActivity() {
     private lateinit var binding: ActivitySignalStrengthBinding
     protected lateinit var signalStrengthViewModel: SignalStrengthViewModel
     private lateinit var serviceIntent: Intent
-    private lateinit var receiver: BroadcastReceiver
+    private  var receiver: BroadcastReceiver? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,7 +56,6 @@ class SignalStrengthActivity : BaseChildActivity() {
     private fun addObservers() {
         signalStrengthViewModel.wifiPowerPercentage.observe(this, Observer { onWifiPowerPercentageSet(it) })
         signalStrengthViewModel.mobilePowerPercentage.observe(this, Observer { onMobilePowerPercentageSet(it) })
-
     }
 
     fun onWifiPowerPercentageSet(amount: Int) {
@@ -69,15 +68,18 @@ class SignalStrengthActivity : BaseChildActivity() {
 
     override fun onStart() {
         super.onStart()
-        // startService(serviceIntent)
-       // registerReceiver(receiver, IntentFilter("GET_SIGNAL_STRENGTH"))
+        if(receiver != null)
+            registerReceiver(receiver, IntentFilter(GET_SIGNAL_STRENGTH))
     }
 
     override fun onStop() {
         super.onStop()
-        var dd = ""
-        //stopService(serviceIntent)
-       // unregisterReceiver(receiver)
+        unregisterReceiver(receiver)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        stopService(serviceIntent)
     }
 
     override fun onRequestPermissionsResult(
@@ -92,7 +94,6 @@ class SignalStrengthActivity : BaseChildActivity() {
 
             if (permission == Manifest.permission.ACCESS_COARSE_LOCATION) {
                 if (grantResult == PackageManager.PERMISSION_GRANTED) {
-                    // Start service
                     startService(serviceIntent)
                     initBroadcastReceiver()
                 } else {
@@ -118,9 +119,10 @@ class SignalStrengthActivity : BaseChildActivity() {
         registerReceiver(receiver, IntentFilter(GET_SIGNAL_STRENGTH))
     }
 
-
     fun onLocationPermissionDenied(){
-        Toast.makeText(this, "onLocationPermissionDenied", Toast.LENGTH_LONG).show()
+        showErrorAlert(this, getString(R.string.error), getString(R.string.permission_denied, "(Location permission),"), getString(R.string.ok)) {
+            finish()
+        }
     }
 
 }

@@ -1,11 +1,11 @@
 package co.za.rain.myapplication.features.locationTracker
 
-import co.za.dvt.myskilldevapp.features.database.tables.LocationsTable
+import co.za.rain.myapplication.database.tables.locations.LocationsTable
 import co.za.rain.myapplication.database.WSLDatabase
 import co.za.rain.myapplication.extensions.stringToLatLong
 import co.za.rain.myapplication.models.UserLocation
 
-class LocationTrackerRepository(private var database: WSLDatabase) {
+class LocationTrackerRepository(var database: WSLDatabase) {
     suspend fun getPreviousLocations() : List<UserLocation>{
         var savedLocations =  ArrayList<UserLocation>()
 

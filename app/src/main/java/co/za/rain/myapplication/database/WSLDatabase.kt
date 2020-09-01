@@ -4,12 +4,15 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import co.za.dvt.myskilldevapp.features.database.tables.LocationsTable
-import co.za.rain.myapplication.database.tables.LOCDAO
+import co.za.rain.myapplication.database.tables.locations.LocationsTable
+import co.za.rain.myapplication.database.tables.locations.LOCDAO
+import co.za.rain.myapplication.database.tables.signalStats.SIGSDAO
+import co.za.rain.myapplication.database.tables.signalStats.SignalStatsTable
 
-@Database(entities = [LocationsTable::class], version = 1, exportSchema = false)
+@Database(entities = [LocationsTable::class, SignalStatsTable::class], version = 1, exportSchema = false)
 abstract class WSLDatabase : RoomDatabase() {
     abstract val LOCDAO: LOCDAO
+    abstract val SIGSDAO: SIGSDAO
 
     companion object{
         @Volatile
