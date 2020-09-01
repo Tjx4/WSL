@@ -27,7 +27,7 @@ class SignalStrengthActivity : BaseChildActivity() {
     private lateinit var binding: ActivitySignalStrengthBinding
     protected lateinit var signalStrengthViewModel: SignalStrengthViewModel
     private lateinit var serviceIntent: Intent
-    private lateinit var receiver: BroadcastReceiver
+    private  var receiver: BroadcastReceiver? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,7 +69,8 @@ class SignalStrengthActivity : BaseChildActivity() {
 
     override fun onStart() {
         super.onStart()
-        registerReceiver(receiver, IntentFilter(GET_SIGNAL_STRENGTH))
+        if(receiver != null)
+            registerReceiver(receiver, IntentFilter(GET_SIGNAL_STRENGTH))
     }
 
     override fun onStop() {
