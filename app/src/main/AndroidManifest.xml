@@ -22,7 +22,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-
         <service
             android:name=".services.SignalMonitorService"
             android:enabled="true"

@@ -1,6 +1,5 @@
-package co.za.rain.myapplication.features.weather
+package co.za.rain.myapplication.models
 
-import co.za.rain.myapplication.models.Weather
 import com.google.gson.annotations.SerializedName
 
 data class Current(
