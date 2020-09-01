@@ -52,12 +52,11 @@ class LocationTrackerActivity : BaseMapActivity(), LocationsAdapter.LocationClic
 
         setTranslucentStatusBar(DEFAULT_STATUS_BAR_ALPHA)
 
-        // Todo: fix logic
         if(isGooglePlayServicesAvailable()){
             checkLocationPermissionAndContinue()
         }
         else{
-            showErrorAlert(this, getString(R.string.error), "Google play services unavailable", getString(R.string.ok)) {
+            showErrorAlert(this, getString(R.string.error), getString(R.string.no_google_play), getString(R.string.ok)) {
                 finish()
             }
         }
@@ -214,7 +213,7 @@ class LocationTrackerActivity : BaseMapActivity(), LocationsAdapter.LocationClic
     fun onLocationselected(location: UserLocation) {
         var moreInfoFragment = MoreInfoFragment.newInstance()
         moreInfoFragment.isCancelable = true
-        showDialogFragment("getString(R.string.select_user)", R.layout.fragment_more_info, moreInfoFragment,this)
+        showDialogFragment(getString(R.string.location), R.layout.fragment_more_info, moreInfoFragment,this)
     }
 
     override fun onRequestListenerSuccess(location: Location?) {
@@ -275,8 +274,7 @@ class LocationTrackerActivity : BaseMapActivity(), LocationsAdapter.LocationClic
     private fun onShowLoading(isBusy: Boolean) {
         llLoadingContainer.visibility = View.VISIBLE
     }
-
-
+    
     override fun onLocationChanged(location: Location?) {
     }
 
