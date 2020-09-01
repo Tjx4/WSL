@@ -45,7 +45,7 @@ class SignalMonitorService : Service() {
                 sendLevel?.putExtra(CON_TYPE, connectionType.id)
                 sendBroadcast(sendLevel);
 
-                mainHandler.postDelayed(this, 1000) //10000
+                mainHandler.postDelayed(this, 10000)
             }
         })
         return super.onStartCommand(intent, flags, startId)
@@ -67,7 +67,6 @@ class SignalMonitorService : Service() {
                      cellSignalStrengthLte.rssi
                 }
                 else{
-                    //Todo: get RSSI for < Q
                     0
                 }
             }
