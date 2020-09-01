@@ -2,7 +2,7 @@ package co.za.rain.myapplication.features.locationTracker
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
-import co.za.dvt.myskilldevapp.features.database.tables.LocationsTable
+import co.za.rain.myapplication.database.tables.locations.LocationsTable
 import co.za.rain.myapplication.R
 import co.za.rain.myapplication.extensions.isValidDescription
 import co.za.rain.myapplication.extensions.isValidName
@@ -10,7 +10,6 @@ import co.za.rain.myapplication.extensions.latLngToString
 import co.za.rain.myapplication.features.base.viewmodel.BaseVieModel
 import co.za.rain.myapplication.models.UserLocation
 import com.google.android.gms.maps.model.LatLng
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*

@@ -1,11 +1,16 @@
 package co.za.rain.myapplication.features.signalStrength
 
 import android.app.Application
+import android.telephony.SignalStrength
 import androidx.lifecycle.MutableLiveData
+import co.za.rain.myapplication.database.tables.signalStats.SignalStatsTable
 import co.za.rain.myapplication.enums.ConnectionType
 import co.za.rain.myapplication.features.base.viewmodel.BaseVieModel
+import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.*
 
-class SignalStrengthViewModel(application: Application, private val signalStrengthRepository: SignalStrengthRepository) : BaseVieModel(application) {
+class SignalStrengthViewModel(application: Application, var signalStrengthRepository: SignalStrengthRepository) : BaseVieModel(application) {
 
     private val minRSRP: Int = 0
     private val maxRSRP: Int = 170
@@ -44,7 +49,8 @@ class SignalStrengthViewModel(application: Application, private val signalStreng
                 _wifiRSRP.value = "$rsrp mb"
                 _wifiRSSI.value = "$rssi mb"
                 _mobileRSSI.value = "0"
-                _wifiPowerPercentage.value = (rsrp + rssi) * 100 / maxRSRP
+
+                _wifiPowerPercentage.value = getStrengthPercentage(rsrp, rssi)
                 _mobilePowerPercentage.value = 0
             }
             ConnectionType.Mobile ->{
@@ -54,13 +60,28 @@ class SignalStrengthViewModel(application: Application, private val signalStreng
                 _mobileRSSI.value = "$rssi mb"
 
                 _wifiPowerPercentage.value = 0
-                _mobilePowerPercentage.value = (rsrp + rssi) * 100 / maxRSRP
+                _mobilePowerPercentage.value = getStrengthPercentage(rsrp, rssi)
             }
         }
 
-
-
         val total = rsrp + rssi
-        _total.value = "$total mb"
+        val totalDisplay = "$total mb"
+        _total.value = totalDisplay
+        saveConnectionStats(totalDisplay)
+    }
+
+    fun getStrengthPercentage(rsrp: Int, rssi: Int): Int{
+        val power = (rsrp + rssi)
+        var strength = power * 100 / maxRSRP
+        return strength
+    }
+
+    fun saveConnectionStats(strength: String){
+        val stats = SignalStatsTable()
+        stats.strength = strength
+        stats.dateTime = SimpleDateFormat("dd/M/yyyy hh:mm:ss").format(Date())
+        ioScope.launch {
+            signalStrengthRepository.addStatsToDb(stats)
+        }
     }
 }

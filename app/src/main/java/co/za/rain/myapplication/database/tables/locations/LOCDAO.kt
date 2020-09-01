@@ -1,8 +1,7 @@
-package co.za.rain.myapplication.database.tables
+package co.za.rain.myapplication.database.tables.locations
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import co.za.dvt.myskilldevapp.features.database.tables.LocationsTable
 
 @Dao
 interface LOCDAO {

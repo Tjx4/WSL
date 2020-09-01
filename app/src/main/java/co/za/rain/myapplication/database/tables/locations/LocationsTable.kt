@@ -1,4 +1,4 @@
-package co.za.dvt.myskilldevapp.features.database.tables
+package co.za.rain.myapplication.database.tables.locations
 
 import android.os.Parcelable
 import androidx.room.ColumnInfo
