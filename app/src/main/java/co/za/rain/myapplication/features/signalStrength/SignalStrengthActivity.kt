@@ -75,9 +75,8 @@ class SignalStrengthActivity : BaseChildActivity() {
 
     override fun onStop() {
         super.onStop()
-        var dd = ""
-        //stopService(serviceIntent)
-       // unregisterReceiver(receiver)
+        stopService(serviceIntent)
+        unregisterReceiver(receiver)
     }
 
     override fun onRequestPermissionsResult(
@@ -92,7 +91,6 @@ class SignalStrengthActivity : BaseChildActivity() {
 
             if (permission == Manifest.permission.ACCESS_COARSE_LOCATION) {
                 if (grantResult == PackageManager.PERMISSION_GRANTED) {
-                    // Start service
                     startService(serviceIntent)
                     initBroadcastReceiver()
                 } else {
