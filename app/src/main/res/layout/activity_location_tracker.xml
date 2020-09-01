@@ -392,11 +392,12 @@ xmlns:app="http://schemas.android.com/apk/res-auto">
     </LinearLayout>
 
     <ImageButton
-        android:id="@+id/imgMenu"
+        android:id="@+id/imgSignal"
         android:layout_width="45dp"
         android:layout_height="45dp"
-        android:src="@drawable/ic_menu_dark"
-        android:background="@android:color/transparent"
+        android:src="@drawable/ic_signal_dark"
+        android:background="@drawable/round_solid_black_background"
+        android:paddingBottom="@dimen/small_view_padding"
         android:scaleType="fitCenter"
         android:layout_margin="@dimen/medium_view_margin"
         app:layout_constraintTop_toTopOf="parent"
