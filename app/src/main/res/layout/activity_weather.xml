@@ -70,7 +70,7 @@
                         android:padding="8dp"
                         android:background="@android:color/transparent"
                         android:scaleType="fitXY"
-                        android:src="@drawable/ic_cloud"
+                        android:src="@drawable/ic_weather_light"
                         app:layout_constraintRight_toRightOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"/>
@@ -160,7 +160,7 @@
                         android:id="@+id/imgWeatherIcon3"
                         android:layout_height="19dp"
                         android:layout_width="19dp"
-                        android:src="@drawable/ic_weather_sun"
+                        android:src="@drawable/ic_sun"
                         android:layout_marginLeft="@dimen/small_view_margin"
                         android:layout_marginRight="@dimen/large_view_margin"
                         android:layout_marginTop="@dimen/small_view_margin"
@@ -195,6 +195,28 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/clWeatherSubContainer2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/weather_item_background"
+                    android:layout_margin="@dimen/small_view_margin"
+                    android:paddingHorizontal="@dimen/medium_view_padding"
+                    android:paddingVertical="@dimen/large_view_padding">
+
+
+                    <TextView
+                        android:id="@+id/txtAdditionalInfo"
+                        style="@style/MediumLightTextView"
+                        android:layout_width="0dp"
+                        tools:text="Description"
+                        android:text=""
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
             </LinearLayout>
 
         </ScrollView>

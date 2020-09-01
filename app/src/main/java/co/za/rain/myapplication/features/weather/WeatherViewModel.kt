@@ -1,14 +1,12 @@
 package co.za.rain.myapplication.features.weather
 
 import android.app.Application
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import co.za.rain.myapplication.constants.API_KEY
 import co.za.rain.myapplication.features.base.viewmodel.BaseVieModel
 import co.za.rain.myapplication.models.UserLocation
 import co.za.rain.myapplication.models.WeatherModel
 import com.google.android.gms.maps.model.LatLng
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class WeatherViewModel(application: Application, private val weatherRepository: WeatherRepository) : BaseVieModel(application) {
@@ -24,6 +22,10 @@ class WeatherViewModel(application: Application, private val weatherRepository: 
     private val _currentLocation: MutableLiveData<UserLocation> = MutableLiveData()
     val currentLocation: MutableLiveData<UserLocation>
         get() = _currentLocation
+
+    private val _isNoWeather: MutableLiveData<Boolean> = MutableLiveData()
+    val isNoWeather: MutableLiveData<Boolean>
+        get() = _isNoWeather
 
     private val _isNoLocation: MutableLiveData<Boolean> = MutableLiveData()
     val isNoLocation: MutableLiveData<Boolean>
@@ -48,23 +50,24 @@ class WeatherViewModel(application: Application, private val weatherRepository: 
         _currentLocation.value = location
     }
 
-    fun getLocationWeather(): LiveData<WeatherModel>?{
-        var currentCoordinates = _currentLocation.value?.coordinates ?: LatLng(0.0, 0.0) //Todo: Fix
-       return  weatherRepository.getWeather(API_KEY, currentCoordinates)
-    }
-
-    fun getLocationWeatherAsync() {
+    fun getAndSetWeather() {
         _showLoading.value = true
+        var currentCoordinates = _currentLocation.value?.coordinates ?: LatLng(0.0, 0.0)
 
         ioScope.launch {
-
-            var currentCoordinates = _currentLocation.value?.coordinates ?: LatLng(0.0, 0.0) //Todo: Fix
-            var weather = weatherRepository.getWeatherAsync(API_KEY, currentCoordinates)
+            var weather = getWeather(currentCoordinates)
 
             uiScope.launch {
-                _weather.value = weather
-                _description.value = weather?.current?.weather?.get(0)?.description ?: ""
+                if(weather != null){
+                    _weather.value = weather
+                    _description.value = weather?.current?.weather?.get(0)?.description ?: ""
+                }
+                else{
+                    _isNoWeather.value = true
+                }
             }
         }
     }
+
+    private suspend fun getWeather(currentCoordinates: LatLng) = weatherRepository.getWeatherAsync(API_KEY, currentCoordinates)
 }
